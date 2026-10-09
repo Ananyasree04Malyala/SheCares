@@ -18,5 +18,13 @@
     { "source": "/hospitals.html", "destination": "/pages/hospitals.html" },
     { "source": "/help.html", "destination": "/pages/help.html" },
     { "source": "/contact.html", "destination": "/pages/contact.html" }
-  ]
+  ],
+  "functions": {
+    "api/index.js": {
+      "includeFiles": "assets/**,css/**,js/**,pages/**,*.html"
+    },
+    "api/[...slug].js": {
+      "includeFiles": "assets/**,css/**,js/**,pages/**,*.html"
+    }
+  }
 }

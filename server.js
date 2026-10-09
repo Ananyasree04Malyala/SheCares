@@ -13,8 +13,13 @@ modulePages.forEach(p => {
   app.get([`/${p}.html`, `/${p}`], (req, res) => res.redirect(`/pages/${p}.html`));
 });
 
+app.use('/css', express.static(path.join(__dirname, 'css')));
+app.use('/js', express.static(path.join(__dirname, 'js')));
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
+app.use('/pages', express.static(path.join(__dirname, 'pages')));
 app.use(express.static(path.join(__dirname)));
 app.get('*',(req,res)=>{
+
   if(req.path.startsWith('/api/'))return res.status(404).json({success:false,error:'API route not found.'});
   const ext = path.extname(req.path).toLowerCase();
   if(['.jpg','.jpeg','.png','.gif','.svg','.webp','.ico','.css','.js','.woff','.woff2','.ttf','.eot'].includes(ext)){
