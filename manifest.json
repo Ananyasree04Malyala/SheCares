@@ -1,0 +1,26 @@
+{
+  "name": "SHECARES — Complete Women's Health Companion",
+  "short_name": "SHECARES",
+  "description": "AI-powered healthcare platform for women's wellness, pregnancy, mental health, and smart wearables.",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#fff7fa",
+  "theme_color": "#e83e83",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/assets/images/shecares-logo.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/images/shecares-logo.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["medical", "health", "lifestyle"]
+}

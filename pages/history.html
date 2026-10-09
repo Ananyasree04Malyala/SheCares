@@ -6,6 +6,13 @@
 <script src="/js/auth-router.js"></script>
 
 
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<meta name="apple-mobile-web-app-title" content="SHECARES"/>
+<meta name="theme-color" content="#e83e83"/>
+<link rel="manifest" href="/manifest.json"/>
+<script src="/js/pwa-install.js" defer></script>
 </head>
 <body><div class="petal-field"></div><nav class="navbar navbar-glass fixed-top py-3"><div class="container"><a class="navbar-brand d-flex align-items-center gap-2" href="/dashboard.html"><span class="brand-badge">SH</span><span class="brand-name fs-5">SHECARES</span></a><div class="d-flex gap-2"><a class="btn btn-outline-pink d-none d-sm-inline-block" href="/dashboard.html"><i class="fa-solid fa-house me-1"></i>Dashboard</a><button class="btn btn-pink" id="logoutBtn" type="button">Logout</button></div></div></nav>
 <main class="section" style="padding-top:105px"><div class="container"><section class="history-hero mb-4"><p class="eyebrow mb-1">SHECARES</p><h1 class="fw-bold mb-2">My History</h1><p class="text-ink-soft mb-0">Your SheCare activities and health actions, stored securely with the exact date and time.</p></section><div id="historyStatus" class="alert d-none" role="alert"></div><div id="historyList" class="d-grid gap-3"></div></div></main>

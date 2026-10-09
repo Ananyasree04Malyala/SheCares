@@ -474,3 +474,16 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .shecare-ai-fab::after{content:"AI"!important;}
 .sos-float{font-weight:800!important;font-size:15px!important;}
 .sos-label{line-height:1;pointer-events:none;}
+
+/* PWA Native Mobile Application Styles */
+html, body {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+@supports (padding: max(0px)) {
+  body {
+    padding-top: max(0px, env(safe-area-inset-top));
+    padding-bottom: max(0px, env(safe-area-inset-bottom));
+  }
+}
+
