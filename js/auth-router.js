@@ -3,28 +3,13 @@
   const path = window.location.pathname.toLowerCase();
   const isLoginPage = path.includes('login');
   const isDashboardPage = path.includes('dashboard');
-  const isIndexPage = path === '/' || path.endsWith('/index.html') || path.endsWith('/index') || path.endsWith('/');
+  const isIndexPage = path === '/' || path.endsWith('/index.html') || path.endsWith('/index');
 
   const token = localStorage.getItem('sc_token');
 
   document.addEventListener('DOMContentLoaded', async () => {
-    // 1. Root / Index page handling: launch directly to login if unauthenticated
-    if (isIndexPage) {
-      if (!token) {
-        if (!isLoginPage) window.location.href = '/login.html';
-        return;
-      }
-      try {
-        if (window.SheCareAPI) await SheCareAPI.me();
-        if (!isDashboardPage) window.location.href = '/dashboard.html';
-      } catch (err) {
-        localStorage.removeItem('sc_token');
-        if (!isLoginPage) window.location.href = '/login.html';
-      }
-      return;
-    }
-
-    // 2. Login page handling: if user is already authenticated, move to dashboard
+    // 1. Login Page handling:
+    // Stays on login page cleanly if unauthenticated. If authenticated, proceeds to dashboard.
     if (isLoginPage) {
       if (token && window.SheCareAPI) {
         try {
@@ -37,7 +22,22 @@
       return;
     }
 
-    // 3. Protected pages handling: enforce login prompt if token is missing or expired
+    // 2. Index / Root Page handling:
+    // If authenticated, proceeds to dashboard.
+    if (isIndexPage) {
+      if (token && window.SheCareAPI) {
+        try {
+          await SheCareAPI.me();
+          if (!isDashboardPage) window.location.href = '/dashboard.html';
+        } catch (err) {
+          localStorage.removeItem('sc_token');
+        }
+      }
+      return;
+    }
+
+    // 3. Protected Pages handling:
+    // If missing token or 401 unauthenticated, redirect to login page.
     if (!token) {
       if (!isLoginPage) window.location.href = '/login.html';
       return;
