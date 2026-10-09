@@ -1,12 +1,30 @@
-/* SheCare API client — credentials are HTTP-only cookies, never localStorage. */
+/* SheCare API client — credentials use HTTP-only cookies and localStorage Bearer fallback. */
 (function(){
   const base=(window.SHECARE_API_BASE||'').replace(/\/$/,'');
   async function request(path, options={}){
-    const opts={...options,credentials:'include',headers:{...(options.body?{'Content-Type':'application/json'}:{}),...(options.headers||{})}};
-    const r=await fetch(base+path,opts); let data={}; try{data=await r.json();}catch{}
-    if(!r.ok){const e=new Error(data.error||`Request failed (${r.status})`);e.status=r.status;throw e;}
-    return data.data!==undefined?data.data:data;
+    const token = localStorage.getItem('sc_token');
+    const headers = {
+      ...(options.body ? {'Content-Type':'application/json'} : {}),
+      ...(token ? {'Authorization': `Bearer ${token}`} : {}),
+      ...(options.headers || {})
+    };
+    const opts = { ...options, credentials: 'include', headers };
+    const r = await fetch(base + path, opts);
+    let data = {};
+    try { data = await r.json(); } catch {}
+    if (!r.ok) {
+      if (r.status === 401) localStorage.removeItem('sc_token');
+      const e = new Error(data.error || `Request failed (${r.status})`);
+      e.status = r.status;
+      throw e;
+    }
+    const resPayload = data.data !== undefined ? data.data : data;
+    if (resPayload && resPayload.token) {
+      localStorage.setItem('sc_token', resPayload.token);
+    }
+    return resPayload;
   }
+
   const privatePages=['dashboard.html','profile.html','reminders.html','appointments.html','bp.html','onboarding.html','pages/pregnancy.html','pages/period.html','pages/diabetic.html','pages/mental.html','pages/fitness.html','pages/food.html','pages/emergency.html','pages/caretaker.html','history.html'];
   const current=(location.pathname.split('/').slice(-2).join('/'))||'index.html';
   window.SheCareAPI={
@@ -24,7 +42,8 @@
     verifyPhoneLoginOtp:(param)=>request('/api/auth/login/phone/verify',{method:'POST',body:JSON.stringify(typeof param==='string'?{code:param}:param)}),
 
     login:(data)=>request('/api/auth/login',{method:'POST',body:JSON.stringify(data)}),
-    logout:()=>request('/api/auth/logout',{method:'POST'}),
+    logout:()=>{ localStorage.removeItem('sc_token'); return request('/api/auth/logout',{method:'POST'}); },
+
     forgot:(email)=>request('/api/auth/forgot-password',{method:'POST',body:JSON.stringify({email})}),
     reset:(token,password)=>request('/api/auth/reset-password',{method:'POST',body:JSON.stringify({token,password})}),
     profile:{get:()=>request('/api/profile'),put:(data)=>request('/api/profile',{method:'PUT',body:JSON.stringify(data)}),delete:()=>request('/api/profile',{method:'DELETE'})},

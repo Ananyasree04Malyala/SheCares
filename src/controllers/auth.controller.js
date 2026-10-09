@@ -92,7 +92,8 @@ async function verifyEmail(req, res) {
     return created;
   });
 
-  setAuthCookie(res, signUser(user.id));
+  const token = signUser(user.id);
+  setAuthCookie(res, token);
   await recordHistory({
     userId: user.id,
     action: 'SIGNUP',
@@ -102,12 +103,14 @@ async function verifyEmail(req, res) {
   });
 
   return ok(res, {
+    token,
     emailVerified: true,
     phoneVerified: true,
     bothVerified: true,
     user: safeUser(user)
   });
 }
+
 
 async function verifyPhone(req, res) {
   const p = validators.firebasePhoneVerify.parse(req.body);
@@ -231,9 +234,10 @@ async function completeRegistration(req, res) {
     await tx.pendingSignup.delete({ where: { id: pending.id } });
     return created;
   });
-  setAuthCookie(res, signUser(user.id));
+  const token = signUser(user.id);
+  setAuthCookie(res, token);
   await recordHistory({ userId: user.id, action: 'SIGNUP', module: 'Authentication', title: 'Account created', details: 'Email verification completed successfully.' });
-  return ok(res, { user: safeUser(user) }, 201);
+  return ok(res, { token, user: safeUser(user) }, 201);
 }
 
 /* Backward-compatible endpoint: direct registration is no longer allowed. */
@@ -247,10 +251,12 @@ async function login(req, res) {
   const user = await prisma.user.findUnique({ where: { email: emailClean } });
   if (!user || !(await bcrypt.compare(p.password, user.passwordHash)))
     return fail(res, 401, 'Invalid email or password.');
-  setAuthCookie(res, signUser(user.id));
+  const token = signUser(user.id);
+  setAuthCookie(res, token);
   await recordHistory({ userId: user.id, action: 'LOGIN', module: 'Authentication', title: 'Logged in', details: 'Signed in with email and password.' });
-  return ok(res, { user: safeUser(user) });
+  return ok(res, { token, user: safeUser(user) });
 }
+
 
 async function sendLoginOtp(req, res) {
   const p = validators.loginOtpSend.parse(req.body);
@@ -379,7 +385,8 @@ async function verifyLoginOtp(req, res) {
     return fail(res, 401, 'Invalid or expired verification code.');
   }
 
-  setAuthCookie(res, signUser(user.id));
+  const token = signUser(user.id);
+  setAuthCookie(res, token);
   await recordHistory({
     userId: user.id,
     action: 'LOGIN',
@@ -387,7 +394,7 @@ async function verifyLoginOtp(req, res) {
     title: 'Logged in via Email OTP',
     details: 'Signed in with email verification code.'
   });
-  return ok(res, { user: safeUser(user) });
+  return ok(res, { token, user: safeUser(user) });
 }
 
 const sendPhoneLoginOtp = sendLoginOtp;
@@ -398,8 +405,11 @@ async function logout(_req, res) { clearAuthCookie(res); return ok(res, { logged
 async function me(req, res) {
   const user = await prisma.user.findUnique({ where: { id: req.userId } });
   if (!user) return fail(res, 401, 'Session is no longer valid.');
-  return ok(res, { user: safeUser(user) });
+  const token = signUser(user.id);
+  setAuthCookie(res, token);
+  return ok(res, { token, user: safeUser(user) });
 }
+
 async function forgot(req, res) {
   const p = validators.forgot.parse(req.body);
   const user = await prisma.user.findUnique({ where: { email: p.email.toLowerCase() } });
