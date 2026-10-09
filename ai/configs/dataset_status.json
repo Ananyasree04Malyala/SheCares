@@ -1,0 +1,25 @@
+{
+  "status": "READY",
+  "total_classes": 41,
+  "downloads": {
+    "yoga_pose_names": {
+      "source_url": "https://raw.githubusercontent.com/verma-vikram/Yoga-82/master/yoga_pose.txt",
+      "local_path": "ai\\datasets\\raw\\yoga_pose_names.txt",
+      "downloaded": false,
+      "bytes": 0
+    },
+    "yoga_82_classes": {
+      "source_url": "https://raw.githubusercontent.com/verma-vikram/Yoga-82/master/yoga_82_classes.txt",
+      "local_path": "ai\\datasets\\raw\\yoga_82_classes.txt",
+      "downloaded": false,
+      "bytes": 0
+    },
+    "yoga_6_classes": {
+      "source_url": "https://raw.githubusercontent.com/verma-vikram/Yoga-82/master/yoga_6_classes.txt",
+      "local_path": "ai\\datasets\\raw\\yoga_6_classes.txt",
+      "downloaded": false,
+      "bytes": 0
+    }
+  },
+  "manifest_path": "C:\\Users\\malli\\Downloads\\SHECARES_COMPLETE_APP_FIREBASE_PHONE_OTP_HISTORY_FIXED\\shecare_final_fix\\ai\\datasets\\processed\\pose_classes_manifest.json"
+}

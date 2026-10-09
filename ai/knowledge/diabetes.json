@@ -1,0 +1,33 @@
+[
+  {
+    "id": "glu_fasting_elevated",
+    "topic": "Fasting Hyperglycemia & Impaired Fasting Glucose",
+    "keywords": ["fasting blood sugar high", "fasting 115", "fasting 120", "fasting glucose", "prediabetes sugar"],
+    "guidelines": "ADA Standards of Care in Diabetes 2024 / RSSDI Guidelines",
+    "targets": {
+      "normalFasting": "70 - 99 mg/dL",
+      "impairedFasting": "100 - 125 mg/dL (Prediabetes)",
+      "diabeticThreshold": ">= 126 mg/dL on repeated testing"
+    },
+    "lifestyleActions": [
+      "Incorporate 150 minutes per week of moderate-intensity aerobic exercise plus 2-3 resistance training sessions.",
+      "Front-load fiber and protein at dinner; avoid late-night refined carbohydrates to curb the dawn phenomenon.",
+      "Check HbA1c to assess 3-month glycemic control."
+    ],
+    "redFlags": "Fasting blood sugar > 250 mg/dL accompanied by nausea, vomiting, confusion, or fruity breath requires immediate urgent evaluation to rule out Diabetic Ketoacidosis (DKA)."
+  },
+  {
+    "id": "glu_hypoglycemia_protocol",
+    "topic": "Acute Hypoglycemia Management (Rule of 15)",
+    "keywords": ["low blood sugar", "sugar below 70", "hypoglycemia", "shaky sweating dizziness sugar"],
+    "guidelines": "ADA & Endocrine Society Hypoglycemia Guidelines",
+    "protocol": [
+      "Confirm blood glucose < 70 mg/dL.",
+      "Administer 15-20 grams of rapid-acting simple carbohydrate (e.g., 4 ounces / 120 mL of fruit juice, 3-4 glucose tablets, or 1 tablespoon of sugar/honey).",
+      "Wait 15 minutes in a seated or resting position, then retest blood glucose.",
+      "If blood sugar remains < 70 mg/dL, repeat the 15g intake.",
+      "Once normalized (>= 70 mg/dL), consume a small balanced snack (complex carbs + protein) if the next meal is more than an hour away."
+    ],
+    "redFlags": "Loss of consciousness, seizures, or inability to swallow safely requires immediate emergency injection of glucagon and dialing 112."
+  }
+]

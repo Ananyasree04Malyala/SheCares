@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.shecares.healthbridge",
+      "sha256_cert_fingerprints": [
+        "67:6A:AD:6A:DC:D1:99:15:B6:E5:94:EE:29:92:7C:72:AF:C6:02:59:D6:E7:72:AF:7B:3E:7B:31:8F:84:03:D9"
+      ]
+    }
+  }
+]

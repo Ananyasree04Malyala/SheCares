@@ -1,0 +1,29 @@
+[
+  {
+    "id": "menstrual_dysmenorrhea",
+    "topic": "Menstrual Cramps & Dysmenorrhea",
+    "keywords": ["period cramp", "period pain", "dysmenorrhea", "lower belly pain period", "menstrual ache"],
+    "guidelines": "ACOG Practice Bulletin No. 209: Primary Dysmenorrhea",
+    "assessment": "Menstrual cramps (dysmenorrhea) are caused by increased prostaglandin production in the endometrium, triggering uterine muscle contractions.",
+    "lifestyleMeasures": [
+      "Local heat application (heating pad or hot water bottle at ~40°C) across the lower abdomen relaxes myometrial tension with efficacy comparable to oral NSAIDs.",
+      "Gentle restorative yoga postures such as Balasana (Child's Pose), Supta Baddha Konasana, and gentle pelvic tilts.",
+      "Stay well hydrated and reduce high-sodium foods to alleviate pelvic vascular congestion."
+    ],
+    "otcGuidance": "First-line pharmacological relief includes NSAIDs (e.g., ibuprofen, mefenamic acid) taken with food at symptom onset, subject to medical advice.",
+    "redFlags": "Seek in-person gynecological evaluation if pain is incapacitating, resists analgesics, radiates intensely to rectum or thighs, or is accompanied by fever or abnormal foul discharge."
+  },
+  {
+    "id": "menstrual_irregularity_pcos",
+    "topic": "Irregular Cycles & PCOS Screen",
+    "keywords": ["irregular periods", "missed period", "pcos", "pcod", "long cycles", "polycystic"],
+    "guidelines": "International Evidence-based Guideline for PCOS Assessment (Rotterdam Criteria / Endocrine Society)",
+    "assessment": "Normal menstrual cycles range between 21 and 35 days. Cycles exceeding 38 days or fewer than 9 periods per year indicate oligomenorrhea, commonly related to hormonal imbalance, chronic anovulation, PCOS, thyroid dysfunction, or hyperprolactinemia.",
+    "recommendations": [
+      "Maintain a 3-to-6 month menstrual calendar tracking cycle lengths, luteal symptoms, and flow volume.",
+      "Consult a gynecologist or endocrinologist for a hormonal profile (Serum Total/Free Testosterone, LH/FSH ratio, Fasting Insulin, TSH, Prolactin, and pelvic ultrasound).",
+      "Adopt a low-glycemic, anti-inflammatory dietary pattern with regular low-impact aerobic activity to enhance insulin sensitivity."
+    ],
+    "redFlags": "Absence of menses for >90 consecutive days (secondary amenorrhea) or sudden excessive abnormal bleeding requires immediate clinical evaluation."
+  }
+]

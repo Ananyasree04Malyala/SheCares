@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<link rel="icon" type="image/jpeg" href="../assets/images/shecares-logo.jpg">
+<script src="../js/splash.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fitness &amp; AI Yoga Studio — SHECARES</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
+<link href="../css/style.css" rel="stylesheet"/>
+<style>
+  .pose-chip-btn {
+    background: #fff;
+    border: 1.5px solid #f6d0e2;
+    border-radius: 999px;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #4a1538;
+    cursor: pointer;
+    transition: all .2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+  .pose-chip-btn:hover {
+    border-color: #ff4fa3;
+    color: #ff4fa3;
+    transform: translateY(-1px);
+  }
+  .pose-chip-btn.active {
+    background: #ff4fa3;
+    color: #fff;
+    border-color: #ff4fa3;
+    box-shadow: 0 4px 14px rgba(255, 79, 163, 0.35);
+  }
+  .pose-banner {
+    border-radius: 16px;
+    padding: 14px 18px;
+    transition: all .25s ease;
+  }
+  .pose-banner.correct {
+    background: linear-gradient(135deg, #16a34a, #15803d);
+    border: 1px solid #4ade80;
+    box-shadow: 0 6px 18px rgba(22, 163, 74, 0.35);
+  }
+  .pose-banner.wrong {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    border: 1px solid #f87171;
+    box-shadow: 0 6px 18px rgba(220, 38, 38, 0.4);
+    animation: shakeGating 0.4s ease;
+  }
+  .pose-banner.complete {
+    background: linear-gradient(135deg, #e83e83, #be185d);
+    border: 1px solid #f472b6;
+    box-shadow: 0 6px 20px rgba(232, 62, 131, 0.4);
+  }
+  @keyframes shakeGating {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
+  }
+  .camera-viewbox {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #1a0b16;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    aspect-ratio: 4/3;
+    min-height: 380px;
+  }
+  #cameraVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scaleX(-1);
+  }
+  #poseCanvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  .avatar-3d-viewbox {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #130912;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    aspect-ratio: 4/3;
+    min-height: 380px;
+    width: 100%;
+  }
+  .avatar-3d-viewbox canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+    cursor: grab;
+  }
+  .avatar-3d-viewbox canvas:active {
+    cursor: grabbing;
+  }
+  .avatar-hud-overlay {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    right: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .avatar-hud-bottom {
+    position: absolute;
+    bottom: 12px;
+    left: 14px;
+    right: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .hud-chip {
+    background: rgba(19, 9, 18, 0.75);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 79, 163, 0.3);
+    border-radius: 10px;
+    padding: 6px 12px;
+    font-size: 12px;
+    color: #fff;
+  }
+  .perspective-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    font-size: 11px;
+    border-radius: 999px;
+    padding: 3px 10px;
+    transition: all .2s ease;
+  }
+  .perspective-btn:hover, .perspective-btn.active {
+    background: #ff4fa3;
+    border-color: #ff4fa3;
+    color: #fff;
+  }
+  .timer-hold-number {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: var(--primary-dark);
+    line-height: 1;
+  }
+  .begin-yoga-cta {
+    background: linear-gradient(135deg, #ff4fa3, #be185d);
+    box-shadow: 0 8px 24px rgba(255, 79, 163, 0.45);
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .begin-yoga-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(255, 79, 163, 0.6);
+  }
+  .yoga-category-card {
+    cursor: pointer;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    border: 2px solid transparent;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .yoga-category-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(255, 79, 163, 0.22);
+    border-color: rgba(255, 79, 163, 0.4);
+  }
+  .yoga-category-card.active-module {
+    border-color: #ff4fa3 !important;
+    box-shadow: 0 0 0 3px rgba(255, 79, 163, 0.35), 0 12px 24px rgba(255, 79, 163, 0.2) !important;
+  }
+  .time-preset-btn {
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    transition: all .2s ease;
+  }
+  .time-preset-btn.active {
+    background: #ff4fa3 !important;
+    border-color: #ff4fa3 !important;
+    color: #fff !important;
+    box-shadow: 0 2px 8px rgba(255, 79, 163, 0.35);
+  }
+</style>
+</head>
+<body>
+<div class="petal-field"></div>
+<nav class="navbar navbar-expand-lg navbar-glass fixed-top py-3">
+<div class="container">
+<a class="navbar-brand d-flex align-items-center gap-2" href="../index.html"><span class="brand-badge">SH</span><span class="brand-name fs-5">SHECARES</span></a>
+<button aria-label="Menu" class="navbar-toggler border-0" data-bs-target="#navMain" data-bs-toggle="collapse" type="button"><i class="fa-solid fa-bars fs-4 text-primary-pink"></i></button>
+<div class="collapse navbar-collapse" id="navMain">
+<ul class="navbar-nav mx-auto align-items-lg-center gap-lg-2">
+<li class="nav-item"><a class="nav-link nav-link-custom" href="../index.html">Home</a></li>
+<li class="nav-item dropdown">
+<a class="nav-link nav-link-custom dropdown-toggle active" data-bs-toggle="dropdown" href="#">Features</a>
+<ul class="dropdown-menu shadow border-0 rounded-3 p-2">
+<li><a class="dropdown-item rounded-2" href="pregnancy.html">Pregnancy Care</a></li>
+<li><a class="dropdown-item rounded-2" href="period.html">Period Tracking</a></li>
+<li><a class="dropdown-item rounded-2" href="mental.html">Mental Wellness</a></li>
+<li><a class="dropdown-item rounded-2" href="diabetic.html">Diabetic Care</a></li>
+<li><a class="dropdown-item rounded-2" href="fitness.html">Fitness &amp; Yoga</a></li>
+<li><a class="dropdown-item rounded-2" href="emergency.html">Emergency Safety</a></li>
+<li><a class="dropdown-item rounded-2" href="caretaker.html">Caretaker Support</a></li>
+<li><a class="dropdown-item rounded-2" href="food.html">Food Analyzer</a></li>
+</ul>
+</li>
+<li class="nav-item"><a class="nav-link nav-link-custom" href="help.html">Help</a></li>
+<li class="nav-item"><a class="nav-link nav-link-custom" href="contact.html">Contact</a></li>
+<li class="nav-item" id="navLoginLi"><a class="nav-link nav-link-custom" href="../login.html">Login</a></li>
+<li class="nav-item d-none" id="navLogoutLi"><a class="nav-link nav-link-custom" href="#" id="navLogoutLink">Logout</a></li>
+</ul>
+<a class="btn btn-pink ripple d-none d-lg-inline-block" data-home="../index.html" href="../login.html" id="navGetStartedBtn">Get Started</a>
+</div>
+</div>
+</nav>
+<header class="page-hero" style="margin-top:82px;">
+<div class="container">
+<div class="d-flex align-items-center justify-content-between flex-wrap gap-3 fade-in-up in-view">
+  <div class="d-flex align-items-center gap-3">
+    <div class="icon-orb"><i class="fa-solid fa-person-praying"></i></div>
+    <div>
+      <p class="eyebrow mb-1">Fitness &amp; AI Yoga Studio <span class="badge bg-secondary-soft text-primary-pink ms-1">3D Guided</span></p>
+      <h1 class="h2 fw-bold mb-0">Move with confidence, guided by side-by-side 3D pose vision</h1>
+    </div>
+  </div>
+  <div>
+    <button class="btn btn-pink btn-lg begin-yoga-cta text-white rounded-pill px-4 py-3 fw-bold shadow-lg" id="heroBeginYogaBtn" type="button">
+      <i class="fa-solid fa-play me-2"></i>Begin Yoga Session
+    </button>
+  </div>
+</div>
+</div>
+</header>
+<main class="section pt-4">
+<div class="container">
+<!-- Live Smart Watch Activity Sync Bar -->
+<div class="alert alert-light border shadow-sm rounded-4 p-3 mb-4 d-flex justify-content-between align-items-center flex-wrap gap-2" style="background: linear-gradient(135deg, #ffffff, #fff5f8); border-left: 4px solid #6c757d !important;">
+  <div class="d-flex align-items-center gap-2">
+    <div class="rounded-circle d-flex align-items-center justify-content-center bg-secondary-subtle text-secondary" style="width:38px;height:38px;">
+      <i class="fa-solid fa-stopwatch"></i>
+    </div>
+    <div>
+      <div class="d-flex align-items-center gap-2">
+        <strong class="text-ink small">Smartwatch Activity:</strong>
+        <span class="badge bg-secondary-subtle text-secondary border border-secondary-subtle py-0 px-2" id="fitWatchSyncBadge" style="font-size:0.7rem;"><i class="fa-solid fa-circle-pause me-1"></i>Watch Disconnected</span>
+      </div>
+      <small class="text-ink-soft">
+        Steps Today: <strong class="text-muted" id="fitLiveSteps">--</strong> · Distance: <strong class="text-muted" id="fitLiveDist">-- km</strong> · Active Burn: <strong class="text-muted" id="fitLiveCal">-- kcal</strong> · Pulse: <strong class="text-muted" id="fitLiveHr">-- BPM</strong>
+      </small>
+    </div>
+  </div>
+  <a href="../dashboard.html" class="btn btn-sm btn-outline-pink py-1 px-3 shadow-xs">
+    <i class="fa-solid fa-sliders me-1"></i>Watch Hub
+  </a>
+</div>
+
+<!-- Daily goals + streak -->
+<div class="row g-3 mb-4" id="fitnessGoals">
+<div class="col-md-3 col-6 fade-in-up">
+<div class="stat-chip pulse-ring">
+<div class="stat-value" id="streakCountOut">0</div>
+<div class="stat-label">Day Streak 🔥</div>
+</div>
+</div>
+<div class="col-md-3 col-6 fade-in-up">
+<div class="stat-chip">
+<div class="d-flex justify-content-between align-items-baseline"><span class="stat-label mb-1">Sessions</span><span class="small text-primary-pink" data-goal-label="sessions">0 / 1</span></div>
+<div class="progress" style="height:6px; background: var(--secondary);"><div class="progress-bar" data-goal-bar="sessions" data-goal-max="1" style="background:var(--primary); width:0%;"></div></div>
+<button class="btn btn-sm btn-outline-pink w-100 mt-2" data-goal-add="sessions" data-goal-step="1" type="button">Log Session</button>
+</div>
+</div>
+<div class="col-md-3 col-6 fade-in-up">
+<div class="stat-chip">
+<div class="d-flex justify-content-between align-items-baseline"><span class="stat-label mb-1">Minutes</span><span class="small text-primary-pink" data-goal-label="minutes">0 / 30</span></div>
+<div class="progress" style="height:6px; background: var(--secondary);"><div class="progress-bar" data-goal-bar="minutes" data-goal-max="30" style="background:var(--primary); width:0%;"></div></div>
+<button class="btn btn-sm btn-outline-pink w-100 mt-2" data-goal-add="minutes" data-goal-step="10" type="button">+10 min</button>
+</div>
+</div>
+<div class="col-md-3 col-6 fade-in-up">
+<div class="stat-chip">
+<div class="d-flex justify-content-between align-items-baseline"><span class="stat-label mb-1">Calories Burned</span><span class="small text-primary-pink" data-goal-label="calories">0 / 150</span></div>
+<div class="progress" style="height:6px; background: var(--secondary);"><div class="progress-bar" data-goal-bar="calories" data-goal-max="150" style="background:var(--primary); width:0%;"></div></div>
+<button class="btn btn-sm btn-outline-pink w-100 mt-2" data-goal-add="calories" data-goal-step="50" type="button">+50 kcal</button>
+</div>
+</div>
+</div>
+<!-- Yoga categories -->
+<h5 class="fw-semibold mb-3 fade-in-up"><i class="fa-solid fa-layer-group text-primary-pink me-2"></i>Yoga Routines</h5>
+<div class="row g-3 mb-5" id="yogaModulesGrid">
+<div class="col-md-4 col-sm-6 fade-in-up">
+<div class="yoga-card yoga-category-card active-module" data-module="beginner">
+<img alt="Beginner yoga pose" src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&amp;w=600&amp;auto=format&amp;fit=crop"/>
+<div class="overlay">
+<span class="badge badge-pink rounded-pill mb-2 align-self-start">Beginner</span>
+<h6 class="fw-bold mb-1">🧘 Beginner Yoga</h6>
+<p class="small mb-2">5 Variations · Core, spinal alignment &amp; calm</p>
+<button class="btn btn-pink btn-sm ripple start-session-btn" data-category="beginner" type="button">Select &amp; View Variations</button>
+</div>
+</div>
+</div>
+<div class="col-md-4 col-sm-6 fade-in-up">
+<div class="yoga-card yoga-category-card" data-module="pregnancy">
+<img alt="Pregnancy yoga pose" src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&amp;w=600&amp;auto=format&amp;fit=crop"/>
+<div class="overlay">
+<span class="badge badge-pink rounded-pill mb-2 align-self-start">Gentle</span>
+<h6 class="fw-bold mb-1">🧘 Pregnancy Yoga</h6>
+<p class="small mb-2">5 Variations · Eases back pain &amp; pelvic tension</p>
+<button class="btn btn-pink btn-sm ripple start-session-btn" data-category="pregnancy" type="button">Select &amp; View Variations</button>
+</div>
+</div>
+</div>
+<div class="col-md-4 col-sm-6 fade-in-up">
+<div class="yoga-card yoga-category-card" data-module="diabetes">
+<img alt="Diabetes yoga pose" src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&amp;w=600&amp;auto=format&amp;fit=crop"/>
+<div class="overlay">
+<span class="badge badge-pink rounded-pill mb-2 align-self-start">Moderate</span>
+<h6 class="fw-bold mb-1">🧘 Diabetes Yoga</h6>
+<p class="small mb-2">5 Variations · Improves insulin sensitivity</p>
+<button class="btn btn-pink btn-sm ripple start-session-btn" data-category="diabetes" type="button">Select &amp; View Variations</button>
+</div>
+</div>
+</div>
+<div class="col-md-4 col-sm-6 fade-in-up">
+<div class="yoga-card yoga-category-card" data-module="pcos">
+<img alt="PCOS yoga pose" src="https://images.unsplash.com/photo-1599447292180-45fd84092ef4?q=80&amp;w=600&amp;auto=format&amp;fit=crop"/>
+<div class="overlay">
+<span class="badge badge-pink rounded-pill mb-2 align-self-start">Moderate</span>
+<h6 class="fw-bold mb-1">🧘 PCOS Yoga</h6>
+<p class="small mb-2">5 Variations · Supports hormonal &amp; ovarian balance</p>
+<button class="btn btn-pink btn-sm ripple start-session-btn" data-category="pcos" type="button">Select &amp; View Variations</button>
+</div>
+</div>
+</div>
+<div class="col-md-4 col-sm-6 fade-in-up">
+<div class="yoga-card yoga-category-card" data-module="weightloss">
+<img alt="Weight loss yoga pose" src="https://images.unsplash.com/photo-1573384999795-8f5f9f7c46c2?q=80&amp;w=600&amp;auto=format&amp;fit=crop"/>
+<div class="overlay">
+<span class="badge badge-pink rounded-pill mb-2 align-self-start">Intense</span>
+<h6 class="fw-bold mb-1">🧘 Weight Loss Yoga</h6>
+<p class="small mb-2">5 Variations · Full-body tone &amp; fat burn</p>
+<button class="btn btn-pink btn-sm ripple start-session-btn" data-category="weightloss" type="button">Select &amp; View Variations</button>
+</div>
+</div>
+</div>
+<div class="col-md-4 col-sm-6 fade-in-up">
+<div class="yoga-card yoga-category-card" data-module="stress">
+<img alt="Stress relief yoga pose" src="https://images.unsplash.com/photo-1591228127791-8e2eaef098d3?q=80&amp;w=600&amp;auto=format&amp;fit=crop"/>
+<div class="overlay">
+<span class="badge badge-pink rounded-pill mb-2 align-self-start">Gentle</span>
+<h6 class="fw-bold mb-1">🧘 Stress Relief Yoga</h6>
+<p class="small mb-2">5 Variations · Relaxes spine &amp; calms mind</p>
+<button class="btn btn-pink btn-sm ripple start-session-btn" data-category="stress" type="button">Select &amp; View Variations</button>
+</div>
+</div>
+</div>
+</div>
+
+<!-- AI Guided Yoga Studio — Side-by-Side 3D Pose Guide & Live Vision -->
+<div class="mb-5 pt-3" id="aiYogaStudioSection">
+  <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+    <div>
+      <h4 class="fw-bold mb-1 text-ink">
+        <i class="fa-solid fa-cube text-primary-pink me-2"></i>AI Yoga Studio — Side-by-Side 3D Pose Guide &amp; Camera
+      </h4>
+      <p class="text-ink-soft small mb-0">
+        Look at the <strong>Photorealistic 3D Human Avatar</strong> on the right to match the ideal pose. If your pose is correct, the routine <strong>automatically proceeds</strong>; if incorrect, the session <strong>instantly freezes</strong> and the 3D model highlights the wrong area in <strong>RED</strong> until corrected.
+      </p>
+    </div>
+    <div class="d-flex gap-2 align-items-center">
+      <span class="badge bg-secondary-soft text-primary-pink px-3 py-2 rounded-pill fw-semibold">
+        <i class="fa-solid fa-shield-halved me-1"></i>Instant-Freeze Safety Active
+      </span>
+      <button class="btn btn-pink btn-sm rounded-pill px-3 fw-bold shadow-sm" id="mainBeginYogaBtn" type="button">
+        <i class="fa-solid fa-play me-1"></i>Begin Yoga
+      </button>
+    </div>
+  </div>
+
+  <!-- Dynamic Module Variations Banner -->
+  <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3 p-3 rounded-4 shadow-sm" style="background: linear-gradient(135deg, #fff0f6, #fdf2f8); border: 1px solid #fbcfe8;">
+    <div class="d-flex align-items-center gap-2">
+      <span class="badge bg-primary-pink text-white rounded-pill px-3 py-1 fw-bold" id="moduleVariationsBadge">Beginner</span>
+      <h5 class="fw-bold text-ink mb-0" id="moduleVariationsTitle">Beginner Yoga Variations</h5>
+    </div>
+    <p class="text-ink-soft small mb-0 flex-grow-1 ms-md-2" id="moduleVariationsDesc">
+      Foundational postures to develop core stability, spinal alignment, and flexibility.
+    </p>
+  </div>
+
+  <!-- Hold Time Setter Toolbar -->
+  <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3 p-2 px-3 rounded-3 bg-white shadow-sm border">
+    <div class="d-flex align-items-center gap-2">
+      <i class="fa-solid fa-stopwatch text-primary-pink"></i>
+      <strong class="text-ink small">Set Hold Duration:</strong>
+      <span class="text-muted small" style="font-size:11px;">(Time you must hold each pose with accurate alignment)</span>
+    </div>
+    <div class="d-flex align-items-center gap-2 flex-wrap">
+      <button type="button" class="btn btn-sm btn-outline-pink time-preset-btn" data-time="10">10s</button>
+      <button type="button" class="btn btn-sm btn-outline-pink time-preset-btn active" data-time="15">15s</button>
+      <button type="button" class="btn btn-sm btn-outline-pink time-preset-btn" data-time="30">30s</button>
+      <button type="button" class="btn btn-sm btn-outline-pink time-preset-btn" data-time="45">45s</button>
+      <button type="button" class="btn btn-sm btn-outline-pink time-preset-btn" data-time="60">60s</button>
+      <div class="input-group input-group-sm" style="width:130px;">
+        <input type="number" id="customHoldDurationInput" class="form-control" min="5" max="300" value="15" placeholder="Sec"/>
+        <button class="btn btn-pink" id="applyCustomHoldBtn" type="button">Set</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive Yoga Search & Category Filter System -->
+  <div class="card border-0 shadow-sm rounded-4 p-3 mb-4 bg-white">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+      <div class="d-flex align-items-center gap-2">
+        <i class="fa-solid fa-magnifying-glass text-primary-pink"></i>
+        <h6 class="fw-bold text-ink mb-0">Select or Search Yoga Pose:</h6>
+      </div>
+      <div class="d-flex align-items-center gap-2 flex-wrap">
+        <select id="yogaPoseSelect" class="form-select form-select-sm" style="min-width: 220px; max-width: 300px; border-color: #fbcfe8;">
+          <option value="" disabled selected>-- Jump to Any Yoga Pose (40+) --</option>
+        </select>
+        <div class="input-group input-group-sm" style="max-width: 280px;">
+          <input type="text" id="yogaSearchInput" class="form-control form-control-pink rounded-start-pill" placeholder="Search poses..." />
+          <button class="btn btn-pink rounded-end-pill px-3" id="clearYogaSearchBtn" type="button"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Filter Pills -->
+    <div class="d-flex flex-wrap gap-1 align-items-center" id="yogaCategoryFilterPills">
+      <span class="text-muted small me-2" style="font-size: 11px; font-weight: 600;">FILTERS:</span>
+      <button type="button" class="btn btn-sm btn-outline-pink rounded-pill py-1 px-3 active yoga-filter-btn" data-filter="all">All Poses (40)</button>
+      <button type="button" class="btn btn-sm btn-outline-pink rounded-pill py-1 px-3 yoga-filter-btn" data-filter="Beginner">Beginner</button>
+      <button type="button" class="btn btn-sm btn-outline-pink rounded-pill py-1 px-3 yoga-filter-btn" data-filter="Standing">Standing</button>
+      <button type="button" class="btn btn-sm btn-outline-pink rounded-pill py-1 px-3 yoga-filter-btn" data-filter="Seated">Seated</button>
+      <button type="button" class="btn btn-sm btn-outline-pink rounded-pill py-1 px-3 yoga-filter-btn" data-filter="Balance">Balance</button>
+      <button type="button" class="btn btn-sm btn-outline-pink rounded-pill py-1 px-3 yoga-filter-btn" data-filter="Backbends">Backbends</button>
+      <button type="button" class="btn btn-sm btn-outline-pink rounded-pill py-1 px-3 yoga-filter-btn" data-filter="Inversions">Inversions</button>
+      <button type="button" class="btn btn-sm btn-outline-pink rounded-pill py-1 px-3 yoga-filter-btn" data-filter="Restorative">Restorative</button>
+      <button type="button" class="btn btn-sm btn-outline-pink rounded-pill py-1 px-3 yoga-filter-btn" data-filter="prenatal">🌸 Prenatal-Safe</button>
+    </div>
+  </div>
+
+  <!-- Pose Selection Chips (Variations & Scalable Library) -->
+  <div class="d-flex flex-wrap gap-2 mb-4" id="yogaPoseChips" style="max-height: 220px; overflow-y: auto; padding: 4px;">
+    <!-- Dynamically populated from YOGA_POSE_LIBRARY -->
+    <button class="pose-chip-btn active yoga-pose-chip" data-pose="warrior2" type="button">
+      <span>🧘</span> Warrior II (Virabhadrasana II)
+    </button>
+    <button class="pose-chip-btn yoga-pose-chip" data-pose="vrikshasana" type="button">
+      <span>🧘</span> Tree Pose (Vrikshasana)
+    </button>
+    <button class="pose-chip-btn yoga-pose-chip" data-pose="trikonasana" type="button">
+      <span>🧘</span> Triangle (Trikonasana)
+    </button>
+    <button class="pose-chip-btn yoga-pose-chip" data-pose="bhujangasana" type="button">
+      <span>🧘</span> Cobra (Bhujangasana)
+    </button>
+    <button class="pose-chip-btn yoga-pose-chip" data-pose="balasana" type="button">
+      <span>🧘</span> Child's Pose (Balasana)
+    </button>
+  </div>
+
+  <!-- Session Progress Header & Hold Bar -->
+  <div class="tool-card p-3 mb-4">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+      <div>
+        <div class="d-flex align-items-center gap-2 mb-1">
+          <span class="badge bg-primary-pink text-white rounded-pill px-3 py-1 fw-bold" id="activePoseBadge">Current Pose</span>
+          <h5 class="fw-bold text-ink mb-0" id="activePoseTitle">Warrior II (Virabhadrasana II)</h5>
+        </div>
+        <p class="text-ink-soft small mb-0" id="activePoseDesc">Strengthens thighs, opens hips and chest, enhances balance and focus.</p>
+        <div id="poseTipText" class="text-primary-pink small mt-1 fw-semibold" style="font-size:11.5px;"></div>
+      </div>
+
+      <!-- Hold Timer & Mini Meter -->
+      <div class="d-flex align-items-center gap-3">
+        <div class="text-center">
+          <div class="timer-hold-number" id="poseHoldTimerDisplay">00:00</div>
+          <small class="text-uppercase fw-bold text-muted" style="font-size:10px; letter-spacing:0.5px;">Hold Progress</small>
+        </div>
+        <div style="width:160px;">
+          <div class="progress" style="height:10px; border-radius:999px; background:#fce7f1;">
+            <div class="progress-bar bg-success" id="poseHoldProgressBar" style="width:0%; transition:width .3s ease;"></div>
+          </div>
+          <div class="d-flex align-items-center justify-content-center gap-1 mt-1">
+            <span class="status-dot warn" id="poseStatusDot"></span>
+            <span class="small fw-semibold text-ink" id="poseStatusText" style="font-size:11px;">Standby</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Practice Controls -->
+      <div class="d-flex gap-2 align-items-center flex-wrap">
+        <button class="btn btn-outline-secondary btn-sm rounded-pill px-2 py-1" id="switchSideBtn" type="button" title="Switch Practice Side (Left/Right)" style="font-size:11px;">
+          <i class="fa-solid fa-arrows-left-right me-1 text-primary-pink"></i><span id="practiceSideLabel">Side: Right</span>
+        </button>
+        <button class="btn btn-outline-pink btn-sm rounded-pill px-2 py-1" id="pausePracticeBtn" type="button" style="font-size:11px;">
+          <i class="fa-solid fa-pause me-1"></i><span id="pausePracticeLabel">Pause</span>
+        </button>
+        <button class="btn btn-outline-secondary btn-sm rounded-pill px-2 py-1" id="restartPracticeBtn" type="button" style="font-size:11px;">
+          <i class="fa-solid fa-rotate-left me-1"></i>Restart
+        </button>
+        <button class="btn btn-outline-danger btn-sm rounded-pill px-2 py-1" id="endPracticeBtn" type="button" style="font-size:11px;">
+          <i class="fa-solid fa-stop me-1"></i>End Session
+        </button>
+        <button class="btn btn-outline-pink btn-sm rounded-pill px-2 py-1" id="voiceToggleBtn" type="button" style="font-size:11px;">
+          <i class="fa-solid fa-volume-high me-1"></i>Voice: <span id="voiceStatusText">ON</span>
+        </button>
+        <button class="btn btn-outline-secondary btn-sm rounded-pill px-2 py-1" onclick="window.SheCareYoga.nextPose();" type="button" style="font-size:11px;">
+          <i class="fa-solid fa-forward-step me-1"></i>Skip
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Real-time Instant-Freeze Gating Banner -->
+  <div id="poseGatingBanner" class="pose-banner d-none mb-4"></div>
+
+  <!-- Camera Error Alert (Hidden by default) -->
+  <div id="cameraErrorAlert" class="alert alert-warning d-none mb-3"></div>
+
+  <!-- SIDE-BY-SIDE STUDIO ROW: Left = Camera | Right = 3D Pose Avatar -->
+  <div class="row g-4 mb-4">
+    <!-- LEFT COLUMN: Patient Live Camera & MediaPipe Skeleton -->
+    <div class="col-lg-6 fade-in-up">
+      <div class="tool-card h-100 p-3 d-flex flex-column justify-content-between">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <h6 class="fw-bold mb-0 text-ink">
+            <i class="fa-solid fa-camera text-primary-pink me-2"></i>1. Patient Live Camera Vision
+          </h6>
+          <div class="d-flex gap-1" id="cameraToolbar">
+            <button class="btn btn-outline-pink btn-sm rounded-pill px-2 py-1" id="toggleMirrorBtn" title="Mirror View" type="button" style="font-size:11px;">
+              <i class="fa-solid fa-arrows-left-right me-1"></i>Mirror
+            </button>
+            <button class="btn btn-outline-pink btn-sm rounded-pill px-2 py-1" id="flipCameraBtn" title="Switch Front/Back" type="button" style="font-size:11px;">
+              <i class="fa-solid fa-camera-rotate me-1"></i>Flip
+            </button>
+          </div>
+        </div>
+
+        <!-- Camera Container -->
+        <div class="camera-viewbox mb-2 position-relative" id="cameraContainer">
+          <!-- Camera Live HUD Overlay (Top) -->
+          <div class="camera-hud-overlay position-absolute top-0 start-0 end-0 p-3 d-flex justify-content-between align-items-center" style="z-index: 10; pointer-events: none;">
+            <div class="hud-chip">
+              <i class="fa-solid fa-person-walking me-1 text-primary-pink"></i><span id="hudPoseName" class="fw-bold">Warrior II</span>
+            </div>
+            <div>
+              <span class="badge rounded-pill bg-success shadow-sm px-3 py-2" id="hudAccuracyBadge" style="font-size: 11px;">
+                <span id="hudAccuracyText"><i class="fa-solid fa-circle-check me-1"></i>96% Form Accuracy</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Standby Placeholder -->
+          <div class="d-flex flex-column align-items-center justify-content-center h-100 p-4 text-center" id="cameraPlaceholder">
+            <div class="rounded-circle d-flex align-items-center justify-content-center mb-3" style="width:64px; height:64px; background:rgba(255,79,163,.15); color:#ff4fa3;">
+              <i class="fa-solid fa-video fs-3"></i>
+            </div>
+            <h6 class="fw-bold text-white mb-1">Live Camera Pose Tracking</h6>
+            <p class="text-white-50 small mb-3" style="max-width:300px; font-size:12px;">
+              Click <strong>Begin Yoga</strong> to start your webcam. You can also calibrate using the Biomechanical Joint Angle Console below.
+            </p>
+            <div class="d-flex gap-2 justify-content-center flex-wrap">
+              <button class="btn btn-pink ripple px-4 py-2 fw-semibold shadow rounded-pill" id="enableCameraBtn" type="button">
+                <i class="fa-solid fa-video me-2"></i>Start Live Camera
+              </button>
+              <button class="btn btn-outline-light btn-sm rounded-pill px-3 py-2 fw-semibold" id="startSimulatorBtn" type="button">
+                <i class="fa-solid fa-sliders me-1"></i>Joint Angle Console
+              </button>
+            </div>
+          </div>
+
+          <!-- Live Video Element -->
+          <video id="cameraVideo" class="d-none" autoplay playsinline muted></video>
+
+          <!-- Skeleton Overlay Canvas -->
+          <canvas id="poseCanvas" class="d-none"></canvas>
+        </div>
+
+        <!-- Camera Controls Bar -->
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2 d-none" id="cameraControlsBar">
+          <div class="small text-ink-soft" style="font-size:11px;" id="cameraStatusTextBadge">
+            <i class="fa-solid fa-circle-dot text-success me-1"></i>MediaPipe 33-Keypoint Pose Tracking Active
+          </div>
+          <button class="btn btn-outline-danger btn-sm rounded-pill px-3 py-1" id="disableCameraBtn" type="button" style="font-size:11px;">
+            <i class="fa-solid fa-video-slash me-1"></i>Stop Camera
+          </button>
+        </div>
+
+        <!-- Real-Time Biomechanical Telemetry & Fault Detection Console -->
+        <div class="p-3 rounded-4 mt-2" id="poseSimulatorBox" style="background: linear-gradient(135deg, #fff5f9, #fdf2f8); border: 1.5px solid #fbcfe8;">
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <span class="fw-bold text-dark" style="font-size: 12px;">
+              <i class="fa-solid fa-gauge-high text-primary-pink me-1"></i>Real-Time Biomechanical Telemetry
+            </span>
+            <span class="badge bg-success text-white fw-bold shadow-sm" id="simAngleBadge" style="font-size: 11px;">
+              95° · Form Aligned
+            </span>
+          </div>
+
+          <!-- Real-Time Readout Cards -->
+          <div class="row g-2 mb-2">
+            <div class="col-4">
+              <div class="bg-white p-2 rounded-3 border text-center shadow-xs">
+                <div class="text-muted text-uppercase" style="font-size: 9.5px; font-weight: 700;">Front Knee</div>
+                <div class="fs-6 fw-bold text-success" id="telemetryKneeVal">95°</div>
+                <div class="text-muted" style="font-size: 9px;">Target: 85°-105°</div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="bg-white p-2 rounded-3 border text-center shadow-xs">
+                <div class="text-muted text-uppercase" style="font-size: 9.5px; font-weight: 700;">Shoulder/Arm</div>
+                <div class="fs-6 fw-bold text-success" id="telemetryArmVal">90°</div>
+                <div class="text-muted" style="font-size: 9px;">Target: 80°-100°</div>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="bg-white p-2 rounded-3 border text-center shadow-xs">
+                <div class="text-muted text-uppercase" style="font-size: 9.5px; font-weight: 700;">Target Rule</div>
+                <div class="fs-6 fw-bold text-primary-pink" id="telemetryTargetVal">90° Bend</div>
+                <div class="text-muted" style="font-size: 9px;">Safe Range</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4 1-Click Biomechanical Test Buttons -->
+          <div class="mb-2">
+            <div class="text-muted fw-semibold mb-1" style="font-size: 10.5px;">
+              <i class="fa-solid fa-compass-drafting me-1 text-primary-pink"></i>Biomechanical Joint Fault Calibration (Instant Red-Mark &amp; Freeze Test):
+            </div>
+            <div class="d-flex gap-1 flex-wrap">
+              <button type="button" class="btn btn-sm btn-outline-danger py-1 px-2 fault-test-btn" data-fault="knee_overextended" style="font-size: 10.5px;">
+                🚨 Knee Overextended (70°)
+              </button>
+              <button type="button" class="btn btn-sm btn-outline-danger py-1 px-2 fault-test-btn" data-fault="arm_drooping" style="font-size: 10.5px;">
+                🚨 Drooping Arm (55°)
+              </button>
+              <button type="button" class="btn btn-sm btn-outline-danger py-1 px-2 fault-test-btn" data-fault="knee_too_straight" style="font-size: 10.5px;">
+                🚨 Knee Too Straight (145°)
+              </button>
+              <button type="button" class="btn btn-sm btn-success py-1 px-2 text-white fault-test-btn" data-fault="correct" style="font-size: 10.5px;">
+                ✨ Perfect Form (95°)
+              </button>
+            </div>
+          </div>
+
+          <!-- Continuous Live Angle Slider -->
+          <div>
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <span class="text-muted" style="font-size: 10.5px;">Continuous Angle Adjuster:</span>
+              <span class="text-muted small" style="font-size: 10px;">Drag to test real-time instant detection</span>
+            </div>
+            <input class="form-range" id="simAngleRange" max="150" min="65" step="1" type="range" value="95"/>
+            <div class="d-flex justify-content-between text-muted" style="font-size: 9.5px;">
+              <span class="text-danger fw-semibold">&larr; &lt;80° (Wrong Position)</span>
+              <span class="text-success fw-bold">90°–105° (Optimal Safe Form)</span>
+              <span class="text-danger fw-semibold">&gt;115° (Wrong Position) &rarr;</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: Realistic Human Yoga Pose Demonstration & Correction Guide -->
+    <div class="col-lg-6 fade-in-up">
+      <div class="tool-card h-100 p-3 d-flex flex-column justify-content-between">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <h6 class="fw-bold mb-0 text-ink">
+            <i class="fa-solid fa-person text-primary-pink me-2"></i>2. Human Yoga Pose Demonstration
+          </h6>
+          <span class="badge bg-secondary-soft text-primary-pink rounded-pill px-3 py-1 fw-bold" style="font-size:11px;">
+            <i class="fa-solid fa-camera me-1"></i>Real Human Reference
+          </span>
+        </div>
+
+        <!-- Human Yoga Demonstration Viewport (Full-body visible, object-fit: contain) -->
+        <div class="avatar-3d-viewbox mb-2 position-relative" id="avatar3DContainer" style="background:#130914; min-height:380px; display:flex; align-items:center; justify-content:center; overflow:hidden;">
+          <!-- Floating HUD Overlay (Top) -->
+          <div class="avatar-hud-overlay position-absolute top-0 start-0 end-0 p-3 d-flex justify-content-between align-items-center" style="z-index:10; pointer-events:none;">
+            <div class="hud-chip">
+              <span class="fw-bold" id="avatarPoseTitle">Warrior II (Virabhadrasana II)</span>
+            </div>
+            <div>
+              <span class="badge bg-dark bg-opacity-75 text-white border border-secondary border-opacity-50 px-2 py-1 shadow-sm" style="font-size:10px;">
+                <i class="fa-solid fa-circle-check text-success me-1"></i>Correct Posture Reference
+              </span>
+            </div>
+          </div>
+
+          <!-- The Real Human Being Pose Image (Strictly 1 pose -> 1 correct human image) -->
+          <div class="w-100 h-100 d-flex align-items-center justify-content-center p-3" id="humanPoseImageWrapper" style="position:relative; z-index:2;">
+            <img id="primaryHumanPoseImg" src="../assets/yoga3d/warrior2.jpg" alt="Human Yoga Pose Demonstration" style="max-width:100%; max-height:350px; width:auto; height:auto; object-fit:contain; border-radius:12px; transition:opacity .25s ease; box-shadow:0 8px 24px rgba(0,0,0,0.4);" />
+            <div id="humanPoseUnavailableAlert" class="d-none text-center p-4">
+              <div class="rounded-circle d-flex align-items-center justify-content-center mx-auto mb-2" style="width:56px;height:56px;background:rgba(255,79,163,0.15);color:#ff4fa3;">
+                <i class="fa-solid fa-image-slash fs-4"></i>
+              </div>
+              <h6 class="fw-bold text-white mb-1">Human pose image unavailable.</h6>
+              <p class="text-white-50 small mb-0" style="font-size:11px;">Full camera AI pose estimation and real-time guidance remain active.</p>
+            </div>
+          </div>
+
+          <!-- Floating HUD Overlay (Bottom) -->
+          <div class="avatar-hud-bottom position-absolute bottom-0 start-0 end-0 p-3 d-flex justify-content-between align-items-center" style="z-index:10; pointer-events:none;">
+            <div class="hud-chip" id="avatarAngleDiff" style="font-size:11px;">
+              <span class="text-white-50">Match your posture with this human reference</span>
+            </div>
+            <div class="small text-white-50" style="font-size:10px; letter-spacing:0.3px;">
+              <i class="fa-solid fa-shield-heart text-primary-pink me-1"></i>Anatomical Guide
+            </div>
+          </div>
+        </div>
+
+        <!-- Rich Selected Pose Comprehensive Details Card -->
+        <div class="card border-0 rounded-3 shadow-xs mb-2 overflow-hidden" id="selectedPoseFullDetailsCard" style="background:#fff; border:1px solid #fbcfe8 !important;">
+          <div class="card-header bg-white border-bottom py-2 d-flex justify-content-between align-items-center">
+            <div>
+              <span class="fw-bold small text-ink" id="selectedPoseHeaderName"><i class="fa-solid fa-circle-info text-primary-pink me-1"></i>Warrior II</span>
+              <small class="text-muted ms-1" id="poseProfileSanskrit">(Virabhadrasana II)</small>
+            </div>
+            <span class="badge bg-secondary-soft text-primary-pink rounded-pill px-2 py-1" id="poseProfileDifficulty">Beginner</span>
+          </div>
+          <div class="card-body p-2" style="font-size:11px; max-height: 220px; overflow-y: auto;">
+            <div class="mb-2" id="poseProfileDescriptionBox">
+              <strong><i class="fa-solid fa-book-open me-1 text-primary-pink"></i>Description:</strong>
+              <div class="text-muted mt-0" id="poseProfileDescription">Strengthens thighs, opens hips and chest, enhances focus and balance.</div>
+            </div>
+            <div class="mb-2" id="poseProfileInstructionsBox">
+              <strong><i class="fa-solid fa-list-check me-1 text-primary-pink"></i>Instructions:</strong>
+              <div class="text-muted mt-0" id="poseProfileInstructions">Front knee at 90°, arms outstretched parallel to the floor.</div>
+            </div>
+            <div class="row g-2 mb-2">
+              <div class="col-6">
+                <strong><i class="fa-solid fa-bullseye me-1 text-primary-pink"></i>Target Areas:</strong>
+                <div class="text-muted" id="poseProfileTargetAreas">Hips, Quads, Ankles</div>
+              </div>
+              <div class="col-6">
+                <strong><i class="fa-solid fa-heart-pulse me-1 text-primary-pink"></i>Benefits:</strong>
+                <div class="text-muted" id="poseProfileBenefits">Strengthens legs, opens hips and chest.</div>
+              </div>
+            </div>
+            <div class="mb-1">
+              <strong><i class="fa-solid fa-shield-halved me-1 text-success"></i>Alignment Tips:</strong>
+              <span class="text-muted" id="poseProfileAlignment">Align front knee at 90° over ankle; gaze over front fingertips.</span>
+            </div>
+            <div class="mb-1">
+              <strong><i class="fa-solid fa-lungs me-1 text-primary-pink"></i>Breathing:</strong>
+              <span class="text-muted" id="poseProfileBreathing">Inhale to lengthen spine; exhale to ground down through feet.</span>
+            </div>
+            <div class="mb-1">
+              <strong><i class="fa-solid fa-triangle-exclamation me-1 text-warning"></i>Common Mistakes:</strong>
+              <span class="text-muted" id="poseProfileMistakes">Knee past ankle; slouching spine; drooping arms.</span>
+            </div>
+            <div class="mb-0">
+              <strong><i class="fa-solid fa-circle-exclamation me-1 text-danger"></i>Precautions:</strong>
+              <span class="text-muted" id="poseProfilePrecautions">Avoid if acute knee or hip inflammation is present.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Human Pose Guidance Instruction -->
+        <div class="p-2 rounded-3 text-center" style="background:#f4f6fc; border:1px solid #e0e7ff;">
+          <small class="text-ink fw-semibold" style="font-size:11px;">
+            <i class="fa-solid fa-lightbulb text-warning me-1"></i>
+            <strong>How It Works:</strong> Align your body with this <strong>Human Yoga Pose Demonstration</strong>. Your webcam tracks your keypoints in real time. Maintain safe alignment to complete the hold countdown and automatically proceed!
+          </small>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Real-Time Camera vs 3D Guide Posture Comparison Matrix -->
+  <div class="tool-card p-3 mb-4 shadow-sm" id="postureComparisonMatrixCard" style="border: 1.5px solid #fbcfe8; background: #ffffff;">
+    <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+      <div>
+        <h6 class="fw-bold text-ink mb-1">
+          <i class="fa-solid fa-code-compare text-primary-pink me-2"></i>Real-Time Camera vs 3D Posture Alignment Matrix
+        </h6>
+        <p class="text-ink-soft small mb-0">
+          Live biomechanical analysis comparing your real-time camera image keypoints against the 3D reference model.
+        </p>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge rounded-pill bg-success px-3 py-2 fw-bold shadow-sm" id="matrixOverallStatusBadge" style="font-size: 11.5px;">
+          <i class="fa-solid fa-circle-check me-1"></i>POSTURE ACCURATE (96% 3D MATCH)
+        </span>
+      </div>
+    </div>
+
+    <!-- Alignment Comparison Table -->
+    <div class="table-responsive">
+      <table class="table table-bordered table-sm align-middle text-center mb-0" style="font-size: 12px;">
+        <thead class="table-light">
+          <tr>
+            <th class="text-start ps-3">Body Segment</th>
+            <th>3D Target Angle</th>
+            <th>Live Camera Measurement</th>
+            <th>Comparison Delta</th>
+            <th>Alignment Status</th>
+            <th class="text-start ps-3">Corrective Direction</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="matrixRowKnee">
+            <td class="text-start ps-3 fw-semibold">
+              <i class="fa-solid fa-person-walking text-primary-pink me-1"></i><span id="matrixKneeLabel">Front Knee / Stance</span>
+            </td>
+            <td><span class="badge bg-light text-dark border" id="matrixKneeTargetBadge">90° (85°–105°)</span></td>
+            <td><strong id="matrixKneeCameraVal" class="text-success">95°</strong></td>
+            <td><span id="matrixKneeDelta" class="text-muted">+5° (Safe)</span></td>
+            <td><span id="matrixKneeBadge" class="badge bg-success text-white">✓ MATCHED</span></td>
+            <td class="text-start ps-3" id="matrixKneeHint">Optimal 90° front knee alignment over ankle</td>
+          </tr>
+          <tr id="matrixRowArm">
+            <td class="text-start ps-3 fw-semibold">
+              <i class="fa-solid fa-child-reaching text-primary-pink me-1"></i><span id="matrixArmLabel">Shoulders &amp; Arms</span>
+            </td>
+            <td><span class="badge bg-light text-dark border" id="matrixArmTargetBadge">90° Parallel</span></td>
+            <td><strong id="matrixArmCameraVal" class="text-success">90°</strong></td>
+            <td><span id="matrixArmDelta" class="text-muted">0° (Exact)</span></td>
+            <td><span id="matrixArmBadge" class="badge bg-success text-white">✓ MATCHED</span></td>
+            <td class="text-start ps-3" id="matrixArmHint">Arms parallel with floor at shoulder height</td>
+          </tr>
+          <tr id="matrixRowSpine">
+            <td class="text-start ps-3 fw-semibold">
+              <i class="fa-solid fa-arrows-up-down text-primary-pink me-1"></i>Spine &amp; Posture
+            </td>
+            <td><span class="badge bg-light text-dark border">Vertical 90°</span></td>
+            <td><strong id="matrixSpineCameraVal" class="text-success">Upright</strong></td>
+            <td><span id="matrixSpineDelta" class="text-muted">Centered</span></td>
+            <td><span id="matrixSpineBadge" class="badge bg-success text-white">✓ MATCHED</span></td>
+            <td class="text-start ps-3" id="matrixSpineHint">Shoulders stacked directly above pelvis</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</div>
+</main>
+<footer>
+<div class="container text-center">
+<div class="d-flex justify-content-center align-items-center gap-2 mb-2"><span class="brand-badge">SH</span><span class="fw-bold" style="color:#fff;">SHECARES</span></div>
+<p class="small mb-0" style="color:#e6a9c4;">© 2026 SHECARES · Consult a professional before starting a new exercise routine.</p>
+</div>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+<script src="../js/runtime-config.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/script.js"></script>
+<script src="../js/yoga/JointAngleCalculator.js"></script>
+<script src="../js/yoga/YogaPoseLibrary.js"></script>
+<script src="../js/yoga/PoseRuleEngine.js"></script>
+<script src="../js/yoga/YogaSessionManager.js"></script>
+<script src="../js/yoga-3d-avatar.js"></script>
+<script src="../js/yoga-pose.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Initialize 3D Avatar immediately so it's visible beside the camera
+  if (window.SheCare3DAvatar && typeof window.SheCare3DAvatar.init === 'function') {
+    window.SheCare3DAvatar.init('avatar3DContainer');
+  }
+
+  // Initial load of all 41 clinical poses from library
+  if (window.YOGA_POSE_LIBRARY && Array.isArray(window.YOGA_POSE_LIBRARY)) {
+    renderFilteredPoseChips(window.YOGA_POSE_LIBRARY, false);
+    if (window.SheCareYoga && typeof window.SheCareYoga.selectPose === 'function') {
+      window.SheCareYoga.selectPose(window.YOGA_POSE_LIBRARY[0]?.id || 'warrior2');
+    }
+  } else if (window.SheCareYoga && typeof window.SheCareYoga.renderModuleVariations === 'function') {
+    window.SheCareYoga.renderModuleVariations('beginner');
+  }
+
+  // Begin Yoga Action buttons
+  document.getElementById('heroBeginYogaBtn')?.addEventListener('click', () => {
+    window.SheCareYoga.startYogaSession();
+  });
+  document.getElementById('mainBeginYogaBtn')?.addEventListener('click', () => {
+    window.SheCareYoga.startYogaSession();
+  });
+
+  // Module Category Cards: clicking any routine displays its curated variations
+  document.querySelectorAll('.yoga-category-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const mod = card.dataset.module;
+      if (mod && window.SheCareYoga) {
+        window.SheCareYoga.setModule(mod);
+        document.getElementById('aiYogaStudioSection')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Category Start Session buttons
+  document.querySelectorAll('.start-session-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const cat = btn.dataset.category;
+      if (cat && window.SheCareYoga) {
+        window.SheCareYoga.startYogaSession(cat);
+      }
+    });
+  });
+
+  // Time Preset Buttons (10s, 15s, 30s, 45s, 60s)
+  document.querySelectorAll('.time-preset-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const time = parseInt(btn.dataset.time, 10);
+      if (time && window.SheCareYoga) {
+        window.SheCareYoga.setHoldDuration(time);
+      }
+    });
+  });
+
+  // Custom Hold Duration Setter
+  document.getElementById('applyCustomHoldBtn')?.addEventListener('click', () => {
+    const input = document.getElementById('customHoldDurationInput');
+    const val = parseInt(input?.value, 10);
+    if (val && window.SheCareYoga) {
+      window.SheCareYoga.setHoldDuration(val);
+    }
+  });
+  document.getElementById('customHoldDurationInput')?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const val = parseInt(e.target.value, 10);
+      if (val && window.SheCareYoga) {
+        window.SheCareYoga.setHoldDuration(val);
+      }
+    }
+  });
+
+  // Search & Filter Yoga Pose Library (40+ Poses)
+  function renderFilteredPoseChips(poses, autoSelect = false) {
+    const chipsContainer = document.getElementById('yogaPoseChips');
+    if (!chipsContainer || !poses) return;
+    chipsContainer.innerHTML = '';
+
+    if (poses.length === 0) {
+      chipsContainer.innerHTML = '<span class="text-muted small p-2"><i class="fa-solid fa-circle-info me-1"></i>No matching yoga poses found. Try searching for "warrior", "balance", "hip", or "beginner".</span>';
+      return;
+    }
+
+    poses.forEach((p, idx) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = `pose-chip-btn yoga-pose-chip ${idx === 0 ? 'active' : ''}`;
+      btn.dataset.pose = p.id;
+      btn.innerHTML = `<span>🧘</span> ${p.name} <small class="text-muted" style="font-size:10px;">(${p.category})</small>`;
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.yoga-pose-chip').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        if (window.SheCareYoga && typeof window.SheCareYoga.setPose === 'function') {
+          window.SheCareYoga.setPose(p.id);
+        }
+      });
+      chipsContainer.appendChild(btn);
+    });
+
+    // Select first matched pose only if explicitly requested (e.g. searching/filtering)
+    if (autoSelect && poses[0] && window.SheCareYoga) {
+      window.SheCareYoga.setPose(poses[0].id);
+    }
+  }
+
+  // Populate dropdown and filter chips initially from YOGA_POSE_LIBRARY if available
+  const poseSelect = document.getElementById('yogaPoseSelect');
+  if (window.YOGA_POSE_LIBRARY && Array.isArray(window.YOGA_POSE_LIBRARY)) {
+    renderFilteredPoseChips(window.YOGA_POSE_LIBRARY, false);
+    if (poseSelect) {
+      poseSelect.innerHTML = '<option value="" disabled selected>-- Jump to Any Yoga Pose (40+) --</option>' +
+        window.YOGA_POSE_LIBRARY.map(p => `<option value="${p.id}">${p.name} (${p.sanskrit || p.category})</option>`).join('');
+      poseSelect.addEventListener('change', () => {
+        const selectedId = poseSelect.value;
+        if (selectedId && window.SheCareYoga && typeof window.SheCareYoga.setPose === 'function') {
+          window.SheCareYoga.setPose(selectedId);
+        }
+      });
+    }
+  }
+
+  // Search input handler
+  const searchInput = document.getElementById('yogaSearchInput');
+  const clearSearchBtn = document.getElementById('clearYogaSearchBtn');
+
+  function applyFiltersAndSearch() {
+    const query = (searchInput?.value || '').trim().toLowerCase();
+    const activeFilterBtn = document.querySelector('.yoga-filter-btn.active');
+    const filterCat = activeFilterBtn?.dataset.filter || 'all';
+
+    let list = window.YOGA_POSE_LIBRARY || [];
+
+    if (filterCat !== 'all') {
+      if (filterCat === 'prenatal') {
+        list = list.filter(p => p.prenatalSafe === true);
+      } else {
+        list = list.filter(p => p.category.toLowerCase().includes(filterCat.toLowerCase()));
+      }
+    }
+
+    if (query) {
+      list = list.filter(p => {
+        const idMatch = p.id && p.id.toLowerCase().includes(query);
+        const nameMatch = p.name && p.name.toLowerCase().includes(query);
+        const sanskritMatch = p.sanskrit && p.sanskrit.toLowerCase().includes(query);
+        const categoryMatch = p.category && p.category.toLowerCase().includes(query);
+        const diffMatch = p.difficulty && p.difficulty.toLowerCase().includes(query);
+        const benefitsMatch = p.benefits && p.benefits.toLowerCase().includes(query);
+        const instrMatch = p.instructions && (Array.isArray(p.instructions) ? p.instructions.join(' ') : p.instructions).toLowerCase().includes(query);
+        const areasMatch = p.targetBodyAreas && (Array.isArray(p.targetBodyAreas) ? p.targetBodyAreas.join(' ') : p.targetBodyAreas).toLowerCase().includes(query);
+        const musclesMatch = p.muscles && (Array.isArray(p.muscles) ? p.muscles.join(' ') : p.muscles).toLowerCase().includes(query);
+        const aliasesMatch = p.aliases && (Array.isArray(p.aliases) ? p.aliases.join(' ') : p.aliases).toLowerCase().includes(query);
+        return idMatch || nameMatch || sanskritMatch || categoryMatch || diffMatch || benefitsMatch || instrMatch || areasMatch || musclesMatch || aliasesMatch;
+      });
+    }
+
+    renderFilteredPoseChips(list, false);
+  }
+
+  searchInput?.addEventListener('input', applyFiltersAndSearch);
+  clearSearchBtn?.addEventListener('click', () => {
+    if (searchInput) searchInput.value = '';
+    applyFiltersAndSearch();
+  });
+
+  // Filter pills click handler
+  document.querySelectorAll('.yoga-filter-btn').forEach(fBtn => {
+    fBtn.addEventListener('click', () => {
+      document.querySelectorAll('.yoga-filter-btn').forEach(b => b.classList.remove('active'));
+      fBtn.classList.add('active');
+      applyFiltersAndSearch();
+    });
+  });
+
+  // 3D Perspective controls
+  const perspButtons = {
+    perspFrontBtn: 'front',
+    perspSideBtn: 'side',
+    perspIsoBtn: 'iso'
+  };
+  Object.entries(perspButtons).forEach(([id, mode]) => {
+    const btn = document.getElementById(id);
+    btn?.addEventListener('click', () => {
+      document.querySelectorAll('.perspective-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      window.SheCare3DAvatar.setPerspective(mode);
+    });
+  });
+
+  // Reset 360 View Button
+  document.getElementById('reset3DViewBtn')?.addEventListener('click', () => {
+    if (window.SheCare3DAvatar && typeof window.SheCare3DAvatar.resetView === 'function') {
+      window.SheCare3DAvatar.resetView();
+    }
+  });
+
+  // Camera Buttons
+  document.getElementById('enableCameraBtn')?.addEventListener('click', () => {
+    window.SheCareYoga.startCamera();
+  });
+  document.getElementById('disableCameraBtn')?.addEventListener('click', () => {
+    window.SheCareYoga.stopCamera();
+  });
+  document.getElementById('toggleMirrorBtn')?.addEventListener('click', () => {
+    window.SheCareYoga.toggleMirror();
+  });
+  document.getElementById('flipCameraBtn')?.addEventListener('click', () => {
+    window.SheCareYoga.toggleFacingMode();
+  });
+  document.getElementById('voiceToggleBtn')?.addEventListener('click', () => {
+    const on = window.SheCareYoga.toggleVoice();
+    document.getElementById('voiceStatusText').textContent = on ? 'ON' : 'OFF';
+  });
+
+  // Practice Toolbar Controls (Switch Side, Pause, Restart, End Session)
+  document.getElementById('switchSideBtn')?.addEventListener('click', () => {
+    if (window.SheCareYoga && typeof window.SheCareYoga.switchSide === 'function') {
+      const side = window.SheCareYoga.switchSide();
+      const lbl = document.getElementById('practiceSideLabel');
+      if (lbl) lbl.textContent = `Side: ${side.charAt(0).toUpperCase() + side.slice(1)}`;
+    }
+  });
+
+  document.getElementById('pausePracticeBtn')?.addEventListener('click', () => {
+    if (window.SheCareYoga && typeof window.SheCareYoga.togglePause === 'function') {
+      const isPaused = window.SheCareYoga.togglePause();
+      const lbl = document.getElementById('pausePracticeLabel');
+      const icon = document.querySelector('#pausePracticeBtn i');
+      if (lbl) lbl.textContent = isPaused ? 'Resume' : 'Pause';
+      if (icon) icon.className = isPaused ? 'fa-solid fa-play me-1' : 'fa-solid fa-pause me-1';
+    }
+  });
+
+  document.getElementById('restartPracticeBtn')?.addEventListener('click', () => {
+    if (window.SheCareYoga && typeof window.SheCareYoga.restartPractice === 'function') {
+      window.SheCareYoga.restartPractice();
+    }
+  });
+
+  document.getElementById('endPracticeBtn')?.addEventListener('click', () => {
+    if (window.SheCareYoga && typeof window.SheCareYoga.endPractice === 'function') {
+      window.SheCareYoga.endPractice();
+    }
+  });
+
+  document.getElementById('summaryPracticeAgainBtn')?.addEventListener('click', () => {
+    const modalEl = document.getElementById('yogaSessionSummaryModal');
+    const modal = bootstrap.Modal.getInstance(modalEl);
+    if (modal) modal.hide();
+    if (window.SheCareYoga && typeof window.SheCareYoga.restartPractice === 'function') {
+      window.SheCareYoga.restartPractice();
+    }
+  });
+
+  document.getElementById('summaryNextPoseBtn')?.addEventListener('click', () => {
+    const modalEl = document.getElementById('yogaSessionSummaryModal');
+    const modal = bootstrap.Modal.getInstance(modalEl);
+    if (modal) modal.hide();
+    if (window.SheCareYoga && typeof window.SheCareYoga.nextPose === 'function') {
+      window.SheCareYoga.nextPose();
+    }
+  });
+
+  document.getElementById('askAiFollowupBtn')?.addEventListener('click', () => {
+    const modalEl = document.getElementById('yogaSessionSummaryModal');
+    const modal = bootstrap.Modal.getInstance(modalEl);
+    if (modal) modal.hide();
+    // Open Universal AI Assistant and prefill query
+    const fab = document.getElementById('shecareAiFab');
+    const input = document.getElementById('shecareAiInput');
+    if (fab) fab.click();
+    if (input) {
+      const poseName = document.getElementById('summaryPoseName')?.textContent || 'yoga pose';
+      input.value = `Can you give me detailed clinical guidance and exercises to improve my ${poseName}?`;
+      input.focus();
+    }
+  });
+
+  // Direct Simulator Trigger
+  document.getElementById('startSimulatorBtn')?.addEventListener('click', () => {
+    const placeholder = document.getElementById('cameraPlaceholder');
+    const canvas = document.getElementById('poseCanvas');
+    const controlsBar = document.getElementById('cameraControlsBar');
+    const disableBtn = document.getElementById('disableCameraBtn');
+    const simBox = document.getElementById('poseSimulatorBox');
+
+    if (placeholder) placeholder.classList.add('d-none');
+    if (canvas) {
+      canvas.classList.remove('d-none');
+      canvas.width = 640;
+      canvas.height = 480;
+    }
+    if (controlsBar) controlsBar.classList.remove('d-none');
+    if (disableBtn) disableBtn.classList.remove('d-none');
+    if (simBox) simBox.classList.remove('d-none');
+    document.getElementById('poseGatingBanner')?.classList.remove('d-none');
+
+    window.SheCareYoga.simulateAngleChange(95);
+  });
+
+  // 1-Click Biomechanical Test Buttons
+  document.querySelectorAll('.fault-test-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const fault = btn.dataset.fault;
+      if (fault && window.SheCareYoga && typeof window.SheCareYoga.simulateFault === 'function') {
+        window.SheCareYoga.simulateFault(fault);
+
+        const range = document.getElementById('simAngleRange');
+        const badge = document.getElementById('simAngleBadge');
+        if (fault === 'knee_overextended') {
+          if (range) range.value = 70;
+          if (badge) { badge.textContent = '70° · Knee Overextended (STOP)'; badge.className = 'badge bg-danger text-white shadow-sm'; }
+        } else if (fault === 'knee_too_straight') {
+          if (range) range.value = 145;
+          if (badge) { badge.textContent = '145° · Knee Too Straight (STOP)'; badge.className = 'badge bg-danger text-white shadow-sm'; }
+        } else if (fault === 'arm_drooping') {
+          if (badge) { badge.textContent = '55° · Arm Drooping (STOP)'; badge.className = 'badge bg-danger text-white shadow-sm'; }
+        } else if (fault === 'correct') {
+          if (range) range.value = 95;
+          if (badge) { badge.textContent = '95° · Form Aligned (PROCEED)'; badge.className = 'badge bg-success text-white shadow-sm'; }
+        }
+      }
+    });
+  });
+
+  // Simulator Slider
+  const simRange = document.getElementById('simAngleRange');
+  const simBadge = document.getElementById('simAngleBadge');
+  simRange?.addEventListener('input', (e) => {
+    const val = parseInt(e.target.value, 10);
+    const isSafe = (val >= 90 && val <= 105);
+    if (simBadge) {
+      simBadge.textContent = `${val}° · ${isSafe ? 'Form Aligned (PROCEED)' : 'Wrong Position (STOP)'}`;
+      simBadge.className = `badge ${isSafe ? 'bg-success text-white' : 'bg-danger text-white'} shadow-sm`;
+    }
+    window.SheCareYoga.simulateAngleChange(val);
+  });
+
+  // Live Smartwatch Sync Listener
+  function updateFitWatchVitals(v) {
+    const stepsEl = document.getElementById('fitLiveSteps');
+    const distEl = document.getElementById('fitLiveDist');
+    const calEl = document.getElementById('fitLiveCal');
+    const hrEl = document.getElementById('fitLiveHr');
+    const badgeEl = document.getElementById('fitWatchSyncBadge');
+
+    if (!v || !v.connected) {
+      if (stepsEl) { stepsEl.textContent = '--'; stepsEl.className = 'text-muted'; }
+      if (distEl) { distEl.textContent = '-- km'; distEl.className = 'text-muted'; }
+      if (calEl) { calEl.textContent = '-- kcal'; calEl.className = 'text-muted'; }
+      if (hrEl) { hrEl.textContent = '-- BPM'; hrEl.className = 'text-muted'; }
+      if (badgeEl) {
+        badgeEl.className = 'badge bg-secondary-subtle text-secondary border border-secondary-subtle py-0 px-2';
+        badgeEl.innerHTML = '<i class="fa-solid fa-circle-pause me-1"></i>Watch Disconnected';
+      }
+      return;
+    }
+
+    const steps = v.steps ? Number(v.steps).toLocaleString() : '--';
+    const rawSteps = Number(v.steps) || 0;
+    const hr = v.heartRate ? `${v.heartRate} BPM` : '-- BPM';
+    const dist = (rawSteps * 0.00075).toFixed(1) + ' km';
+    const cal = (Math.round(rawSteps * 0.04) + (Number(v.workoutCalories) || 0));
+
+    if (stepsEl) { stepsEl.textContent = steps; stepsEl.className = 'text-primary'; }
+    if (distEl) { distEl.textContent = dist; distEl.className = 'text-ink'; }
+    if (calEl) { calEl.textContent = `${cal} kcal`; calEl.className = 'text-danger'; }
+    if (hrEl) { hrEl.textContent = hr; hrEl.className = 'text-success'; }
+    if (badgeEl) {
+      badgeEl.className = 'badge bg-success-subtle text-success border border-success-subtle py-0 px-2';
+      badgeEl.innerHTML = '<i class="fa-solid fa-circle-dot me-1"></i>Real-Time Active';
+    }
+
+    // Update calories goal progress bar
+    const calGoalLabel = document.querySelector('[data-goal-label="calories"]');
+    const calGoalBar = document.querySelector('[data-goal-bar="calories"]');
+    if (calGoalLabel && calGoalBar) {
+      calGoalLabel.textContent = `${cal} / 150`;
+      const pct = Math.min(100, Math.round((cal / 150) * 100));
+      calGoalBar.style.width = `${pct}%`;
+    }
+  }
+
+  try {
+    const cached = JSON.parse(localStorage.getItem('shecare_live_watch_vitals') || '{}');
+    updateFitWatchVitals(cached);
+  } catch {
+    updateFitWatchVitals(null);
+  }
+
+  window.addEventListener('shecare:watch_vitals_updated', (e) => {
+    updateFitWatchVitals(e.detail);
+  });
+});
+</script>
+<!-- SHECARE UNIVERSAL AI HEALTH ASSISTANT -->
+<button aria-label="Open AI Assistant" class="shecare-ai-fab" id="shecareAiFab" title="AI Assistant" type="button">
+<span class="sai-monogram">AI</span><span class="shecare-ai-pulse"></span>
+</button>
+<div aria-hidden="true" class="shecare-ai-panel" id="shecareAiPanel">
+<div class="shecare-ai-panel-header">
+<div class="d-flex align-items-center gap-2"><div class="shecare-ai-avatar"><span class="sai-avatar-mark">AI</span></div><div><div class="fw-bold">AI — SheCare</div><small>AI-powered health assistant</small></div></div>
+<button aria-label="Close" class="shecare-ai-close" id="shecareAiClose" type="button"><i class="fa-solid fa-xmark"></i></button>
+</div>
+<div class="shecare-ai-subtle-note text-center py-1 text-muted" style="font-size:10.5px; background:#fff7fa; border-bottom:1px solid #f4d7e4;">Health information only — not a diagnosis.</div>
+<div aria-live="polite" class="shecare-ai-body" id="shecareAiBody" role="log"></div>
+<div class="shecare-ai-suggestions" id="shecareAiSuggestions">
+<button data-ai-suggest="How can I check my blood pressure?" type="button">Check BP</button>
+<button data-ai-suggest="What can I do for period pain?" type="button">Period pain</button>
+<button data-ai-suggest="What should I know about pregnancy?" type="button">Pregnancy</button>
+<button data-ai-suggest="How can I manage stress?" type="button">Stress</button>
+</div>
+<div class="shecare-ai-footer">
+<button aria-label="Voice input" class="shecare-ai-mic" id="shecareAiMic" title="Voice input" type="button"><i class="fa-solid fa-microphone"></i></button>
+<input autocomplete="off" class="form-control form-control-pink" id="shecareAiInput" maxlength="600" placeholder="Ask me anything about your health…" type="text"/>
+<button aria-label="Send" class="btn btn-pink" id="shecareAiSend" type="button"><i class="fa-solid fa-paper-plane"></i></button>
+</div>
+</div>
+<!-- FLOATING SOS BUTTON -->
+<button aria-label="SOS" class="sos-float" data-sos-trigger="" title="SOS" type="button"><span class="sos-label">SOS</span></button>
+<div aria-hidden="true" class="modal fade" id="sosModal" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered"><div class="modal-content glass-modal">
+<div class="modal-body p-4 text-center" id="sosConfirmStep">
+<div class="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle" style="width:70px;height:70px;background:var(--secondary);"><i class="fa-solid fa-triangle-exclamation fs-2 text-danger"></i></div>
+<h5 class="fw-bold">Do you want to send an emergency SOS?</h5>
+<p class="text-ink-soft small">Your emergency contacts will be alerted. For immediate emergency services in India, call 112.</p>
+<div class="d-flex justify-content-center gap-3 mt-4"><button class="btn btn-outline-pink px-4" data-bs-dismiss="modal" id="sosCancelBtn" type="button">Cancel</button><button class="btn btn-danger-soft px-4" id="sosYesBtn" type="button">Yes, Send SOS</button></div>
+</div>
+<div class="modal-body p-4 text-center d-none" id="sosSuccessStep">
+<div class="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle" style="width:70px;height:70px;background:#e7f9ee;"><i class="fa-solid fa-circle-check fs-2 text-success"></i></div>
+<h5 class="fw-bold">Emergency Alert Recorded</h5><p class="text-ink-soft small mb-4">Your SOS event has been recorded. If you are in immediate danger, call 112 now.</p><div class="d-flex justify-content-center gap-2"><a class="btn btn-danger-soft" href="tel:112"><i class="fa-solid fa-phone me-1"></i>Call 112</a><button class="btn btn-pink" data-bs-dismiss="modal" type="button">Close</button></div>
+</div>
+</div></div>
+</div>
+<!-- YOGA SESSION SUMMARY & REAL-TIME AI ASSESSMENT MODAL -->
+<div class="modal fade" id="yogaSessionSummaryModal" tabindex="-1" aria-labelledby="yogaSessionSummaryLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content glass-modal border-0 shadow-lg rounded-4 overflow-hidden">
+      <div class="modal-header border-0 bg-white px-4 pt-4 pb-2">
+        <div class="d-flex align-items-center gap-3">
+          <div class="rounded-circle d-flex align-items-center justify-content-center text-white" style="width:48px;height:48px; background:linear-gradient(135deg, #ff4fa3, #ff7eb3);">
+            <i class="fa-solid fa-wand-magic-sparkles fs-5"></i>
+          </div>
+          <div>
+            <h5 class="modal-title fw-bold text-ink mb-0" id="yogaSessionSummaryLabel">Clinical Pose Session Summary</h5>
+            <small class="text-ink-soft">Computer-Vision Telemetry &amp; External AI Pose Assessment</small>
+          </div>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body px-4 py-3">
+        <!-- 4 Key Telemetry Cards -->
+        <div class="row g-3 mb-3">
+          <div class="col-6 col-md-3">
+            <div class="p-3 rounded-3 text-center" style="background:#fff5f9; border:1px solid #fbcfe8;">
+              <div class="text-muted text-uppercase" style="font-size:10px; font-weight:700;">Pose Practiced</div>
+              <div class="fw-bold text-ink text-truncate mt-1" id="summaryPoseName" style="font-size:13px;">Warrior II</div>
+              <div class="text-muted" style="font-size:10px;" id="summaryPoseSide">Right Side</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="p-3 rounded-3 text-center" style="background:#f0fdf4; border:1px solid #bbf7d0;">
+              <div class="text-muted text-uppercase" style="font-size:10px; font-weight:700;">Hold Duration</div>
+              <div class="fs-5 fw-bold text-success mt-1" id="summaryHoldDuration">15s</div>
+              <div class="text-muted" style="font-size:10px;" id="summaryTotalTime">Total: 25s</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="p-3 rounded-3 text-center" style="background:#fefce8; border:1px solid #fef08a;">
+              <div class="text-muted text-uppercase" style="font-size:10px; font-weight:700;">Average Form Score</div>
+              <div class="fs-5 fw-bold text-warning-emphasis mt-1" id="summaryAvgScore">94%</div>
+              <div class="text-muted" style="font-size:10px;" id="summaryBestScore">Best: 98%</div>
+            </div>
+          </div>
+          <div class="col-6 col-md-3">
+            <div class="p-3 rounded-3 text-center" style="background:#f5f3ff; border:1px solid #ddd6fe;">
+              <div class="text-muted text-uppercase" style="font-size:10px; font-weight:700;">Correction Alerts</div>
+              <div class="fs-5 fw-bold text-purple mt-1" id="summaryCorrectionCount">1</div>
+              <div class="text-muted" style="font-size:10px;">Interventions</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Detected Issues & Alignment Breakdown -->
+        <div class="card border-0 rounded-3 mb-3 p-3 shadow-xs" style="background:#fafafa; border:1px solid #eee !important;">
+          <h6 class="fw-bold small text-ink mb-2">
+            <i class="fa-solid fa-chart-line text-primary-pink me-1"></i>Biomechanical Alignment Observation
+          </h6>
+          <div id="summaryIssuesList" class="small text-ink-soft mb-2">
+            <span class="badge bg-success-subtle text-success border border-success-subtle me-1"><i class="fa-solid fa-check me-1"></i>Optimal Quadriceps &amp; Knee Alignment</span>
+            <span class="badge bg-secondary-subtle text-dark border me-1"><i class="fa-solid fa-circle-check me-1"></i>Arms Balanced with Shoulders</span>
+          </div>
+        </div>
+
+        <!-- External AI Clinical Assessment Card -->
+        <div class="card border-0 rounded-3 p-3 shadow-xs" style="background:linear-gradient(135deg, #fff7fa, #faf5ff); border:1.5px solid #fbcfe8 !important;">
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <div class="fw-bold small text-ink">
+              <i class="fa-solid fa-brain text-primary-pink me-1"></i>AI Form Assessment &amp; Clinical Recommendation
+            </div>
+            <span class="badge bg-primary-pink text-white rounded-pill px-2 py-1" style="font-size:10px;" id="summaryAiStatusBadge">
+              <i class="fa-solid fa-sparkles me-1"></i>AI Analyzing...
+            </span>
+          </div>
+          <div id="summaryAiExplanation" class="small text-ink" style="line-height:1.6; min-height:80px;">
+            <div class="d-flex align-items-center gap-2 text-muted py-3">
+              <span class="spinner-border spinner-border-sm text-primary-pink" role="status"></span>
+              Generating comprehensive posture assessment and personalized progression tips...
+            </div>
+          </div>
+          <div class="mt-2 pt-2 border-top border-pink-subtle d-flex align-items-center justify-content-between flex-wrap gap-2">
+            <small class="text-muted" style="font-size:10.5px;">
+              <i class="fa-solid fa-shield-halved me-1 text-primary-pink"></i>Medical Disclaimer: General fitness information only. Consult a doctor for clinical concerns.
+            </small>
+            <button class="btn btn-sm btn-outline-pink rounded-pill px-3 py-1" id="askAiFollowupBtn" type="button" style="font-size:11px;">
+              <i class="fa-solid fa-comment-medical me-1"></i>Ask AI Assistant
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer border-0 px-4 pb-4 pt-1 d-flex justify-content-between">
+        <button type="button" class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal">Close</button>
+        <div class="d-flex gap-2">
+          <button type="button" class="btn btn-outline-pink rounded-pill px-3" id="summaryPracticeAgainBtn">
+            <i class="fa-solid fa-rotate-left me-1"></i>Practice Again
+          </button>
+          <button type="button" class="btn btn-pink rounded-pill px-4" id="summaryNextPoseBtn">
+            Next Pose <i class="fa-solid fa-arrow-right ms-1"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<link rel="icon" type="image/jpeg" href="assets/images/shecares-logo.jpg">
+<script src="js/splash.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login — SHECARES</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
+<link href="css/style.css" rel="stylesheet"/>
+<style>
+  body{ overflow:hidden; }
+  .login-shell{ min-height:100vh; display:flex; }
+  .login-visual{
+    position:relative; flex:1.1; display:none;
+    background-image: url('assets/images/login-bg.jpg');
+    background-size: cover; background-position: center;
+  }
+  .login-visual::after{
+    content:""; position:absolute; inset:0;
+    background: linear-gradient(180deg, rgba(58,16,48,.05) 0%, rgba(58,16,48,.55) 100%);
+  }
+  .login-visual-content{ position:absolute; left:0; right:0; bottom:0; padding: 3rem; color:#fff; z-index:2; }
+  @media (min-width: 992px){ .login-visual{ display:block; } }
+  .login-form-side{
+    flex:1; display:flex; align-items:center; justify-content:center;
+    padding: 2rem; overflow-y:auto; max-height:100vh;
+  }
+  .login-box{ width:100%; max-width: 420px; }
+  .divider-text{ display:flex; align-items:center; gap:.8rem; color: var(--ink-soft); font-size:.8rem; margin: 1.2rem 0; }
+  .divider-text::before, .divider-text::after{ content:""; flex:1; height:1px; background: var(--secondary); }
+  .social-btn{
+    border: 1.5px solid var(--secondary); border-radius: var(--radius-sm); padding:.6rem;
+    background:#fff; display:flex; align-items:center; justify-content:center; gap:.5rem; font-weight:500; font-size:.88rem;
+    transition: all .2s ease; color: var(--ink); flex:1;
+  }
+  .social-btn:hover{ border-color: var(--primary); transform: translateY(-2px); }
+  .pass-toggle{ cursor:pointer; }
+  .method-tabs{ display:flex; gap:.5rem; margin-bottom:1.2rem; }
+  .method-tab{
+    flex:1; text-align:center; padding:.5rem; border-radius: 999px; font-size:.82rem; font-weight:600;
+    border: 1.5px solid var(--secondary); background:#fff; color: var(--ink-soft); cursor:pointer; transition: all .2s ease;
+  }
+  .method-tab.active{ background: var(--secondary); color: var(--primary-dark); border-color: var(--primary); }
+  .method-panel{ display:none; }
+  .method-panel.active{ display:block; }
+  .alert-inline{ font-size:.82rem; border-radius: var(--radius-sm); padding:.6rem .9rem; }
+  .otp-input{ letter-spacing: .4em; font-weight:700; text-align:center; }
+  .success-screen{ text-align:center; }
+  .success-icon{ width:64px; height:64px; border-radius:50%; background:#e7f9ee; display:flex; align-items:center; justify-content:center; margin: 0 auto 1rem; }
+  .lang-switcher{
+    position: fixed; top: 16px; right: 16px; z-index: 50;
+  }
+  .lang-switcher select{
+    border: 1.5px solid var(--secondary); border-radius: 999px; padding: .4rem 2rem .4rem .9rem;
+    background: rgba(255,255,255,.9); color: var(--ink); font-weight:600; font-size:.82rem;
+    box-shadow: var(--shadow-soft); cursor:pointer;
+  }
+  html[dir="rtl"] .lang-switcher{ right:auto; left:16px; }
+</style>
+</head>
+<body>
+<div class="petal-field"></div>
+<div class="lang-switcher">
+<select aria-label="Choose language" id="langSelect">
+<option value="en">🌐 English</option>
+<option value="es">🌐 Español</option>
+<option value="fr">🌐 Français</option>
+<option value="hi">🌐 हिन्दी</option>
+<option value="ar">🌐 العربية</option>
+<option value="zh">🌐 中文</option>
+</select>
+</div>
+<div class="login-shell">
+<!-- Visual side: uploaded reference photo -->
+<div class="login-visual fade-in-up in-view">
+<div class="login-visual-content">
+<a class="d-inline-flex align-items-center gap-2 mb-4 text-decoration-none" href="index.html">
+<span class="brand-badge">SH</span>
+<span class="fw-bold fs-5" style="color:#fff;">SHECARES</span>
+</a>
+<h2 class="fw-bold mb-2" data-i18n="hero_title">Your Complete Wellness Companion</h2>
+<p class="mb-0" data-i18n="hero_subtitle" style="color:#f3d5e6; max-width:420px;">AI-powered healthcare support for pregnancy, periods, mental wellness, diabetes management, and more — all in one place.</p>
+</div>
+</div>
+<!-- Form side -->
+<div class="login-form-side">
+<div class="login-box fade-in-up in-view">
+<div id="recaptcha-container" aria-hidden="true"></div>
+<a class="d-inline-flex align-items-center gap-2 mb-4 text-decoration-none d-lg-none" href="index.html">
+<span class="brand-badge">SH</span>
+<span class="fw-bold fs-5 text-primary-pink">SHECARES</span>
+</a>
+<ul class="nav nav-pills mb-4 gap-2" id="authTabs">
+<li class="nav-item flex-fill">
+<button class="nav-link w-100 active rounded-pill" data-bs-target="#loginPane" data-bs-toggle="pill" data-i18n="tab_login" type="button">Log In</button>
+</li>
+<li class="nav-item flex-fill">
+<button class="nav-link w-100 rounded-pill" data-bs-target="#signupPane" data-bs-toggle="pill" data-i18n="tab_signup" type="button">Sign Up</button>
+</li>
+</ul>
+<div class="tab-content">
+<!-- LOGIN -->
+<div class="tab-pane fade show active" id="loginPane">
+<!-- Login form step -->
+<div id="loginFormStep">
+<h4 class="fw-bold mb-1" data-i18n="welcome_back">Welcome back</h4>
+<p class="text-ink-soft small mb-3" data-i18n="login_subtitle">Log in to continue your wellness journey.</p>
+<div class="method-tabs">
+<div class="method-tab active" data-i18n="method_otp" data-method="mobile">Email OTP</div>
+<div class="method-tab" data-i18n="method_email" data-method="email">Email &amp; Password</div>
+</div>
+<div class="alert alert-danger alert-inline d-none" id="loginError"></div>
+<!-- Email OTP login (Default - Universal Access) -->
+<div class="method-panel active" id="mobileLoginPanel">
+<form id="mobileLoginForm" novalidate="">
+<label class="form-label-pink" data-i18n="email_label" for="loginMobile">Email Address</label>
+<div class="d-flex gap-2 mb-3">
+<input class="form-control form-control-pink" id="loginMobile" placeholder="Enter any email (e.g. you@gmail.com)" required="" type="email"/>
+<button class="btn btn-outline-pink ripple text-nowrap" data-i18n="send_otp" id="sendOtpBtn" type="button">Send OTP</button>
+</div>
+<div class="d-none" id="otpBlock">
+<label class="form-label-pink" data-i18n="enter_otp" for="otpInput">Enter 6-Digit Email Code</label>
+<input class="form-control form-control-pink otp-input mb-2" id="otpInput" maxlength="6" placeholder="••••••" type="text" inputmode="numeric"/>
+<p class="small text-ink-soft mb-3" id="otpHint"></p>
+<button class="btn btn-pink ripple w-100" data-i18n="verify_login" type="submit">Verify &amp; Log In</button>
+</div>
+</form>
+</div>
+<!-- Email + password login (Secondary) -->
+<div class="method-panel" id="emailLoginPanel">
+<form id="loginForm" novalidate="">
+<label class="form-label-pink" data-i18n="email_label" for="loginEmail">Email Address</label>
+<input class="form-control form-control-pink mb-3" data-i18n-ph="email_placeholder" id="loginEmail" placeholder="you@example.com" required="" type="email"/>
+<label class="form-label-pink" data-i18n="password_label" for="loginPassword">Password</label>
+<div class="position-relative mb-2">
+<input class="form-control form-control-pink" data-i18n-ph="password_placeholder" id="loginPassword" placeholder="Enter your password" required="" type="password"/>
+<i class="fa-solid fa-eye pass-toggle position-absolute text-ink-soft" data-target="loginPassword" style="right:14px; top:50%; transform:translateY(-50%);"></i>
+</div>
+<div class="d-flex justify-content-between align-items-center mb-3">
+<div class="form-check">
+<input class="form-check-input" id="rememberMe" type="checkbox"/>
+<label class="form-check-label small text-ink-soft" data-i18n="remember_me" for="rememberMe">Remember me</label>
+</div>
+<a class="small" data-i18n="forgot_password" href="forgot-password.html">Forgot password?</a>
+</div>
+<button class="btn btn-pink ripple w-100" data-i18n="login_btn" type="submit">Log In</button>
+</form>
+</div>
+<div class="divider-text" data-i18n="or_continue_with">or continue with</div>
+<div class="d-flex gap-2">
+<button class="social-btn" type="button"><i class="fa-brands fa-google" style="color:#ea4335;"></i> Google</button>
+<button class="social-btn" type="button"><i class="fa-brands fa-apple"></i> Apple</button>
+</div>
+</div>
+<!-- Login success step -->
+<div class="success-screen d-none" id="loginSuccessStep">
+<div class="success-icon"><i class="fa-solid fa-circle-check fs-2 text-success"></i></div>
+<h5 class="fw-bold mb-1"><span data-i18n="welcome_back_comma">Welcome back,</span> <span id="loginSuccessName">there</span>!</h5>
+<p class="text-ink-soft small mb-4" data-i18n="logged_in_msg">You're logged in. Continue whenever you're ready.</p>
+<a class="btn btn-pink ripple w-100" href="index.html"><span data-i18n="get_started">Get Started</span> <i class="fa-solid fa-arrow-right ms-1"></i></a>
+</div>
+</div>
+<!-- SIGNUP -->
+<div class="tab-pane fade" id="signupPane">
+<div id="signupFormStep">
+<h4 class="fw-bold mb-1" data-i18n="create_account_title">Create your account</h4>
+<p class="text-ink-soft small mb-4" data-i18n="create_account_subtitle">Start your wellness journey with SHECARES.</p>
+<div class="alert alert-danger alert-inline d-none" id="signupError"></div>
+<form id="signupForm" novalidate="">
+<label class="form-label-pink" data-i18n="full_name_label" for="signupName">Full Name</label>
+<input class="form-control form-control-pink mb-3" data-i18n-ph="full_name_placeholder" id="signupName" placeholder="Your name" required="" type="text"/>
+<label class="form-label-pink" data-i18n="email_label" for="signupEmail">Email Address</label>
+<input class="form-control form-control-pink mb-3" data-i18n-ph="email_placeholder" id="signupEmail" placeholder="you@example.com" required="" type="email"/>
+<label class="form-label-pink" data-i18n="mobile_label" for="signupMobile">Mobile Number</label>
+<input class="form-control form-control-pink mb-3" id="signupMobile" placeholder="e.g. +91 98765 43210" required="" type="tel"/>
+<label class="form-label-pink" data-i18n="password_label" for="signupPassword">Password</label>
+<div class="position-relative mb-3">
+<input class="form-control form-control-pink" data-i18n-ph="create_password_placeholder" id="signupPassword" minlength="6" placeholder="Create a password" required="" type="password"/>
+<i class="fa-solid fa-eye pass-toggle position-absolute text-ink-soft" data-target="signupPassword" style="right:14px; top:50%; transform:translateY(-50%);"></i>
+</div>
+<div class="form-check mb-3">
+<input class="form-check-input" id="agreeTerms" required="" type="checkbox"/>
+<label class="form-check-label small text-ink-soft" data-i18n="agree_terms" for="agreeTerms">I agree to the Terms &amp; Privacy Policy</label>
+</div>
+<button class="btn btn-pink ripple w-100" data-i18n="create_account_btn" type="submit">Create Account</button>
+</form>
+</div>
+<div class="d-none" id="signupOtpStep">
+  <h5 class="fw-bold mb-1">Verify your email</h5>
+  <p class="text-ink-soft small mb-3">Enter the verification code sent to your email address. Your phone number is saved with your account and does not require OTP verification.</p>
+  <div class="alert alert-info alert-inline" id="signupOtpStatus">Email code expires in 10 minutes.</div>
+  <label class="form-label-pink" for="signupEmailOtp">Email Verification Code</label>
+  <input class="form-control form-control-pink otp-input mb-2" id="signupEmailOtp" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="6-digit email code">
+  <button class="btn btn-outline-pink ripple w-100 mb-3" id="verifyEmailOtpBtn" type="button">Verify Email</button>
+  <button class="btn btn-pink ripple w-100" id="completeSignupBtn" type="button" disabled>Create Verified Account</button>
+</div>
+<div class="success-screen d-none" id="signupSuccessStep">
+<div class="success-icon"><i class="fa-solid fa-circle-check fs-2 text-success"></i></div>
+<h5 class="fw-bold mb-1" data-i18n="account_created">Account created!</h5>
+<p class="text-ink-soft small mb-4" data-i18n="account_created_subtitle">Let's set up your health profile so every module can personalize itself for you.</p>
+<a class="btn btn-pink ripple w-100" href="onboarding.html"><span data-i18n="setup_health_profile">Set Up Health Profile</span> <i class="fa-solid fa-arrow-right ms-1"></i></a>
+<a class="d-block text-center small text-ink-soft mt-3" data-i18n="skip_for_now" href="dashboard.html">Skip for now</a>
+</div>
+</div>
+</div>
+<p class="text-center text-ink-soft small mt-4 mb-0"><a href="index.html"><i class="fa-solid fa-arrow-left me-1"></i><span data-i18n="back_to_home">Back to home</span></a></p>
+</div>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="js/runtime-config.js"></script><script src="js/api.js"></script><script src="js/script.js"></script>
+<script>
+(function(){
+  // ---- Language switcher ----
+  const translations = {
+    en: {
+      hero_title: "Your Complete Wellness Companion",
+      hero_subtitle: "AI-powered healthcare support for pregnancy, periods, mental wellness, diabetes management, and more — all in one place.",
+      tab_login: "Log In", tab_signup: "Sign Up",
+      welcome_back: "Welcome back", login_subtitle: "Log in to continue your wellness journey.",
+      method_email: "Email & Password", method_otp: "Email OTP",
+      email_label: "Email Address", email_placeholder: "you@example.com",
+      password_label: "Password", password_placeholder: "Enter your password",
+      remember_me: "Remember me", forgot_password: "Forgot password?", login_btn: "Log In",
+      mobile_label: "Mobile Number", send_otp: "Send OTP", enter_otp: "Enter OTP", verify_login: "Verify & Log In",
+      or_continue_with: "or continue with",
+      welcome_back_comma: "Welcome back,", logged_in_msg: "You're logged in. Continue whenever you're ready.", get_started: "Get Started",
+      create_account_title: "Create your account", create_account_subtitle: "Start your wellness journey with SHECARES.",
+      full_name_label: "Full Name", full_name_placeholder: "Your name",
+      create_password_placeholder: "Create a password",
+      agree_terms: "I agree to the Terms & Privacy Policy", create_account_btn: "Create Account",
+      account_created: "Account created!", account_created_subtitle: "Let's set up your health profile so every module can personalize itself for you.",
+      setup_health_profile: "Set Up Health Profile", skip_for_now: "Skip for now", back_to_home: "Back to home"
+    },
+    es: {
+      hero_title: "Tu compañera integral de bienestar",
+      hero_subtitle: "Apoyo de salud con IA para embarazo, periodos, bienestar mental, manejo de diabetes y más, todo en un solo lugar.",
+      tab_login: "Iniciar Sesión", tab_signup: "Registrarse",
+      welcome_back: "Bienvenida de nuevo", login_subtitle: "Inicia sesión para continuar tu camino de bienestar.",
+      method_email: "Correo y Contraseña", method_otp: "OTP de Correo",
+      email_label: "Correo Electrónico", email_placeholder: "tu@ejemplo.com",
+      password_label: "Contraseña", password_placeholder: "Ingresa tu contraseña",
+      remember_me: "Recuérdame", forgot_password: "¿Olvidaste tu contraseña?", login_btn: "Iniciar Sesión",
+      mobile_label: "Número Móvil", send_otp: "Enviar OTP", enter_otp: "Entrez l'OTP", verify_login: "Verificar e Iniciar Sesión",
+      or_continue_with: "o continuar con",
+      welcome_back_comma: "Bienvenida de nuevo,", logged_in_msg: "Has iniciado sesión. Continúa cuando estés lista.", get_started: "Comenzar",
+      create_account_title: "Crea tu cuenta", create_account_subtitle: "Comienza tu viaje de bienestar con SHECARES.",
+      full_name_label: "Nombre completo", full_name_placeholder: "Tu nombre",
+      create_password_placeholder: "Crea una contraseña",
+      agree_terms: "Acepto los Términos y la Política de Privacidad", create_account_btn: "Crear Cuenta",
+      account_created: "¡Cuenta creada!", account_created_subtitle: "Configuremos tu perfil de salud para que cada módulo se adapte a ti.",
+      setup_health_profile: "Configurar Perfil de Salud", skip_for_now: "Omitir por ahora", back_to_home: "Volver al inicio"
+    },
+    fr: {
+      hero_title: "Votre compagne bien-être complète",
+      hero_subtitle: "Soutien de santé par IA pour la grossesse, les règles, le bien-être mental, le diabète et plus, réunis en un seul endroit.",
+      tab_login: "Connexion", tab_signup: "Inscription",
+      welcome_back: "Bon retour", login_subtitle: "Connectez-vous pour poursuivre votre parcours de bien-être.",
+      method_email: "E-mail & Mot de passe", method_otp: "OTP E-mail",
+      email_label: "Adresse E-mail", email_placeholder: "vous@exemple.com",
+      password_label: "Mot de passe", password_placeholder: "Entrez votre mot de passe",
+      remember_me: "Se souvenir de moi", forgot_password: "Mot de passe oublié ?", login_btn: "Se Connecter",
+      mobile_label: "Numéro Mobile", send_otp: "Envoyer OTP", enter_otp: "Entrez l'OTP", verify_login: "Vérifier et se connecter",
+      or_continue_with: "ou continuer avec",
+      welcome_back_comma: "Bon retour,", logged_in_msg: "Vous êtes connectée. Continuez quand vous êtes prête.", get_started: "Commencer",
+      create_account_title: "Créez votre compte", create_account_subtitle: "Commencez votre parcours bien-être avec SHECARES.",
+      full_name_label: "Nom complet", full_name_placeholder: "Votre nom",
+      create_password_placeholder: "Créez un mot de passe",
+      agree_terms: "J'accepte les Conditions et la Politique de confidentialité", create_account_btn: "Créer un compte",
+      account_created: "Compte créé !", account_created_subtitle: "Configurons votre profil de santé afin que chaque module se personnalise pour vous.",
+      setup_health_profile: "Configurer le profil de santé", skip_for_now: "Passer pour l'instant", back_to_home: "Retour à l'accueil"
+    },
+    hi: {
+      hero_title: "आपकी संपूर्ण वेलनेस साथी",
+      hero_subtitle: "गर्भावस्था, पीरियड्स, मानसिक स्वास्थ्य, डायबिटीज़ प्रबंधन और अधिक के लिए AI-संचालित स्वास्थ्य सहायता — सब एक ही जगह।",
+      tab_login: "लॉग इन करें", tab_signup: "साइन अप करें",
+      welcome_back: "वापसी पर स्वागत है", login_subtitle: "अपनी वेलनेस यात्रा जारी रखने के लिए लॉग इन करें।",
+      method_email: "ईमेल और पासवर्ड", method_otp: "ईमेल OTP",
+      email_label: "ईमेल पता", email_placeholder: "aap@udaharan.com",
+      password_label: "पासवर्ड", password_placeholder: "अपना पासवर्ड डालें",
+      remember_me: "मुझे याद रखें", forgot_password: "पासवर्ड भूल गए?", login_btn: "लॉग इन करें",
+      mobile_label: "मोबाइल नंबर", send_otp: "OTP भेजें", enter_otp: "OTP दर्ज करें", verify_login: "सत्यापित करें और लॉग इन करें",
+      or_continue_with: "या इसके साथ जारी रखें",
+      welcome_back_comma: "वापसी पर स्वागत है,", logged_in_msg: "आप लॉग इन हैं। जब चाहें आगे बढ़ें।", get_started: "शुरू करें",
+      create_account_title: "अपना खाता बनाएं", create_account_subtitle: "SHECARES के साथ अपनी वेलनेस यात्रा शुरू करें।",
+      full_name_label: "पूरा नाम", full_name_placeholder: "आपका नाम",
+      create_password_placeholder: "एक पासवर्ड बनाएं",
+      agree_terms: "मैं नियम और गोपनीयता नीति से सहमत हूं", create_account_btn: "खाता बनाएं",
+      account_created: "खाता बन गया!", account_created_subtitle: "आइए आपकी स्वास्थ्य प्रोफ़ाइल सेट करें ताकि हर मॉड्यूल आपके लिए निजीकृत हो सके।",
+      setup_health_profile: "स्वास्थ्य प्रोफ़ाइल सेट करें", skip_for_now: "अभी के लिए छोड़ें", back_to_home: "होम पर वापस जाएं"
+    },
+    ar: {
+      hero_title: "رفيقتكِ الشاملة للعافية",
+      hero_subtitle: "دعم صحي مدعوم بالذكاء الاصطناعي للحمل والدورة الشهرية والصحة النفسية وإدارة السكري وأكثر — كل ذلك في مكان واحد.",
+      tab_login: "تسجيل الدخول", tab_signup: "إنشاء حساب",
+      welcome_back: "مرحبًا بعودتك", login_subtitle: "سجّلي الدخول لمتابعة رحلتك الصحية.",
+      method_email: "البريد وكلمة المرور", method_otp: "رمز البريد",
+      email_label: "البريد الإلكتروني", email_placeholder: "you@example.com",
+      password_label: "كلمة المرور", password_placeholder: "أدخلي كلمة المرور",
+      remember_me: "تذكرني", forgot_password: "نسيت كلمة المرور؟", login_btn: "تسجيل الدخول",
+      mobile_label: "رقم الجوال", send_otp: "إرسال رمز التحقق", enter_otp: "أدخلي رمز التحقق", verify_login: "تحقق وسجّلي الدخول",
+      or_continue_with: "أو تابعي باستخدام",
+      welcome_back_comma: "مرحبًا بعودتك،", logged_in_msg: "تم تسجيل دخولك. تابعي متى شئتِ.", get_started: "ابدئي الآن",
+      create_account_title: "أنشئي حسابك", create_account_subtitle: "ابدئي رحلتك الصحية مع SHECARES.",
+      full_name_label: "الاسم الكامل", full_name_placeholder: "اسمك",
+      create_password_placeholder: "أنشئي كلمة مرور",
+      agree_terms: "أوافق على الشروط وسياسة الخصوصية", create_account_btn: "إنشاء حساب",
+      account_created: "تم إنشاء الحساب!", account_created_subtitle: "لنقم بإعداد ملفك الصحي حتى تتمكن كل وحدة من التخصيص لكِ.",
+      setup_health_profile: "إعداد الملف الصحي", skip_for_now: "تخطي الآن", back_to_home: "العودة للرئيسية"
+    },
+    zh: {
+      hero_title: "您的全方位健康伴侣",
+      hero_subtitle: "由人工智能驱动的健康支持，涵盖孕期护理、经期跟踪、心理健康、糖尿病管理等——一站式服务。",
+      tab_login: "登录", tab_signup: "注册",
+      welcome_back: "欢迎回来", login_subtitle: "登录以继续您的健康之旅。",
+      method_email: "邮箱与密码", method_otp: "邮箱验证码",
+      email_label: "电子邮箱", email_placeholder: "you@example.com",
+      password_label: "密码", password_placeholder: "请输入密码",
+      remember_me: "记住我", forgot_password: "忘记密码？", login_btn: "登录",
+      mobile_label: "手机号码", send_otp: "发送验证码", enter_otp: "输入验证码", verify_login: "验证并登录",
+      or_continue_with: "或使用以下方式继续",
+      welcome_back_comma: "欢迎回来，", logged_in_msg: "您已登录，可随时继续。", get_started: "开始使用",
+      create_account_title: "创建您的账户", create_account_subtitle: "与 SHECARES 一起开始您的健康之旅。",
+      full_name_label: "姓名", full_name_placeholder: "您的姓名",
+      create_password_placeholder: "创建密码",
+      agree_terms: "我同意条款和隐私政策", create_account_btn: "创建账户",
+      account_created: "账户创建成功！", account_created_subtitle: "让我们设置您的健康档案，以便每个模块都能为您个性化。",
+      setup_health_profile: "设置健康档案", skip_for_now: "暂时跳过", back_to_home: "返回首页"
+    }
+  };
+
+  function applyLanguage(lang){
+    const dict = translations[lang] || translations.en;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if(dict[key]) el.textContent = dict[key];
+    });
+    document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+      const key = el.dataset.i18nPh;
+      if(dict[key]) el.setAttribute('placeholder', dict[key]);
+    });
+    document.documentElement.setAttribute('lang', lang);
+    document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+    localStorage.setItem('sc_lang', lang);
+  }
+
+  const langSelect = document.getElementById('langSelect');
+  const savedLang = localStorage.getItem('sc_lang') || 'en';
+  langSelect.value = savedLang;
+  applyLanguage(savedLang);
+  langSelect.addEventListener('change', () => applyLanguage(langSelect.value));
+
+  // ---- Backend authentication + Firebase Phone Authentication ----
+  const firebaseConfig = window.SHECARE_FIREBASE_CONFIG;
+  let firebaseApp = null;
+  let firebaseAuth = null;
+  let recaptchaVerifier = null;
+  let loginPhoneConfirmation = null;
+
+  try {
+    if (firebaseConfig?.apiKey && firebaseConfig?.authDomain && firebaseConfig?.projectId) {
+      firebaseApp = firebase.initializeApp(firebaseConfig);
+      firebaseAuth = firebase.auth();
+    }
+  } catch (err) {
+    console.warn('Firebase initialization note:', err.message);
+  }
+
+  function normalizePhoneClient(value) {
+    const raw = String(value || '').trim().replace(/[()\s-]/g, '');
+    if (/^\d{10}$/.test(raw)) return `+91${raw}`;
+    if (/^\+\d{10,15}$/.test(raw)) return raw;
+    if (raw.includes('@')) return raw;
+    throw new Error('Enter a valid phone number (e.g. +91 9876543210) or registered email.');
+  }
+
+  function clearRecaptcha() {
+    if (recaptchaVerifier) {
+      try { recaptchaVerifier.clear(); } catch {}
+      recaptchaVerifier = null;
+    }
+  }
+
+  function getRecaptchaVerifier() {
+    if (!firebaseAuth) return null;
+    if (recaptchaVerifier) return recaptchaVerifier;
+    const container = document.getElementById('recaptcha-container');
+    if (!container) return null;
+    recaptchaVerifier = new firebase.auth.RecaptchaVerifier(container, {
+      size: 'invisible',
+      callback: () => {},
+      'expired-callback': () => { clearRecaptcha(); }
+    });
+    return recaptchaVerifier;
+  }
+
+  async function sendFirebasePhoneOtp(phone) {
+    const normalized = normalizePhoneClient(phone);
+    if (!firebaseAuth) throw new Error('Firebase Phone Authentication is not configured.');
+    const verifier = getRecaptchaVerifier();
+    if (!verifier) throw new Error('Recaptcha verifier not available.');
+    return await firebaseAuth.signInWithPhoneNumber(normalized, verifier);
+  }
+
+  async function firebaseConfirmCode(confirmationResult, code) {
+    const clean = String(code || '').trim();
+    if (!/^\d{4,10}$/.test(clean)) throw new Error('Enter the 6-digit verification code.');
+    const credentialResult = await confirmationResult.confirm(clean);
+    const idToken = await credentialResult.user.getIdToken(true);
+    return { idToken, user: credentialResult.user };
+  }
+
+  async function signOutFirebaseQuietly() {
+    if (!firebaseAuth) return;
+    try { await firebaseAuth.signOut(); } catch {}
+    clearRecaptcha();
+  }
+
+  if (window.SheCareAPI) {
+    window.SheCareAPI.me().then(() => { window.location.href = 'dashboard.html'; }).catch(() => {});
+  }
+
+  function showError(id, message){
+    const el=document.getElementById(id);
+    if(el){el.textContent=message;el.classList.remove('d-none');}
+  }
+
+  function showLoginSuccess(user){
+    document.getElementById('loginFormStep').classList.add('d-none');
+    document.getElementById('loginSuccessStep').classList.remove('d-none');
+    document.getElementById('loginSuccessName').textContent=(user?.name||'there').split(' ')[0];
+    setTimeout(()=>location.href='dashboard.html',700);
+  }
+
+  document.querySelectorAll('.pass-toggle').forEach(icon=>icon.addEventListener('click',()=>{
+    const input=document.getElementById(icon.dataset.target);
+    const show=input.type==='password';
+    input.type=show?'text':'password';
+    icon.classList.toggle('fa-eye',!show);
+    icon.classList.toggle('fa-eye-slash',show);
+  }));
+
+  document.querySelectorAll('.method-tab').forEach(tab=>tab.addEventListener('click',()=>{
+    document.querySelectorAll('.method-tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.method-panel').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.method+'LoginPanel').classList.add('active');
+  }));
+
+  document.getElementById('loginForm').addEventListener('submit',async e=>{
+    e.preventDefault();
+    const btn=e.submitter;
+    if(btn) btn.disabled=true;
+    document.getElementById('loginError').classList.add('d-none');
+    try{
+      const r=await SheCareAPI.login({
+        email:document.getElementById('loginEmail').value,
+        password:document.getElementById('loginPassword').value
+      });
+      showLoginSuccess(r.user);
+    }catch(err){
+      showError('loginError',err.message);
+    }finally{
+      if(btn) btn.disabled=false;
+    }
+  });
+
+  let signupChallengeId = null;
+  let emailVerified = false;
+
+  // Email OTP login: Dispatches 6-digit OTP code directly to user's registered email
+  document.getElementById('sendOtpBtn')?.addEventListener('click',async()=>{
+    const btn=document.getElementById('sendOtpBtn');
+    const email=document.getElementById('loginMobile').value.trim();
+    if(!email) {
+      showError('loginError', 'Please enter your registered email address.');
+      return;
+    }
+    btn.disabled=true;
+    document.getElementById('loginError').classList.add('d-none');
+    try{
+      const res = await SheCareAPI.sendLoginOtp(email);
+      document.getElementById('otpBlock').classList.remove('d-none');
+      const otpCode = res.devCode || res.code;
+      if (otpCode) {
+        document.getElementById('otpHint').innerHTML = `<span class="text-success"><i class="fa-solid fa-circle-check"></i> Verification code generated: <strong>${otpCode}</strong></span>`;
+        // Auto-fill for convenience if desired or let user type it
+        const otpIn = document.getElementById('otpInput');
+        if (!otpIn.value) otpIn.value = otpCode;
+      } else {
+        document.getElementById('otpHint').textContent = res.message || 'Verification code sent to your registered email. Check your inbox.';
+      }
+    }catch(err){
+      showError('loginError', err.message || 'Could not send verification code.');
+    }finally{
+      btn.disabled=false;
+    }
+  });
+
+  document.getElementById('mobileLoginForm').addEventListener('submit',async e=>{
+    e.preventDefault();
+    const btn=e.submitter;
+    if(btn) btn.disabled=true;
+    document.getElementById('loginError').classList.add('d-none');
+    const email=document.getElementById('loginMobile').value.trim();
+    const code=document.getElementById('otpInput').value.trim();
+    if(!code){
+      showError('loginError', 'Please enter the 6-digit verification code.');
+      if(btn) btn.disabled=false;
+      return;
+    }
+    try{
+      const r = await SheCareAPI.verifyLoginOtp({ email, code });
+      showLoginSuccess(r.user);
+    }catch(err){
+      showError('loginError', err.message || 'The verification code is incorrect or expired.');
+    }finally{
+      if(btn) btn.disabled=false;
+    }
+  });
+
+  // Signup: backend creates pending record and sends email verification code.
+  // Phone number is collected and saved with the profile (no SMS OTP required for signup).
+  document.getElementById('signupForm').addEventListener('submit',async e=>{
+    e.preventDefault();
+    const btn=e.submitter;
+    if(btn) btn.disabled=true;
+    document.getElementById('signupError').classList.add('d-none');
+    try{
+      const rawPhone = document.getElementById('signupMobile').value.trim();
+      let normalizedPhone = null;
+      if (rawPhone) {
+        try {
+          normalizedPhone = normalizePhoneClient(rawPhone);
+        } catch {
+          normalizedPhone = rawPhone;
+        }
+      }
+
+      const r = await SheCareAPI.registerStart({
+        name: document.getElementById('signupName').value,
+        email: document.getElementById('signupEmail').value,
+        phone: normalizedPhone,
+        password: document.getElementById('signupPassword').value
+      });
+
+      signupChallengeId = r.challengeId;
+
+      document.getElementById('signupFormStep').classList.add('d-none');
+      document.getElementById('signupOtpStep').classList.remove('d-none');
+      document.getElementById('signupOtpStatus').textContent = 'Verification code sent to your email. Check your inbox to activate your account.';
+    }catch(err){
+      showError('signupError', err.message);
+    }finally{
+      if(btn) btn.disabled=false;
+    }
+  });
+
+  document.getElementById('verifyEmailOtpBtn').addEventListener('click',async()=>{
+    const btn=document.getElementById('verifyEmailOtpBtn');
+    const code=document.getElementById('signupEmailOtp').value.trim();
+    if(!code){
+      document.getElementById('signupOtpStatus').textContent = 'Please enter the 6-digit verification code.';
+      return;
+    }
+    btn.disabled=true;
+    try{
+      await SheCareAPI.verifyEmailOtp(signupChallengeId, code);
+      emailVerified = true;
+      btn.textContent = 'Email Verified ✓';
+      document.getElementById('signupOtpStatus').className = 'alert alert-success alert-inline';
+      document.getElementById('signupOtpStatus').textContent = 'Email verified successfully! Setting up your account...';
+      document.getElementById('completeSignupBtn').disabled = false;
+
+      // Auto-complete and redirect
+      setTimeout(async () => {
+        try {
+          await SheCareAPI.completeRegistration(signupChallengeId);
+        } catch {}
+        document.getElementById('signupOtpStep').classList.add('d-none');
+        document.getElementById('signupSuccessStep').classList.remove('d-none');
+        setTimeout(() => location.href = 'onboarding.html', 700);
+      }, 600);
+    }catch(err){
+      document.getElementById('signupOtpStatus').className = 'alert alert-danger alert-inline';
+      document.getElementById('signupOtpStatus').textContent = err.message;
+      btn.disabled=false;
+    }
+  });
+
+  document.getElementById('completeSignupBtn').addEventListener('click',async()=>{
+    const btn=document.getElementById('completeSignupBtn');
+    btn.disabled=true;
+    try{
+      await SheCareAPI.completeRegistration(signupChallengeId);
+      document.getElementById('signupOtpStep').classList.add('d-none');
+      document.getElementById('signupSuccessStep').classList.remove('d-none');
+      setTimeout(()=>location.href='onboarding.html',700);
+    }catch(err){
+      document.getElementById('signupOtpStatus').textContent=err.message;
+      btn.disabled=false;
+    }
+  });
+})();
+</script>
+</body>
+</html>

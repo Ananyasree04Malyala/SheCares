@@ -1,0 +1,1820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" type="image/jpeg" href="../assets/images/shecares-logo.jpg">
+<script src="../js/splash.js"></script>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Nearby Hospitals &amp; Specialists — SHECARES</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+  <link href="../css/style.css" rel="stylesheet"/>
+  <style>
+    .hosp-hero {
+      background: linear-gradient(135deg, #fff2f7 0%, #fde2ed 100%);
+      border-radius: 28px;
+      padding: 32px;
+      border: 1px solid #f8d2e3;
+    }
+    .spec-chip {
+      background: #fff;
+      border: 1px solid #f4c2da;
+      color: #7a5568;
+      border-radius: 999px;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .spec-chip:hover {
+      border-color: #ff4fa3;
+      color: #ff4fa3;
+      transform: translateY(-1px);
+    }
+    .spec-chip.active {
+      background: #ff4fa3;
+      color: #fff;
+      border-color: #ff4fa3;
+      box-shadow: 0 4px 14px rgba(255, 79, 163, 0.35);
+    }
+    .hospital-card, .visit-card {
+      background: #fff;
+      border: 1px solid #f6d0e2;
+      border-radius: 20px;
+      padding: 22px;
+      transition: transform .2s ease, box-shadow .2s ease;
+      box-shadow: 0 6px 20px rgba(232, 62, 131, 0.06);
+    }
+    .hospital-card:hover, .visit-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(232, 62, 131, 0.12);
+      border-color: #ff4fa3;
+    }
+    .hosp-icon-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: #fce7f1;
+      color: #e83e83;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+    #hospitalMap {
+      height: 480px;
+      min-height: 480px;
+      width: 100%;
+      border-radius: 22px;
+      border: 1px solid #f6d0e2;
+      z-index: 1;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+      background: #fdf2f7;
+      overflow: hidden;
+      position: relative;
+    }
+    #hospitalMap img.leaflet-tile {
+      max-width: none !important;
+      max-height: none !important;
+    }
+    .leaflet-container {
+      font-family: 'Poppins', sans-serif !important;
+      border-radius: 22px;
+      overflow: hidden;
+    }
+    .hospital-marker, .user-gps-marker {
+      background: transparent !important;
+      border: none !important;
+    }
+    .doctor-pill {
+      background: #fdf2f7;
+      border: 1px solid #fad0e4;
+      border-radius: 10px;
+      padding: 6px 12px;
+      font-size: 12px;
+      color: #3a1030;
+      margin-right: 6px;
+      margin-bottom: 6px;
+      display: inline-block;
+    }
+    .status-badge-open {
+      background: #e7f9ee;
+      color: #198754;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+    .status-badge-emergency {
+      background: #ffebe9;
+      color: #dc3545;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+    .distance-tag {
+      background: #fce7f1;
+      color: #e83e83;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .gps-pulse {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #2ecc71;
+      box-shadow: 0 0 0 rgba(46, 204, 113, 0.4);
+      animation: pulseGps 1.8s infinite;
+      margin-right: 6px;
+    }
+    @keyframes pulseGps {
+      0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }
+      70% { box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
+    }
+    .vital-chip {
+      background: #fdf2f7;
+      border: 1px solid #fad0e4;
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #3a1030;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .view-toggle-btn.active {
+      background: #e83e83 !important;
+      color: #fff !important;
+      box-shadow: 0 4px 12px rgba(232, 62, 131, 0.35);
+    }
+  </style>
+</head>
+<body>
+<div class="petal-field"></div>
+
+<!-- Top Emergency Banner -->
+<div class="bg-danger text-white py-2 px-3 small text-center fw-medium">
+  <i class="fa-solid fa-triangle-exclamation me-1"></i> Medical Emergency? Call <strong>112</strong> (National Emergency) or <strong>108</strong> (Ambulance) immediately.
+  <a class="btn btn-light btn-sm text-danger fw-bold ms-2 py-0 px-2 rounded-pill" href="tel:112"><i class="fa-solid fa-phone me-1"></i>Dial 112</a>
+</div>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-glass sticky-top py-3">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="../index.html">
+      <span class="brand-badge">SH</span><span class="brand-name fs-5">SHECARES</span>
+    </a>
+    <button aria-label="Menu" class="navbar-toggler border-0" data-bs-target="#navMain" data-bs-toggle="collapse" type="button">
+      <i class="fa-solid fa-bars fs-4 text-primary-pink"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navMain">
+      <ul class="navbar-nav mx-auto align-items-lg-center gap-lg-2">
+        <li class="nav-item"><a class="nav-link nav-link-custom" href="../index.html">Home</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-link-custom dropdown-toggle active" data-bs-toggle="dropdown" href="#">Features</a>
+          <ul class="dropdown-menu shadow border-0 rounded-3 p-2">
+            <li><a class="dropdown-item rounded-2 active" href="hospitals.html"><i class="fa-solid fa-hospital text-primary-pink me-2"></i>Nearby Hospitals &amp; Doctors</a></li>
+            <li><a class="dropdown-item rounded-2" href="emergency.html"><i class="fa-solid fa-triangle-exclamation text-danger me-2"></i>Emergency Safety &amp; SOS</a></li>
+            <li><a class="dropdown-item rounded-2" href="pregnancy.html"><i class="fa-solid fa-baby text-primary-pink me-2"></i>Pregnancy Care</a></li>
+            <li><a class="dropdown-item rounded-2" href="period.html"><i class="fa-solid fa-droplet text-primary-pink me-2"></i>Period Tracking</a></li>
+            <li><a class="dropdown-item rounded-2" href="mental.html"><i class="fa-solid fa-brain text-primary-pink me-2"></i>Mental Wellness</a></li>
+            <li><a class="dropdown-item rounded-2" href="diabetic.html"><i class="fa-solid fa-heart-pulse text-primary-pink me-2"></i>Diabetic Care</a></li>
+            <li><a class="dropdown-item rounded-2" href="fitness.html"><i class="fa-solid fa-person-praying text-primary-pink me-2"></i>Fitness &amp; Yoga</a></li>
+            <li><a class="dropdown-item rounded-2" href="food.html"><i class="fa-solid fa-apple-whole text-primary-pink me-2"></i>Food Analyzer</a></li>
+            <li><a class="dropdown-item rounded-2" href="caretaker.html"><i class="fa-solid fa-hand-holding-heart text-primary-pink me-2"></i>Caretaker Support</a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a class="nav-link nav-link-custom" href="../appointments.html">Appointments</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-custom" href="help.html">Help</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-custom" href="contact.html">Contact</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-custom" href="../history.html"><i class="fa-solid fa-clock-rotate-left me-1"></i>History</a></li>
+        <li class="nav-item" id="navLoginLi"><a class="nav-link nav-link-custom" href="../login.html">Login</a></li>
+        <li class="nav-item d-none" id="navLogoutLi"><a class="nav-link nav-link-custom" href="#" id="navLogoutLink">Logout</a></li>
+      </ul>
+      <a class="btn btn-pink ripple" href="../dashboard.html" id="navDashBtn"><i class="fa-solid fa-gauge-high me-1"></i> Dashboard</a>
+    </div>
+  </div>
+</nav>
+
+<main class="section pt-3 pb-5">
+  <div class="container">
+    
+    <!-- Hero Banner -->
+    <section class="hosp-hero mb-4">
+      <div class="row align-items-center g-3">
+        <div class="col-lg-8">
+          <span class="badge bg-secondary text-primary-pink px-3 py-2 rounded-pill fw-semibold mb-2">
+            <i class="fa-solid fa-location-crosshairs me-1"></i> Live Ballari &amp; Regional Healthcare Finder
+          </span>
+          <h1 class="h2 fw-bold mb-2">Nearby Hospitals &amp; Specialist Doctors</h1>
+          <p class="text-ink-soft mb-0">
+            Automatically locates verified hospitals, maternity care centers, and specialist doctors near you. Filter by medical specialty, consult verified doctors, get one-tap directions, and maintain your permanent clinical visit history.
+          </p>
+        </div>
+        <div class="col-lg-4 text-lg-end">
+          <button class="btn btn-pink ripple px-4 py-3 fw-semibold shadow-sm" id="detectLocationBtn" type="button">
+            <i class="fa-solid fa-location-arrow me-2"></i>Detect My Live Location
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Top View Switcher & Action Bar -->
+    <div class="card border-0 shadow-sm rounded-4 p-3 mb-4" style="background:#fff;">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <div class="btn-group p-1 bg-light rounded-pill" role="group">
+          <button class="btn btn-sm rounded-pill px-4 py-2 fw-semibold view-toggle-btn active" id="tabNearbyHospitals" type="button">
+            <i class="fa-solid fa-hospital me-2"></i>Find Nearby Hospitals
+          </button>
+          <button class="btn btn-sm rounded-pill px-4 py-2 fw-semibold view-toggle-btn text-ink" id="tabVisitHistory" type="button">
+            <i class="fa-solid fa-clipboard-list me-2"></i>Hospital Visit History
+            <span class="badge bg-primary-pink text-white rounded-pill ms-2 d-none" id="visitCountBadge">0</span>
+          </button>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-pink ripple rounded-pill px-4 py-2 fw-semibold shadow-sm" id="openRecordVisitModalBtn" type="button">
+            <i class="fa-solid fa-plus me-2"></i>Record Hospital Visit
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN VIEW 1: NEARBY HOSPITALS (Map + Directory) -->
+    <div id="hospitalsMainView">
+
+      <!-- Location & Search Control Toolbar -->
+      <div class="card border-0 shadow-sm rounded-4 p-3 mb-4" style="background:#fff;">
+        
+        <!-- City Quick Switcher -->
+        <div class="d-flex align-items-center gap-2 mb-3 pb-3 border-bottom flex-wrap">
+          <span class="small fw-bold text-ink"><i class="fa-solid fa-city text-primary-pink me-1"></i>Selected City:</span>
+          <button class="btn btn-sm btn-pink rounded-pill city-btn active" data-city="ballari" data-lat="15.1394" data-lng="76.9214" data-name="Ballari (Bellary), Karnataka" type="button">
+            📍 Ballari (Default)
+          </button>
+          <button class="btn btn-sm btn-outline-pink rounded-pill city-btn" data-city="bengaluru" data-lat="12.9716" data-lng="77.5946" data-name="Bengaluru, Karnataka" type="button">
+            📍 Bengaluru
+          </button>
+          <button class="btn btn-sm btn-outline-pink rounded-pill city-btn" data-city="hyderabad" data-lat="17.4065" data-lng="78.4772" data-name="Hyderabad, Telangana" type="button">
+            📍 Hyderabad
+          </button>
+          <button class="btn btn-sm btn-outline-secondary rounded-pill" id="autoGpsQuickBtn" type="button">
+            <i class="fa-solid fa-location-crosshairs me-1"></i>Use My GPS
+          </button>
+        </div>
+
+        <div class="row g-3 align-items-center">
+          <div class="col-md-5">
+            <div class="d-flex align-items-center gap-2">
+              <div id="gpsIndicator"><span class="gps-pulse"></span></div>
+              <div>
+                <small class="text-muted d-block" style="font-size:11px; text-transform:uppercase; letter-spacing:0.5px;">Current Active Location</small>
+                <div class="fw-semibold text-truncate" id="locationAddressText" style="max-width:320px;">
+                  Ballari (Bellary), Karnataka
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group">
+              <span class="input-group-text bg-light border-end-0 text-muted"><i class="fa-solid fa-magnifying-glass"></i></span>
+              <input class="form-control form-control-pink border-start-0" id="manualLocSearch" placeholder="Search area or city (e.g. Cantonment Ballari, Cowl Bazaar...)" type="text"/>
+              <button class="btn btn-outline-pink" id="manualLocBtn" type="button">Search</button>
+            </div>
+          </div>
+          <div class="col-md-3 text-md-end">
+            <div class="d-flex align-items-center justify-content-md-end gap-2">
+              <span class="small text-ink-soft">Radius:</span>
+              <select class="form-select form-select-pink w-auto" id="radiusSelect">
+                <option value="10">Within 10 km</option>
+                <option value="25" selected>Within 25 km</option>
+                <option value="50">Within 50 km</option>
+                <option value="100">Within 100 km</option>
+                <option value="500">Any Distance</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Doctor Specialist Field Filter Chips -->
+      <div class="mb-4">
+        <div class="d-flex align-items-center justify-content-between mb-2 flex-wrap gap-2">
+          <h6 class="fw-bold mb-0"><i class="fa-solid fa-user-doctor text-primary-pink me-2"></i>Filter by Doctor Specialist:</h6>
+          <span class="small text-ink-soft" id="hospitalCountBadge">Showing all nearby hospitals in Ballari</span>
+        </div>
+        <div class="d-flex flex-wrap gap-2" id="specialistChips">
+          <button class="spec-chip active" data-spec="all" type="button"><i class="fa-solid fa-stethoscope"></i> All Specialists</button>
+          <button class="spec-chip" data-spec="gynecology" type="button"><i class="fa-solid fa-person-pregnant"></i> Gynecologist / OB-GYN</button>
+          <button class="spec-chip" data-spec="pediatrics" type="button"><i class="fa-solid fa-baby"></i> Pediatrician (Child Care)</button>
+          <button class="spec-chip" data-spec="emergency" type="button"><i class="fa-solid fa-truck-medical"></i> 24x7 Emergency &amp; Trauma</button>
+          <button class="spec-chip" data-spec="cardiology" type="button"><i class="fa-solid fa-heart-pulse"></i> Cardiologist (Heart/BP)</button>
+          <button class="spec-chip" data-spec="endocrinology" type="button"><i class="fa-solid fa-droplet"></i> Endocrinologist (Diabetes/PCOS)</button>
+          <button class="spec-chip" data-spec="general" type="button"><i class="fa-solid fa-user-nurse"></i> General Physician</button>
+          <button class="spec-chip" data-spec="mental" type="button"><i class="fa-solid fa-brain"></i> Psychiatrist &amp; Mental Health</button>
+          <button class="spec-chip" data-spec="oncology" type="button"><i class="fa-solid fa-ribbon"></i> Women's Oncology &amp; Breast Care</button>
+        </div>
+      </div>
+
+      <!-- Main Content: Map & Hospital Cards List -->
+      <div class="row g-4">
+        <!-- Left Column: Google Maps & Interactive Pins -->
+        <div class="col-lg-5 order-lg-2">
+          <div class="sticky-top" style="top:95px; z-index:10;">
+            <div class="d-flex align-items-center justify-content-between mb-2 flex-wrap gap-2">
+              <div class="btn-group btn-group-sm p-1 bg-light rounded-pill border" role="group">
+                <button class="btn btn-sm btn-pink rounded-pill px-3 map-mode-btn active" id="btnMapGoogle" type="button">
+                  <i class="fa-solid fa-map-location-dot me-1"></i>Google Maps
+                </button>
+                <button class="btn btn-sm btn-light text-ink rounded-pill px-3 map-mode-btn" id="btnMapLeaflet" type="button">
+                  <i class="fa-solid fa-location-dot me-1"></i>Interactive Pins
+                </button>
+              </div>
+              <div class="d-flex gap-1">
+                <a class="btn btn-sm btn-outline-secondary py-1 px-2 rounded-pill" id="openGoogleMapsExtBtn" target="_blank" href="https://www.google.com/maps/search/hospitals+near+Ballari+Karnataka" title="Open Google Maps search in new tab">
+                  <i class="fa-solid fa-arrow-up-right-from-square me-1"></i>Google Maps
+                </a>
+                <button class="btn btn-sm btn-outline-pink py-1 px-2 rounded-pill d-none" id="recenterMapBtn" type="button" title="Center map to active location">
+                  <i class="fa-solid fa-crosshairs me-1"></i>Center
+                </button>
+              </div>
+            </div>
+
+            <!-- 1. Google Maps Live Embed Container -->
+            <div id="googleMapsContainer" style="height: 480px; min-height: 480px; width: 100%; border-radius: 22px; overflow: hidden; border: 1px solid #f6d0e2; box-shadow: 0 8px 24px rgba(0,0,0,0.06); background:#fdf2f7;">
+              <iframe id="googleMapsIframe" width="100%" height="100%" style="border:0;" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=hospitals+near+Ballari,+Karnataka&t=&z=14&ie=UTF8&iwloc=&output=embed"></iframe>
+            </div>
+
+            <!-- 2. Leaflet Map Container -->
+            <div id="leafletMapContainer" class="d-none">
+              <div id="hospitalMap"></div>
+              <div class="d-flex align-items-center justify-content-between mt-2 px-1 small text-muted">
+                <span><span class="badge rounded-circle p-1 me-1" style="background:#0d6efd;">&nbsp;</span> Current Pin</span>
+                <span><span class="badge rounded-circle p-1 me-1" style="background:#e83e83;">&nbsp;</span> Hospital / Clinic</span>
+                <span id="mapStatusText">Click marker for details</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Column: Hospital Cards -->
+        <div class="col-lg-7 order-lg-1">
+          <div id="hospitalsList" class="d-flex flex-column gap-3">
+            <div class="text-center py-5">
+              <div class="spinner-border text-primary-pink" role="status"></div>
+              <p class="text-ink-soft mt-3">Fetching nearby hospitals and doctors in Ballari...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- MAIN VIEW 2: HOSPITAL VISIT HISTORY (Stored Clinical Records) -->
+    <div id="visitHistoryView" class="d-none">
+      <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+        <div>
+          <h4 class="fw-bold mb-1 text-ink"><i class="fa-solid fa-notes-medical text-primary-pink me-2"></i>My Hospital Visit History</h4>
+          <p class="text-ink-soft small mb-0">Maintain an accurate timeline of hospital consultations, doctor prescriptions, diagnosis, and vital signs.</p>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-pink btn-sm rounded-pill px-3" id="refreshVisitsBtn" type="button">
+            <i class="fa-solid fa-rotate-right me-1"></i>Refresh
+          </button>
+          <button class="btn btn-pink btn-sm rounded-pill px-3" onclick="window.openRecordVisitModal();" type="button">
+            <i class="fa-solid fa-plus me-1"></i>Add Visit
+          </button>
+        </div>
+      </div>
+
+      <div id="visitHistoryList" class="d-flex flex-column gap-3">
+        <!-- Dynamic visit records render here -->
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- RECORD HOSPITAL VISIT MODAL -->
+<div aria-hidden="true" class="modal fade" id="recordVisitModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content glass-modal border-0 shadow-lg rounded-4">
+      <div class="modal-header border-bottom p-4">
+        <div class="d-flex align-items-center gap-3">
+          <div class="rounded-circle p-2 d-flex align-items-center justify-content-center" style="width:48px;height:48px;background:#fce7f1;color:#e83e83;">
+            <i class="fa-solid fa-notes-medical fs-4"></i>
+          </div>
+          <div>
+            <h5 class="modal-title fw-bold text-ink mb-0">Record Hospital Visit</h5>
+            <small class="text-ink-soft">Maintain a permanent clinical history of your hospital and doctor consultations</small>
+          </div>
+        </div>
+        <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+      </div>
+      <form id="recordVisitForm">
+        <div class="modal-body p-4">
+          <div id="visitAlert" class="alert d-none mb-3"></div>
+          
+          <div class="row g-3">
+            <div class="col-md-7">
+              <label class="form-label fw-semibold small text-ink">Hospital / Clinic Name <span class="text-danger">*</span></label>
+              <input class="form-control form-control-pink" id="visitHospitalName" placeholder="e.g. VIMS Hospital Ballari or St. Mary's Hospital" required type="text"/>
+            </div>
+            <div class="col-md-5">
+              <label class="form-label fw-semibold small text-ink">Hospital Locality / Address</label>
+              <input class="form-control form-control-pink" id="visitHospitalAddress" placeholder="e.g. Cantonment, Ballari" type="text"/>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-semibold small text-ink">Doctor / Specialist Name <span class="text-danger">*</span></label>
+              <input class="form-control form-control-pink" id="visitDoctorName" placeholder="e.g. Dr. Geetha K." required type="text"/>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold small text-ink">Department / Specialty</label>
+              <select class="form-select form-select-pink" id="visitDepartment">
+                <option value="Obstetrics & Gynecology (OB-GYN)">Obstetrics &amp; Gynecology (OB-GYN)</option>
+                <option value="Pediatrics & Neonatology">Pediatrics &amp; Neonatology</option>
+                <option value="General Medicine">General Medicine</option>
+                <option value="Cardiology & Hypertension">Cardiology &amp; Hypertension</option>
+                <option value="Endocrinology & Diabetes / PCOS">Endocrinology &amp; Diabetes / PCOS</option>
+                <option value="Emergency & Critical Care">Emergency &amp; Critical Care</option>
+                <option value="Women's Oncology & Breast Health">Women's Oncology &amp; Breast Health</option>
+                <option value="Psychiatry & Mental Wellness">Psychiatry &amp; Mental Wellness</option>
+                <option value="Other Specialty">Other Specialty</option>
+              </select>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-semibold small text-ink">Visit Date <span class="text-danger">*</span></label>
+              <input class="form-control form-control-pink" id="visitDate" required type="date"/>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold small text-ink">Visit Time</label>
+              <input class="form-control form-control-pink" id="visitTime" placeholder="e.g. 10:30 AM" type="text"/>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label fw-semibold small text-ink">Reason for Visit / Symptoms Reported</label>
+              <textarea class="form-control form-control-pink" id="visitReason" rows="2" placeholder="e.g. 28-week ANC prenatal review, severe backache, BP check..."></textarea>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label fw-semibold small text-ink">Doctor's Diagnosis &amp; Clinical Assessment</label>
+              <textarea class="form-control form-control-pink" id="visitDiagnosis" rows="2" placeholder="e.g. Mild gestational hypertension (BP 140/90), fetal heart sound normal (142 bpm)..."></textarea>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label fw-semibold small text-ink">Prescriptions &amp; Medicines Prescribed</label>
+              <textarea class="form-control form-control-pink" id="visitPrescriptions" rows="2" placeholder="e.g. Labetalol 100mg (1-0-1), Folvite 5mg (1-0-0), Shelcal 500mg (0-1-0)..."></textarea>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-semibold small text-ink">Vital Signs Recorded</label>
+              <input class="form-control form-control-pink" id="visitVitals" placeholder="e.g. BP: 130/84, Pulse: 78 bpm, Weight: 63 kg" type="text"/>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold small text-ink">Follow-up / Review Date</label>
+              <input class="form-control form-control-pink" id="visitFollowUp" type="date"/>
+            </div>
+
+            <div class="col-12">
+              <label class="form-label fw-semibold small text-ink">Doctor's Advice &amp; Additional Instructions</label>
+              <textarea class="form-control form-control-pink" id="visitNotes" rows="2" placeholder="e.g. Advised low salt diet, left lateral rest for 2 hours daily, repeat blood test in 10 days..."></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-top p-3 d-flex justify-content-between">
+          <button class="btn btn-outline-secondary rounded-pill px-4" data-bs-dismiss="modal" type="button">Cancel</button>
+          <button class="btn btn-pink rounded-pill px-5 fw-semibold" id="saveVisitBtn" type="submit">
+            <i class="fa-solid fa-floppy-disk me-2"></i>Save Hospital Visit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- FLOATING SHECARE UNIVERSAL AI HEALTH ASSISTANT -->
+<button aria-label="Open AI Assistant" class="shecare-ai-fab" id="shecareAiFab" title="AI Assistant" type="button">
+  <span class="sai-monogram">AI</span><span class="shecare-ai-pulse"></span>
+</button>
+<div aria-hidden="true" class="shecare-ai-panel" id="shecareAiPanel">
+  <div class="shecare-ai-panel-header">
+    <div class="d-flex align-items-center gap-2">
+      <div class="shecare-ai-avatar"><span class="sai-avatar-mark">AI</span></div>
+      <div>
+        <div class="fw-bold">AI — SheCare</div>
+        <small>AI-powered clinical health assistant</small>
+      </div>
+    </div>
+    <button aria-label="Close" class="shecare-ai-close" id="shecareAiClose" type="button"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="shecare-ai-subtle-note text-center py-1 text-muted" style="font-size:10.5px; background:#fff7fa; border-bottom:1px solid #f4d7e4;">Health information only — not a diagnosis.</div>
+  <div aria-live="polite" class="shecare-ai-body" id="shecareAiBody" role="log"></div>
+  <div class="shecare-ai-suggestions" id="shecareAiSuggestions">
+    <button data-ai-suggest="Assess my health symptoms: please guide me." type="button">🩺 Clinical Assessment</button>
+    <button data-ai-suggest="Which hospital in Ballari has 24x7 emergency labor &amp; delivery?" type="button">Ballari Emergency Delivery</button>
+    <button data-ai-suggest="How do I prepare for my gynecologist consultation?" type="button">Gynecology Visit</button>
+    <button data-ai-suggest="What specialist should I consult for pregnancy high blood pressure?" type="button">Preeclampsia Specialist</button>
+  </div>
+  <div class="shecare-ai-footer">
+    <button aria-label="Voice input" class="shecare-ai-mic" id="shecareAiMic" title="Voice input" type="button"><i class="fa-solid fa-microphone"></i></button>
+    <input autocomplete="off" class="form-control form-control-pink" id="shecareAiInput" maxlength="600" placeholder="Ask about symptoms, specialists or Ballari hospitals…" type="text"/>
+    <button aria-label="Send" class="btn btn-pink" id="shecareAiSend" type="button"><i class="fa-solid fa-paper-plane"></i></button>
+  </div>
+</div>
+
+<!-- FLOATING SOS BUTTON -->
+<button aria-label="SOS" class="sos-float" data-sos-trigger="" title="SOS" type="button"><span class="sos-label">SOS</span></button>
+<div aria-hidden="true" class="modal fade" id="sosModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content glass-modal">
+      <div class="modal-body p-4 text-center" id="sosConfirmStep">
+        <div class="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle" style="width:70px;height:70px;background:var(--secondary);">
+          <i class="fa-solid fa-triangle-exclamation fs-2 text-danger"></i>
+        </div>
+        <h5 class="fw-bold">Do you want to send an emergency SOS?</h5>
+        <p class="text-ink-soft small">Your emergency contacts will be alerted. For immediate emergency services in India, call 112.</p>
+        <div class="d-flex justify-content-center gap-3 mt-4">
+          <button class="btn btn-outline-pink px-4" data-bs-dismiss="modal" id="sosCancelBtn" type="button">Cancel</button>
+          <button class="btn btn-danger-soft px-4" id="sosYesBtn" type="button">Yes, Send SOS</button>
+        </div>
+      </div>
+      <div class="modal-body p-4 text-center d-none" id="sosSuccessStep">
+        <div class="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle" style="width:70px;height:70px;background:#e7f9ee;">
+          <i class="fa-solid fa-circle-check fs-2 text-success"></i>
+        </div>
+        <h5 class="fw-bold">Emergency Alert Recorded</h5>
+        <p class="text-ink-soft small mb-4">Your SOS event has been recorded. If you are in immediate danger, call 112 now.</p>
+        <div class="d-flex justify-content-center gap-2">
+          <a class="btn btn-danger-soft" href="tel:112"><i class="fa-solid fa-phone me-1"></i>Call 112</a>
+          <button class="btn btn-pink" data-bs-dismiss="modal" type="button">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="../js/runtime-config.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/script.js"></script>
+
+<script>
+(function() {
+  // State: Default strictly to Ballari (Bellary, Karnataka)
+  let userCoords = { lat: 15.1394, lng: 76.9214 };
+  let activeSpecialty = 'all';
+  let maxRadiusKm = 25;
+  let map = null;
+  let userMarker = null;
+  let hospitalMarkers = [];
+
+  const isPagesDir = window.location.pathname.includes('/pages/');
+  const loginHref = isPagesDir ? '../login.html' : 'login.html';
+  const appointmentsHref = isPagesDir ? '../appointments.html' : 'appointments.html';
+
+  const esc = (v) => String(v ?? '').replace(/[&<>'"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[c]));
+
+  // Comprehensive Hospital & Specialist Doctor Database
+  // Prioritizes Verified Hospitals in Ballari (Bellary), Karnataka
+  const hospitalDatabase = [
+    {
+      id: 'hosp-vims',
+      name: 'VIMS Hospital & Trauma Care (Vijayanagar Institute of Medical Sciences)',
+      tagline: 'Premier Multi-Specialty Government Teaching Hospital & Tertiary Care Center',
+      type: 'Super Specialty Teaching Hospital',
+      rating: 4.7,
+      reviews: 2450,
+      emergency24x7: true,
+      phone: '+91 8392 235201',
+      address: 'Cantonment, Ballari, Karnataka 583104',
+      lat: 15.1438,
+      lng: 76.9062,
+      city: 'ballari',
+      specialties: ['gynecology', 'pediatrics', 'emergency', 'cardiology', 'general', 'oncology'],
+      doctors: [
+        { name: 'Dr. Geetha K.', field: 'Senior Obstetrician & Gynecologist (High-Risk Pregnancies)', specKey: 'gynecology', exp: '24 yrs exp', tim: '9:00 AM - 2:00 PM' },
+        { name: 'Dr. Ramesh Babu', field: 'Chief Pediatrician & Neonatal Care Specialist', specKey: 'pediatrics', exp: '19 yrs exp', tim: '9:30 AM - 1:30 PM' },
+        { name: 'Dr. Mallikarjun S.', field: 'Chief Interventional Cardiologist (Heart & BP Care)', specKey: 'cardiology', exp: '22 yrs exp', tim: '10:00 AM - 3:00 PM' },
+        { name: 'Dr. V. Prasad', field: 'Lead Emergency & Critical Trauma Physician', specKey: 'emergency', exp: '16 yrs exp', tim: '24x7 On Call' }
+      ]
+    },
+    {
+      id: 'hosp-mch-ballari',
+      name: 'District Government Mother & Child Hospital (MCH Ballari)',
+      tagline: 'Dedicated Maternity, High-Risk Delivery & Neonatal Intensive Care',
+      type: 'Specialized Mother & Child Hospital',
+      rating: 4.6,
+      reviews: 1180,
+      emergency24x7: true,
+      phone: '+91 8392 272100',
+      address: 'Anantapur Road, Near District Hospital, Ballari, Karnataka 583101',
+      lat: 15.1362,
+      lng: 76.9284,
+      city: 'ballari',
+      specialties: ['gynecology', 'pediatrics', 'emergency'],
+      doctors: [
+        { name: 'Dr. Vijayalakshmi N.', field: 'Senior Obstetric Surgeon & Maternal Care Specialist', specKey: 'gynecology', exp: '20 yrs exp', tim: '9:00 AM - 3:00 PM' },
+        { name: 'Dr. K. M. Suresh', field: 'Pediatric Specialist & Child Immunization Lead', specKey: 'pediatrics', exp: '15 yrs exp', tim: '10:00 AM - 2:00 PM' },
+        { name: 'Dr. Renuka Patil', field: 'Women’s Health & Cervical/Breast Screening', specKey: 'gynecology', exp: '12 yrs exp', tim: '11:00 AM - 4:00 PM' }
+      ]
+    },
+    {
+      id: 'hosp-stmarys',
+      name: 'St. Mary’s Multi-Speciality Hospital & Birthing Center',
+      tagline: 'Compassionate Women’s Care, Normal Deliveries & Diabetic Center',
+      type: 'Multi-Specialty Maternity Center',
+      rating: 4.8,
+      reviews: 1590,
+      emergency24x7: true,
+      phone: '+91 8392 240455',
+      address: 'Cowl Bazaar, Ballari, Karnataka 583102',
+      lat: 15.1495,
+      lng: 76.9189,
+      city: 'ballari',
+      specialties: ['gynecology', 'pediatrics', 'endocrinology', 'emergency', 'general'],
+      doctors: [
+        { name: 'Dr. Mary Philomena', field: 'Chief Gynecologist & Laparoscopic Birthing Expert', specKey: 'gynecology', exp: '26 yrs exp', tim: '9:30 AM - 4:00 PM' },
+        { name: 'Dr. Anthony Joseph', field: 'General Physician & Consultant Diabetologist', specKey: 'endocrinology', exp: '18 yrs exp', tim: '10:00 AM - 1:00 PM' },
+        { name: 'Dr. S. Kavitha', field: 'Child Health & Developmental Pediatrician', specKey: 'pediatrics', exp: '14 yrs exp', tim: '2:00 PM - 6:00 PM' }
+      ]
+    },
+    {
+      id: 'hosp-sparsh',
+      name: 'Sparsh Mother & Child Hospital & Fertility Center',
+      tagline: 'Modern Obstetric Ultrasound, IVF, PCOS & Women’s Health',
+      type: 'Women & Child Super Specialty',
+      rating: 4.8,
+      reviews: 940,
+      emergency24x7: true,
+      phone: '+91 8392 278999',
+      address: 'Patel Nagar, Station Road, Ballari, Karnataka 583101',
+      lat: 15.1415,
+      lng: 76.9350,
+      city: 'ballari',
+      specialties: ['gynecology', 'endocrinology', 'pediatrics', 'emergency'],
+      doctors: [
+        { name: 'Dr. Sneha Reddy', field: 'Consultant Obstetrician, Gynecologist & Infertility Specialist', specKey: 'gynecology', exp: '16 yrs exp', tim: '10:00 AM - 5:00 PM' },
+        { name: 'Dr. Meera Rao', field: 'Endocrinologist (Gestational Diabetes & PCOS Management)', specKey: 'endocrinology', exp: '13 yrs exp', tim: '11:00 AM - 3:00 PM' },
+        { name: 'Dr. P. Raghavendra', field: 'Pediatric & Neonatal Intensive Care', specKey: 'pediatrics', exp: '15 yrs exp', tim: '9:00 AM - 1:00 PM' }
+      ]
+    },
+    {
+      id: 'hosp-ashwini',
+      name: 'Ashwini Hospital & Heart Center',
+      tagline: 'Comprehensive Cardiac, Hypertensive & Diabetic Care',
+      type: 'Cardiology & Multi-Specialty Hospital',
+      rating: 4.6,
+      reviews: 860,
+      emergency24x7: true,
+      phone: '+91 8392 255444',
+      address: 'Gandhi Nagar, 1st Cross, Ballari, Karnataka 583103',
+      lat: 15.1520,
+      lng: 76.9240,
+      city: 'ballari',
+      specialties: ['cardiology', 'emergency', 'endocrinology', 'general', 'mental'],
+      doctors: [
+        { name: 'Dr. B. N. Ashwath', field: 'Chief Cardiologist & Vascular Specialist', specKey: 'cardiology', exp: '25 yrs exp', tim: '10:00 AM - 3:00 PM' },
+        { name: 'Dr. Renuka Devi', field: 'Consultant Diabetologist & Women’s Health', specKey: 'endocrinology', exp: '17 yrs exp', tim: '11:00 AM - 4:00 PM' },
+        { name: 'Dr. K. Venkatesh', field: 'Senior Psychiatrist & Behavioral Wellness Counselor', specKey: 'mental', exp: '15 yrs exp', tim: '4:00 PM - 7:00 PM' }
+      ]
+    },
+    {
+      id: 'hosp-bellary-specialty',
+      name: 'Bellary Specialty Hospital & Trauma Center',
+      tagline: '24x7 Emergency Care, Neuropsychiatry & Advanced Critical Care',
+      type: 'Super Specialty Hospital',
+      rating: 4.7,
+      reviews: 780,
+      emergency24x7: true,
+      phone: '+91 8392 267800',
+      address: 'Double Road, Parvathi Nagar, Ballari, Karnataka 583103',
+      lat: 15.1472,
+      lng: 76.9275,
+      city: 'ballari',
+      specialties: ['emergency', 'cardiology', 'mental', 'general'],
+      doctors: [
+        { name: 'Dr. Suresh Babu', field: 'Chief Critical Care & Trauma Physician', specKey: 'emergency', exp: '18 yrs exp', tim: '24x7 Emergency' },
+        { name: 'Dr. Ananya Rao', field: 'Consultant Neuropsychiatrist & Mental Wellness Lead', specKey: 'mental', exp: '14 yrs exp', tim: '10:00 AM - 2:00 PM' }
+      ]
+    },
+    {
+      id: 'hosp-city-ballari',
+      name: 'City Hospital & Research Centre',
+      tagline: 'Maternity, Gynecological Surgery & Internal Medicine',
+      type: 'Multi-Specialty Hospital',
+      rating: 4.6,
+      reviews: 650,
+      emergency24x7: true,
+      phone: '+91 8392 250321',
+      address: 'Station Road, Brucepet, Ballari, Karnataka 583101',
+      lat: 15.1408,
+      lng: 76.9320,
+      city: 'ballari',
+      specialties: ['gynecology', 'endocrinology', 'general', 'emergency'],
+      doctors: [
+        { name: 'Dr. K. Padmavathi', field: 'Senior Obstetrician & Gynecologist', specKey: 'gynecology', exp: '21 yrs exp', tim: '9:00 AM - 3:00 PM' },
+        { name: 'Dr. H. Raghavendra', field: 'Consultant Diabetologist & Metabolic Physician', specKey: 'endocrinology', exp: '15 yrs exp', tim: '11:00 AM - 4:00 PM' }
+      ]
+    },
+    {
+      id: 'hosp-navodaya-child',
+      name: 'Navodaya Child Care Clinic & Pediatric Center',
+      tagline: 'Comprehensive Neonatal, Infant & Adolescent Healthcare',
+      type: 'Pediatric Specialty Clinic',
+      rating: 4.8,
+      reviews: 520,
+      emergency24x7: false,
+      phone: '+91 8392 274112',
+      address: 'Royal Circle, Main Road, Ballari, Karnataka 583101',
+      lat: 15.1440,
+      lng: 76.9250,
+      city: 'ballari',
+      specialties: ['pediatrics', 'general'],
+      doctors: [
+        { name: 'Dr. M. S. Patil', field: 'Senior Consultant Pediatrician & Neonatologist', specKey: 'pediatrics', exp: '19 yrs exp', tim: '9:00 AM - 1:30 PM, 5:00 PM - 8:30 PM' }
+      ]
+    },
+    {
+      id: 'hosp-lifeline-cardio',
+      name: 'LifeLine Heart, Diabetes & Oncology Center',
+      tagline: 'Advanced Cardiac Diagnostics, Diabetic Management & Women’s Oncology',
+      type: 'Cardio-Diabetic & Oncology Center',
+      rating: 4.7,
+      reviews: 890,
+      emergency24x7: true,
+      phone: '+91 8392 244550',
+      address: 'Tank Bund Road, Cantonment, Ballari, Karnataka 583104',
+      lat: 15.1460,
+      lng: 76.9120,
+      city: 'ballari',
+      specialties: ['cardiology', 'endocrinology', 'oncology', 'general', 'emergency'],
+      doctors: [
+        { name: 'Dr. C. B. Shivakumar', field: 'Senior Interventional Cardiologist', specKey: 'cardiology', exp: '20 yrs exp', tim: '10:00 AM - 3:00 PM' },
+        { name: 'Dr. Usha Kiran', field: 'Surgical Oncologist (Breast & Cervical Cancer Specialist)', specKey: 'oncology', exp: '16 yrs exp', tim: '11:00 AM - 3:30 PM' }
+      ]
+    },
+    {
+      id: 'hosp-jindal',
+      name: 'Jindal Sanjeevani Multi-Speciality Hospital',
+      tagline: 'Tertiary Care Center with State-of-the-art Cath Lab & Neonatal ICU',
+      type: 'Tertiary Care Multi-Specialty Hospital',
+      rating: 4.8,
+      reviews: 1820,
+      emergency24x7: true,
+      phone: '+91 8395 250100',
+      address: 'Jindal Nagar, Toranagallu, Ballari District, Karnataka 583123',
+      lat: 15.2010,
+      lng: 76.6710,
+      city: 'ballari',
+      specialties: ['emergency', 'cardiology', 'gynecology', 'pediatrics', 'general', 'oncology'],
+      doctors: [
+        { name: 'Dr. Sunil Kumar Patil', field: 'Chief Medical Director & Senior Cardiologist', specKey: 'cardiology', exp: '23 yrs exp', tim: '10:00 AM - 2:00 PM' },
+        { name: 'Dr. Sujata Patil', field: 'Head of Obstetrics & Comprehensive Maternity Care', specKey: 'gynecology', exp: '20 yrs exp', tim: '10:00 AM - 4:00 PM' },
+        { name: 'Dr. Anand K.', field: 'Pediatric Intensive Care & Emergency Care Specialist', specKey: 'pediatrics', exp: '14 yrs exp', tim: '9:00 AM - 1:00 PM' }
+      ]
+    },
+    // Regional Super-Specialty Centers in Hyderabad
+    {
+      id: 'hosp-rainbow',
+      name: 'Rainbow Children’s & BirthRight Hospital',
+      tagline: 'Leading Women & Maternity Specialty Center',
+      type: 'Women & Child Super Specialty',
+      rating: 4.8,
+      reviews: 1420,
+      emergency24x7: true,
+      phone: '+91 40 4246 5555',
+      address: 'Road No. 2, Banjara Hills, Hyderabad, Telangana 500034',
+      lat: 17.4172,
+      lng: 78.4350,
+      city: 'hyderabad',
+      specialties: ['gynecology', 'pediatrics', 'emergency', 'endocrinology'],
+      doctors: [
+        { name: 'Dr. Pranathi Reddy', field: 'Senior Obstetrician & Gynecologist', specKey: 'gynecology', exp: '22 yrs exp', tim: '10:00 AM - 4:00 PM' },
+        { name: 'Dr. Dinesh Kumar', field: 'Chief Neonatologist & Pediatrician', specKey: 'pediatrics', exp: '18 yrs exp', tim: '9:00 AM - 1:00 PM' },
+        { name: 'Dr. Sharmila Roy', field: 'High-Risk Pregnancy & Fetal Medicine', specKey: 'gynecology', exp: '15 yrs exp', tim: '2:00 PM - 7:00 PM' }
+      ]
+    },
+    {
+      id: 'hosp-fernandez',
+      name: 'Fernandez Hospital — Maternity & Neonatal Institute',
+      tagline: 'Pioneers in Compassionate Maternal & Newborn Healthcare',
+      type: 'Specialized Mother & Child Care',
+      rating: 4.9,
+      reviews: 2150,
+      emergency24x7: true,
+      phone: '+91 40 4022 2399',
+      address: 'Bogulkunta, Abids, Hyderabad, Telangana 500001',
+      lat: 17.3916,
+      lng: 78.4839,
+      city: 'hyderabad',
+      specialties: ['gynecology', 'pediatrics', 'emergency', 'mental'],
+      doctors: [
+        { name: 'Dr. Evita Fernandez', field: 'Director & Lead Obstetrician', specKey: 'gynecology', exp: '30+ yrs exp', tim: 'By Appointment' },
+        { name: 'Dr. N. Geetha', field: 'Consultant Obstetrician & Lactation Expert', specKey: 'gynecology', exp: '14 yrs exp', tim: '9:00 AM - 4:00 PM' },
+        { name: 'Dr. Radha Raman', field: 'Perinatal & Postpartum Mental Health Specialist', specKey: 'mental', exp: '11 yrs exp', tim: '11:00 AM - 4:00 PM' }
+      ]
+    },
+    // Regional Super-Specialty Center in Bengaluru
+    {
+      id: 'hosp-manipal-blr',
+      name: 'Manipal Hospital — Women & Child Specialty',
+      tagline: 'Leading Multispecialty Healthcare & High-Risk Birthing Center',
+      type: 'Super Specialty Hospital',
+      rating: 4.8,
+      reviews: 3400,
+      emergency24x7: true,
+      phone: '+91 80 2502 4444',
+      address: 'Old Airport Road, Kodihalli, Bengaluru, Karnataka 560017',
+      lat: 12.9592,
+      lng: 77.6496,
+      city: 'bengaluru',
+      specialties: ['gynecology', 'pediatrics', 'cardiology', 'emergency', 'oncology', 'general'],
+      doctors: [
+        { name: 'Dr. Gayathri Kamath', field: 'Senior Consultant — Obstetrics & Gynecology', specKey: 'gynecology', exp: '24 yrs exp', tim: '9:00 AM - 3:00 PM' },
+        { name: 'Dr. Karthik Nagesh', field: 'Chairman & Neonatologist', specKey: 'pediatrics', exp: '28 yrs exp', tim: '10:00 AM - 1:00 PM' }
+      ]
+    }
+  ];
+
+  // Calculate distance in kilometers using Haversine formula
+  function calcDistance(lat1, lon1, lat2, lon2) {
+    const R = 6371;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+  }
+
+  // Initialize Leaflet Map safely with auto-retry and size invalidation
+  function initMap() {
+    if (map) {
+      setTimeout(() => { if (map) map.invalidateSize(); }, 100);
+      return;
+    }
+    const mapEl = document.getElementById('hospitalMap');
+    if (!mapEl) return;
+
+    if (typeof L === 'undefined') {
+      let pollAttempts = 0;
+      const pollTimer = setInterval(() => {
+        pollAttempts++;
+        if (typeof L !== 'undefined') {
+          clearInterval(pollTimer);
+          initMap();
+        } else if (pollAttempts > 30) {
+          clearInterval(pollTimer);
+          console.warn('Leaflet map library failed to load.');
+          mapEl.innerHTML = `
+            <div class="d-flex flex-column align-items-center justify-content-center h-100 p-4 text-center" style="background:#fff7fa; border-radius:22px;">
+              <i class="fa-solid fa-map-location-dot fs-1 text-primary-pink mb-2"></i>
+              <p class="fw-semibold text-ink mb-1">Interactive Map Preview</p>
+              <p class="small text-ink-soft mb-0">Use the list below to view nearby hospitals, specialty doctors, and call directly.</p>
+            </div>
+          `;
+        }
+      }, 100);
+      return;
+    }
+
+    try {
+      map = L.map('hospitalMap', { 
+        zoomControl: true,
+        scrollWheelZoom: false
+      }).setView([userCoords.lat, userCoords.lng], 13);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors',
+        subdomains: ['a', 'b', 'c'],
+        maxZoom: 19
+      }).addTo(map);
+
+      updateUserMarker();
+
+      // Ensure tiles render completely by invalidating size after layout finishes
+      setTimeout(() => {
+        if (map) {
+          map.invalidateSize();
+          const currentHospitals = getFilteredHospitals();
+          updateMapMarkers(currentHospitals);
+        }
+      }, 150);
+
+      setTimeout(() => {
+        if (map) map.invalidateSize();
+      }, 500);
+
+    } catch (e) {
+      console.error('Error initializing map:', e);
+    }
+  }
+
+  // Active Pin marker
+  function updateUserMarker() {
+    if (!map || typeof L === 'undefined') return;
+    try {
+      if (userMarker) map.removeLayer(userMarker);
+
+      const userIcon = L.divIcon({
+        className: 'user-gps-marker',
+        html: '<div style="background:#0d6efd; width:22px; height:22px; border-radius:50%; border:3px solid #fff; box-shadow:0 0 12px rgba(13,110,253,0.9); display:flex; align-items:center; justify-content:center; color:#fff; font-size:10px;"><i class="fa-solid fa-person"></i></div>',
+        iconSize: [22, 22],
+        iconAnchor: [11, 11]
+      });
+
+      userMarker = L.marker([userCoords.lat, userCoords.lng], { icon: userIcon, zIndexOffset: 1000 })
+        .addTo(map)
+        .bindPopup(`
+          <div style="font-family:'Poppins',sans-serif; font-size:12px; padding:4px;">
+            <strong style="color:#0d6efd;"><i class="fa-solid fa-location-dot me-1"></i>Your Location</strong><br/>
+            <span style="color:#555; font-size:11px;">Current GPS / Selected Area</span>
+          </div>
+        `);
+    } catch (e) {
+      console.warn('Error updating user marker:', e);
+    }
+  }
+
+  // Render Hospital Markers on Map
+  function updateMapMarkers(hospitals) {
+    if (!map || typeof L === 'undefined') return;
+    try {
+      hospitalMarkers.forEach(m => map.removeLayer(m));
+      hospitalMarkers = [];
+
+      if (!hospitals || hospitals.length === 0) {
+        map.setView([userCoords.lat, userCoords.lng], 13);
+        return;
+      }
+
+      const bounds = L.latLngBounds([[userCoords.lat, userCoords.lng]]);
+
+      hospitals.forEach(h => {
+        const isMaternity = h.specialties.includes('gynecology');
+        const markerColor = isMaternity ? '#ff4fa3' : '#e83e83';
+        
+        const customIcon = L.divIcon({
+          className: 'hospital-marker',
+          html: `<div style="background:${markerColor}; color:#fff; width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:2.5px solid #fff; box-shadow:0 4px 10px rgba(0,0,0,0.35); font-size:14px; cursor:pointer;"><i class="fa-solid fa-hospital"></i></div>`,
+          iconSize: [32, 32],
+          iconAnchor: [16, 16],
+          popupAnchor: [0, -16]
+        });
+
+        const popupContent = `
+          <div style="font-family:'Poppins', sans-serif; font-size:13px; max-width:250px; padding:2px;">
+            <strong style="color:#e83e83; font-size:14px; display:block; margin-bottom:2px;">${h.name}</strong>
+            <span style="color:#666; font-size:11px; display:block; margin-bottom:6px;"><i class="fa-solid fa-location-dot text-primary-pink me-1"></i>${h.address}</span>
+            <div style="margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+              <span class="badge bg-pink text-white">${h.distanceFormatted} away</span>
+              <span class="badge bg-warning text-dark"><i class="fa-solid fa-star me-1"></i>${h.rating}</span>
+            </div>
+            <div style="display:flex; gap:6px;">
+              <a href="tel:${h.phone}" class="btn btn-sm btn-outline-danger py-1 px-2 flex-grow-1" style="font-size:11px;"><i class="fa-solid fa-phone me-1"></i>Call</a>
+              <a target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${h.lat},${h.lng}" class="btn btn-sm btn-pink py-1 px-2 flex-grow-1" style="font-size:11px; color:#fff;"><i class="fa-solid fa-diamond-turn-right me-1"></i>Directions</a>
+            </div>
+          </div>
+        `;
+
+        const m = L.marker([h.lat, h.lng], { icon: customIcon })
+          .addTo(map)
+          .bindPopup(popupContent);
+        
+        m._hospitalId = h.id;
+        hospitalMarkers.push(m);
+        bounds.extend([h.lat, h.lng]);
+      });
+
+      if (hospitals.length > 0) {
+        map.fitBounds(bounds, { padding: [50, 50], maxZoom: 14 });
+      }
+      map.invalidateSize();
+    } catch (e) {
+      console.warn('Error updating map markers:', e);
+    }
+  }
+
+  // Map Mode Switcher (Google Maps Live vs Leaflet Interactive Pins)
+  let activeMapMode = 'google';
+
+  function switchMapMode(mode) {
+    activeMapMode = mode;
+    const btnGoogle = document.getElementById('btnMapGoogle');
+    const btnLeaflet = document.getElementById('btnMapLeaflet');
+    const boxGoogle = document.getElementById('googleMapsContainer');
+    const boxLeaflet = document.getElementById('leafletMapContainer');
+    const btnRecenter = document.getElementById('recenterMapBtn');
+
+    if (mode === 'google') {
+      btnGoogle?.classList.add('active', 'btn-pink');
+      btnGoogle?.classList.remove('btn-light', 'text-ink');
+      btnLeaflet?.classList.remove('active', 'btn-pink');
+      btnLeaflet?.classList.add('btn-light', 'text-ink');
+      boxGoogle?.classList.remove('d-none');
+      boxLeaflet?.classList.add('d-none');
+      btnRecenter?.classList.add('d-none');
+    } else {
+      btnLeaflet?.classList.add('active', 'btn-pink');
+      btnLeaflet?.classList.remove('btn-light', 'text-ink');
+      btnGoogle?.classList.remove('active', 'btn-pink');
+      btnGoogle?.classList.add('btn-light', 'text-ink');
+      boxLeaflet?.classList.remove('d-none');
+      boxGoogle?.classList.add('d-none');
+      btnRecenter?.classList.remove('d-none');
+      if (map) {
+        setTimeout(() => { map.invalidateSize(); }, 80);
+      }
+    }
+  }
+
+  // Update Google Maps Live Embed query and external link
+  function updateGoogleMaps(query) {
+    const iframe = document.getElementById('googleMapsIframe');
+    const extBtn = document.getElementById('openGoogleMapsExtBtn');
+    if (iframe) {
+      iframe.src = `https://maps.google.com/maps?q=${encodeURIComponent(query)}&t=&z=14&ie=UTF8&iwloc=&output=embed`;
+    }
+    if (extBtn) {
+      extBtn.href = `https://www.google.com/maps/search/${encodeURIComponent(query)}`;
+    }
+  }
+
+  // View Hospital directly on Google Maps Embed
+  window.showHospitalOnGoogleMaps = function(hospId) {
+    const hosp = hospitalDatabase.find(h => h.id === hospId);
+    if (!hosp) return;
+    switchMapMode('google');
+    updateGoogleMaps(`${hosp.name}, ${hosp.address}`);
+    const mapCard = document.getElementById('googleMapsContainer');
+    if (mapCard) mapCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
+
+  // Pan and Highlight Hospital on Leaflet Map
+  window.highlightHospitalOnMap = function(hospId) {
+    const hosp = hospitalDatabase.find(h => h.id === hospId);
+    if (!hosp) return;
+    switchMapMode('leaflet');
+    if (map) {
+      map.invalidateSize();
+      map.setView([hosp.lat, hosp.lng], 15);
+      const marker = hospitalMarkers.find(m => m._hospitalId === hospId);
+      if (marker) marker.openPopup();
+    }
+    const mapCard = document.getElementById('hospitalMap');
+    if (mapCard) mapCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  };
+
+  // Reverse Geocode coordinates to readable locality using Nominatim
+  async function reverseGeocode(lat, lng) {
+    try {
+      const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`);
+      if (!res.ok) throw new Error('Geocoding failed');
+      const data = await res.json();
+      const addr = data.address || {};
+      const neighbourhood = addr.neighbourhood || addr.suburb || addr.residential || addr.road || '';
+      const city = addr.city || addr.town || addr.county || addr.state_district || 'Your City';
+      const state = addr.state || '';
+      return `${neighbourhood ? neighbourhood + ', ' : ''}${city}${state ? ', ' + state : ''}`;
+    } catch {
+      return `${lat.toFixed(4)}°N, ${lng.toFixed(4)}°E`;
+    }
+  }
+
+  // Search locality name to coordinates using Nominatim
+  async function searchLocation(query) {
+    if (!query) return;
+    const btn = document.getElementById('manualLocBtn');
+    btn.disabled = true;
+    btn.textContent = 'Searching...';
+    try {
+      const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1`);
+      const results = await res.json();
+      if (results && results.length > 0) {
+        userCoords = {
+          lat: parseFloat(results[0].lat),
+          lng: parseFloat(results[0].lon)
+        };
+        const displayName = results[0].display_name.split(',').slice(0, 3).join(',');
+        document.getElementById('locationAddressText').textContent = displayName;
+        
+        document.querySelectorAll('.city-btn').forEach(b => {
+          b.classList.remove('active', 'btn-pink');
+          b.classList.add('btn-outline-pink');
+        });
+
+        updateGoogleMaps(`hospitals near ${displayName}`);
+
+        if (map) {
+          map.setView([userCoords.lat, userCoords.lng], 13);
+          updateUserMarker();
+        }
+        renderHospitals();
+      } else {
+        alert('Could not find location. Please try a different area name.');
+      }
+    } catch (err) {
+      alert('Search failed. Please try again.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Search';
+    }
+  }
+
+  // Switch Selected City
+  function switchCity(cityName, lat, lng, displayName) {
+    userCoords = { lat, lng };
+    document.getElementById('locationAddressText').innerHTML = `<strong>${displayName}</strong>`;
+    
+    document.querySelectorAll('.city-btn').forEach(b => {
+      if (b.dataset.city === cityName) {
+        b.classList.add('active', 'btn-pink');
+        b.classList.remove('btn-outline-pink');
+      } else {
+        b.classList.remove('active', 'btn-pink');
+        b.classList.add('btn-outline-pink');
+      }
+    });
+
+    updateGoogleMaps(`hospitals in ${displayName}`);
+
+    if (map) {
+      map.setView([lat, lng], 13);
+      updateUserMarker();
+    }
+    renderHospitals();
+  }
+
+  // Fetch / Sort / Filter Hospitals (Strict GPS Proximity)
+  function getFilteredHospitals() {
+    const allCalculated = hospitalDatabase.map(h => {
+      const actualDist = calcDistance(userCoords.lat, userCoords.lng, h.lat, h.lng);
+      return {
+        ...h,
+        lat: h.lat,
+        lng: h.lng,
+        distanceKm: actualDist,
+        distanceFormatted: actualDist < 1 ? `${Math.round(actualDist * 1000)} m` : `${actualDist.toFixed(1)} km`
+      };
+    });
+
+    // Filter by specialist
+    let filtered = allCalculated.filter(h => {
+      if (activeSpecialty === 'all') return true;
+      if (activeSpecialty === 'emergency') return h.emergency24x7;
+      return (h.specialties && h.specialties.includes(activeSpecialty)) || (h.doctors && h.doctors.some(d => d.specKey === activeSpecialty));
+    });
+
+    // Sort strictly by proximity to user GPS
+    filtered.sort((a, b) => a.distanceKm - b.distanceKm);
+
+    // Filter strictly by radius (default 25 km, configurable 10/25/50/100/500 km)
+    const withinRadius = filtered.filter(h => h.distanceKm <= maxRadiusKm);
+    if (withinRadius.length > 0) {
+      return withinRadius;
+    }
+
+    return filtered.slice(0, 10);
+  }
+
+  // Render Hospital Cards with prominent AI Hospital Suggestion banner
+  function renderHospitals() {
+    const listEl = document.getElementById('hospitalsList');
+    const filtered = getFilteredHospitals();
+    const countBadge = document.getElementById('hospitalCountBadge');
+
+    countBadge.textContent = `Showing ${filtered.length} verified hospital${filtered.length === 1 ? '' : 's'} near your GPS (within ${maxRadiusKm} km)`;
+
+    if (filtered.length === 0) {
+      listEl.innerHTML = `
+        <div class="card border-0 rounded-4 p-5 text-center bg-white shadow-sm">
+          <div class="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle" style="width:64px;height:64px;background:#fce7f1;">
+            <i class="fa-solid fa-hospital-user fs-2 text-primary-pink"></i>
+          </div>
+          <h5 class="fw-bold">No hospitals found with this specialist filter</h5>
+          <p class="text-ink-soft small mb-3">Try selecting "All Specialists" or increasing the search radius to 50 km or 100 km.</p>
+          <div>
+            <button class="btn btn-outline-pink btn-sm" onclick="document.querySelector('[data-spec=all]').click();">Show All Specialists</button>
+          </div>
+        </div>
+      `;
+      updateMapMarkers([]);
+      return;
+    }
+
+    // Determine Suggested Hospital (Top Recommendation based on GPS proximity and readiness)
+    const suggested = (window.latestApiSuggested && filtered.some(h => h.id === window.latestApiSuggested.id))
+      ? (filtered.find(h => h.id === window.latestApiSuggested.id) || window.latestApiSuggested)
+      : (filtered[0] ? {
+          ...filtered[0],
+          recommendationReason: filtered[0].emergency24x7 
+            ? `Nearest high-readiness hospital (${filtered[0].distanceFormatted} from your GPS) with 24x7 Emergency, Maternity & ICU care.`
+            : `Closest healthcare facility (${filtered[0].distanceFormatted} from your GPS).`
+        } : null);
+
+    let suggestedHtml = '';
+    if (suggested) {
+      suggestedHtml = `
+        <div class="card border-0 shadow-sm rounded-4 p-4 mb-4" style="background: linear-gradient(135deg, #fff2f8 0%, #fde2ed 100%); border: 2px solid #ff4fa3 !important; position: relative;">
+          <div class="d-flex align-items-center justify-content-between mb-2 flex-wrap gap-2">
+            <span class="badge rounded-pill bg-pink text-white px-3 py-2 fw-semibold fs-6 shadow-sm">
+              <i class="fa-solid fa-star me-1"></i> Suggested Hospital for You (Based on GPS)
+            </span>
+            <span class="badge bg-white text-primary-pink border border-pink px-3 py-2 fw-bold">
+              <i class="fa-solid fa-location-crosshairs me-1"></i> ${suggested.distanceFormatted} away
+            </span>
+          </div>
+          <div class="row g-3 align-items-center mt-1">
+            <div class="col-lg-8">
+              <h4 class="fw-bold text-ink mb-1">${esc(suggested.name)}</h4>
+              <p class="text-ink-soft small mb-2"><i class="fa-solid fa-location-dot text-primary-pink me-1"></i>${esc(suggested.address)}</p>
+              <div class="p-2 px-3 rounded-3 mb-3" style="background: rgba(255,255,255,0.85); border-left: 4px solid #ff4fa3;">
+                <small class="fw-bold text-primary-pink d-block mb-1"><i class="fa-solid fa-circle-check me-1"></i>Why SheCare suggests this hospital:</small>
+                <small class="text-ink fw-medium">${esc(suggested.recommendationReason || 'Optimal match for emergency preparedness, maternity support, and GPS proximity.')}</small>
+              </div>
+              <div class="d-flex align-items-center gap-2 flex-wrap mb-2">
+                <span class="badge bg-warning text-dark"><i class="fa-solid fa-star me-1"></i>${suggested.rating || '4.8'} (${suggested.reviews || 950} reviews)</span>
+                ${suggested.emergency24x7 ? '<span class="status-badge-emergency"><i class="fa-solid fa-bell me-1"></i>24x7 Emergency / ICU Ready</span>' : ''}
+                <span class="badge bg-secondary text-primary-pink">${esc(suggested.type || 'Super Specialty')}</span>
+              </div>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+              <div class="d-flex flex-column gap-2">
+                <a class="btn btn-pink ripple fw-semibold py-2" target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${suggested.lat},${suggested.lng}">
+                  <i class="fa-solid fa-diamond-turn-right me-1"></i>GPS Directions
+                </a>
+                <a class="btn btn-outline-danger ripple fw-semibold py-2" href="tel:${encodeURIComponent(suggested.phone)}">
+                  <i class="fa-solid fa-phone me-1"></i>Call: ${esc(suggested.phone)}
+                </a>
+                <button class="btn btn-outline-secondary btn-sm rounded-pill" onclick="window.openRecordVisitModal('${suggested.id}');" type="button">
+                  <i class="fa-solid fa-notes-medical text-primary-pink me-1"></i>Record Visit Here
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    const otherHospitals = filtered.filter(h => !suggested || h.id !== suggested.id);
+
+    const listCardsHtml = otherHospitals.map(h => {
+      const filteredDoctors = activeSpecialty === 'all' 
+        ? (h.doctors || []) 
+        : (h.doctors || []).filter(d => d.specKey === activeSpecialty || activeSpecialty === 'emergency');
+
+      const doctorsHtml = (filteredDoctors.length ? filteredDoctors : (h.doctors || [])).map(d => `
+        <div class="doctor-pill">
+          <strong><i class="fa-solid fa-user-doctor text-primary-pink me-1"></i>${esc(d.name)}</strong>
+          <span class="text-muted d-block" style="font-size:11px;">${esc(d.field)} &bull; ${esc(d.exp)}</span>
+          <span class="text-secondary-pink small" style="font-size:10px;"><i class="fa-regular fa-clock me-1"></i>${esc(d.tim)}</span>
+        </div>
+      `).join('');
+
+      return `
+        <div class="hospital-card" id="card-${h.id}">
+          <div class="d-flex justify-content-between align-items-start gap-3 mb-2 flex-wrap">
+            <div class="d-flex align-items-start gap-3">
+              <div class="hosp-icon-box"><i class="fa-solid fa-hospital"></i></div>
+              <div>
+                <h5 class="fw-bold mb-1 text-ink">${esc(h.name)}</h5>
+                <p class="text-ink-soft small mb-1"><i class="fa-solid fa-location-dot text-primary-pink me-1"></i>${esc(h.address)}</p>
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                  <span class="badge bg-warning text-dark"><i class="fa-solid fa-star me-1"></i>${h.rating || '4.6'} (${h.reviews || 500} reviews)</span>
+                  ${h.emergency24x7 ? '<span class="status-badge-emergency"><i class="fa-solid fa-bell me-1"></i>24x7 Emergency / ICU</span>' : '<span class="status-badge-open">Open</span>'}
+                  <span class="badge bg-secondary text-primary-pink">${esc(h.type || 'Hospital')}</span>
+                </div>
+              </div>
+            </div>
+            <div class="text-end">
+              <span class="distance-tag"><i class="fa-solid fa-route me-1"></i>${h.distanceFormatted} away</span>
+            </div>
+          </div>
+
+          ${doctorsHtml ? `
+          <div class="mt-3 pt-3 border-top">
+            <div class="small fw-semibold text-ink-soft mb-2"><i class="fa-solid fa-stethoscope text-primary-pink me-1"></i>Specialist Doctors on Duty / Department:</div>
+            <div class="d-flex flex-wrap">${doctorsHtml}</div>
+          </div>` : ''}
+
+          <div class="d-flex align-items-center justify-content-between gap-2 mt-3 pt-2 border-top flex-wrap">
+            <div class="d-flex gap-2 flex-wrap">
+              <button class="btn btn-sm btn-pink ripple fw-medium" onclick="window.showHospitalOnGoogleMaps('${h.id}');" type="button" title="View hospital on embedded Google Maps">
+                <i class="fa-solid fa-map-location-dot me-1"></i>Google Maps View
+              </button>
+              <button class="btn btn-sm btn-outline-pink ripple fw-medium" onclick="window.highlightHospitalOnMap('${h.id}');" type="button" title="Highlight pin on interactive map">
+                <i class="fa-solid fa-location-dot me-1"></i>Leaflet Pin
+              </button>
+              <a class="btn btn-outline-success btn-sm ripple fw-medium" target="_blank" href="https://www.google.com/maps/dir/?api=1&destination=${h.lat},${h.lng}" title="Open turn-by-turn navigation in Google Maps">
+                <i class="fa-solid fa-diamond-turn-right me-1"></i>GPS Directions
+              </a>
+              <a class="btn btn-outline-danger btn-sm ripple fw-medium" href="tel:${encodeURIComponent(h.phone)}">
+                <i class="fa-solid fa-phone me-1"></i>Call
+              </a>
+              <button class="btn btn-outline-secondary btn-sm fw-medium rounded-pill px-3" onclick="window.openRecordVisitModal('${h.id}');" type="button">
+                <i class="fa-solid fa-notes-medical text-primary-pink me-1"></i>Record Visit
+              </button>
+            </div>
+            <a class="btn btn-link text-decoration-none text-primary-pink small p-0" href="${appointmentsHref}">
+              <i class="fa-regular fa-calendar-check me-1"></i>Book Visit &rarr;
+            </a>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    listEl.innerHTML = suggestedHtml + (otherHospitals.length > 0 ? `
+      <div class="mt-4 mb-2">
+        <h6 class="fw-bold text-ink"><i class="fa-solid fa-list-ul text-primary-pink me-2"></i>Other Nearby Hospitals &amp; Clinics in this Area:</h6>
+      </div>
+      ${listCardsHtml}
+    ` : '');
+
+    updateMapMarkers(filtered);
+  }
+
+  // Geolocation trigger: detects real GPS coordinates, fetches local hospitals & updates suggestion
+  function detectLiveLocation(userTriggered = false) {
+    const btn = document.getElementById('detectLocationBtn');
+    const quickBtn = document.getElementById('autoGpsQuickBtn');
+    const addrEl = document.getElementById('locationAddressText');
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Detecting GPS...';
+    }
+    if (quickBtn) {
+      quickBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Locating...';
+    }
+    addrEl.textContent = 'Accessing live GPS coordinates from your device...';
+
+    if (!('geolocation' in navigator)) {
+      if (userTriggered) alert('Geolocation is not supported by your browser.');
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-location-arrow me-2"></i>Detect My Live Location';
+      }
+      if (quickBtn) quickBtn.innerHTML = '<i class="fa-solid fa-location-crosshairs me-1"></i>Use My GPS';
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        const rawLat = pos.coords.latitude;
+        const rawLng = pos.coords.longitude;
+        userCoords = { lat: rawLat, lng: rawLng };
+        const accuracyMeters = Math.round(pos.coords.accuracy || 0);
+
+        try {
+          const resolvedAddress = await reverseGeocode(userCoords.lat, userCoords.lng);
+          addrEl.innerHTML = `<strong>${resolvedAddress}</strong> <span class="badge bg-success small ms-1"><i class="fa-solid fa-satellite me-1"></i>Live GPS (&plusmn;${accuracyMeters}m)</span>`;
+          updateGoogleMaps(`hospitals near ${resolvedAddress}`);
+        } catch {
+          addrEl.innerHTML = `<strong>${rawLat.toFixed(4)}°N, ${rawLng.toFixed(4)}°E</strong> <span class="badge bg-success small ms-1">Live GPS</span>`;
+          updateGoogleMaps(`hospitals near ${rawLat},${rawLng}`);
+        }
+
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fa-solid fa-circle-check text-success me-2"></i>Live GPS Active';
+        }
+        if (quickBtn) {
+          quickBtn.innerHTML = '<i class="fa-solid fa-circle-check text-success me-1"></i>GPS Active';
+        }
+
+        // Fetch live hospitals and AI suggestion from backend API
+        try {
+          if (window.SheCareAPI?.hospitals?.nearby) {
+            const apiRes = await window.SheCareAPI.hospitals.nearby(rawLat, rawLng, maxRadiusKm, activeSpecialty);
+            if (apiRes && apiRes.hospitals) {
+              apiRes.hospitals.forEach(nh => {
+                if (!hospitalDatabase.some(h => h.id === nh.id || h.name.toLowerCase() === nh.name.toLowerCase())) {
+                  hospitalDatabase.push(nh);
+                }
+              });
+              if (apiRes.suggestedHospital) {
+                window.latestApiSuggested = apiRes.suggestedHospital;
+              }
+            }
+          }
+        } catch (apiErr) {
+          console.warn('Backend nearby hospital fetch:', apiErr.message);
+        }
+
+        initMap();
+        updateUserMarker();
+        renderHospitals();
+      },
+      (err) => {
+        console.warn('Geolocation notice:', err.message);
+        // Fallback gracefully
+        addrEl.innerHTML = '<strong>Ballari (Bellary), Karnataka</strong> <span class="badge bg-secondary-subtle text-dark small ms-1">Default City</span>';
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fa-solid fa-location-arrow me-2"></i>Detect My Live Location';
+        }
+        if (quickBtn) quickBtn.innerHTML = '<i class="fa-solid fa-location-crosshairs me-1"></i>Use My GPS';
+        updateGoogleMaps('hospitals near Ballari, Karnataka');
+        initMap();
+        renderHospitals();
+      },
+      { enableHighAccuracy: true, timeout: 8000, maximumAge: 30000 }
+    );
+  }
+
+  // Open Record Visit Modal pre-filled
+  window.openRecordVisitModal = function(hospId = null) {
+    const modalEl = document.getElementById('recordVisitModal');
+    if (!modalEl) return;
+
+    const form = document.getElementById('recordVisitForm');
+    form.reset();
+    document.getElementById('visitAlert').className = 'alert d-none';
+
+    const today = new Date();
+    document.getElementById('visitDate').value = today.toISOString().split('T')[0];
+    const hours = today.getHours();
+    const minutes = today.getMinutes().toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const formattedHours = hours % 12 || 12;
+    document.getElementById('visitTime').value = `${formattedHours}:${minutes} ${ampm}`;
+
+    if (hospId) {
+      const hosp = hospitalDatabase.find(h => h.id === hospId);
+      if (hosp) {
+        document.getElementById('visitHospitalName').value = hosp.name;
+        document.getElementById('visitHospitalAddress').value = hosp.address;
+        if (hosp.doctors && hosp.doctors.length > 0) {
+          document.getElementById('visitDoctorName').value = hosp.doctors[0].name;
+          const firstSpec = hosp.doctors[0].specKey;
+          if (firstSpec === 'gynecology') document.getElementById('visitDepartment').value = 'Obstetrics & Gynecology (OB-GYN)';
+          else if (firstSpec === 'pediatrics') document.getElementById('visitDepartment').value = 'Pediatrics & Neonatology';
+          else if (firstSpec === 'cardiology') document.getElementById('visitDepartment').value = 'Cardiology & Hypertension';
+          else if (firstSpec === 'endocrinology') document.getElementById('visitDepartment').value = 'Endocrinology & Diabetes / PCOS';
+          else if (firstSpec === 'mental') document.getElementById('visitDepartment').value = 'Psychiatry & Mental Wellness';
+          else if (firstSpec === 'oncology') document.getElementById('visitDepartment').value = "Women's Oncology & Breast Health";
+          else if (firstSpec === 'emergency') document.getElementById('visitDepartment').value = 'Emergency & Critical Care';
+          else document.getElementById('visitDepartment').value = 'General Medicine';
+        }
+      }
+    } else {
+      // Default to VIMS Ballari
+      document.getElementById('visitHospitalName').value = 'VIMS Hospital Ballari';
+      document.getElementById('visitHospitalAddress').value = 'Cantonment, Ballari, Karnataka';
+      document.getElementById('visitDoctorName').value = 'Dr. Geetha K.';
+    }
+
+    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+    modal.show();
+  };
+
+  // Load and Render Hospital Visits History
+  async function loadHospitalVisits() {
+    const listEl = document.getElementById('visitHistoryList');
+    const badgeEl = document.getElementById('visitCountBadge');
+    if (!listEl) return;
+
+    listEl.innerHTML = `
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary-pink" role="status"></div>
+        <p class="text-ink-soft mt-3">Loading your hospital visit records...</p>
+      </div>
+    `;
+
+    try {
+      const visits = await window.SheCareAPI.hospitalVisits.list();
+      
+      if (badgeEl) {
+        badgeEl.textContent = visits.length;
+        badgeEl.classList.toggle('d-none', visits.length === 0);
+      }
+
+      if (!visits || visits.length === 0) {
+        listEl.innerHTML = `
+          <div class="card border-0 rounded-4 p-5 text-center bg-white shadow-sm">
+            <div class="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle" style="width:64px;height:64px;background:#fce7f1;">
+              <i class="fa-solid fa-notes-medical fs-2 text-primary-pink"></i>
+            </div>
+            <h5 class="fw-bold">No hospital visit records yet</h5>
+            <p class="text-ink-soft small mb-3">Record your hospital visits, specialist doctor prescriptions, diagnosis, and vitals to keep an organized timeline of your health journey.</p>
+            <div>
+              <button class="btn btn-pink rounded-pill px-4 fw-semibold" onclick="window.openRecordVisitModal();">
+                <i class="fa-solid fa-plus me-2"></i>Record Your First Hospital Visit
+              </button>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      listEl.innerHTML = visits.map(v => {
+        const visitDateStr = v.visitDate ? new Date(v.visitDate).toLocaleDateString(undefined, { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }) : 'Unknown Date';
+        const followUpStr = v.followUpDate ? new Date(v.followUpDate).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' }) : null;
+
+        return `
+          <article class="visit-card" id="visit-card-${v.id}">
+            <div class="d-flex justify-content-between align-items-start gap-3 mb-3 flex-wrap">
+              <div class="d-flex align-items-start gap-3">
+                <div class="hosp-icon-box" style="background:#e8f4fd; color:#0d6efd;">
+                  <i class="fa-solid fa-hospital-user"></i>
+                </div>
+                <div>
+                  <div class="d-flex align-items-center gap-2 flex-wrap mb-1">
+                    <h5 class="fw-bold mb-0 text-ink">${esc(v.hospitalName)}</h5>
+                    ${v.department ? `<span class="badge bg-secondary text-primary-pink">${esc(v.department)}</span>` : ''}
+                    <span class="badge bg-success-subtle text-success border border-success-subtle"><i class="fa-solid fa-circle-check me-1"></i>Completed Visit</span>
+                  </div>
+                  <div class="text-ink-soft small">
+                    <span class="fw-semibold text-ink"><i class="fa-solid fa-user-doctor text-primary-pink me-1"></i>${esc(v.doctorName)}</span>
+                    ${v.hospitalAddress ? ` &bull; <i class="fa-solid fa-location-dot text-muted me-1"></i>${esc(v.hospitalAddress)}` : ''}
+                  </div>
+                </div>
+              </div>
+              <div class="text-end">
+                <span class="badge bg-light text-dark border p-2"><i class="fa-regular fa-calendar-check text-primary-pink me-1"></i>${visitDateStr} ${v.visitTime ? `(${esc(v.visitTime)})` : ''}</span>
+              </div>
+            </div>
+
+            ${v.vitalSigns ? `
+              <div class="d-flex align-items-center gap-2 flex-wrap mb-3 p-2 rounded-3" style="background:#fff7fa;">
+                <span class="small fw-semibold text-primary-pink me-1"><i class="fa-solid fa-heart-pulse me-1"></i>Vitals:</span>
+                <span class="vital-chip">${esc(v.vitalSigns)}</span>
+              </div>
+            ` : ''}
+
+            <div class="row g-3 mb-3">
+              ${v.reason ? `
+                <div class="col-md-6">
+                  <div class="p-3 rounded-3 bg-light h-100">
+                    <strong class="d-block small text-muted text-uppercase mb-1"><i class="fa-solid fa-stethoscope text-primary-pink me-1"></i>Symptoms / Reason for Visit</strong>
+                    <div class="small text-ink">${esc(v.reason)}</div>
+                  </div>
+                </div>
+              ` : ''}
+              ${v.diagnosis ? `
+                <div class="col-md-6">
+                  <div class="p-3 rounded-3 bg-light h-100">
+                    <strong class="d-block small text-muted text-uppercase mb-1"><i class="fa-solid fa-clipboard-check text-primary-pink me-1"></i>Doctor's Diagnosis</strong>
+                    <div class="small text-ink fw-medium">${esc(v.diagnosis)}</div>
+                  </div>
+                </div>
+              ` : ''}
+            </div>
+
+            ${v.prescriptions ? `
+              <div class="p-3 rounded-3 mb-3" style="background:#f0f9ff; border:1px solid #bae6fd;">
+                <strong class="d-block small text-primary text-uppercase mb-1"><i class="fa-solid fa-prescription me-1"></i>Prescriptions &amp; Medications</strong>
+                <div class="small text-ink fw-medium" style="white-space:pre-wrap;">${esc(v.prescriptions)}</div>
+              </div>
+            ` : ''}
+
+            ${v.notes && v.notes !== v.reason && v.notes !== v.diagnosis ? `
+              <div class="small text-ink-soft mb-3">
+                <strong>Doctor's Advice / Notes:</strong> ${esc(v.notes)}
+              </div>
+            ` : ''}
+
+            <div class="d-flex justify-content-between align-items-center pt-3 border-top flex-wrap gap-2">
+              <div>
+                ${followUpStr ? `
+                  <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle p-2">
+                    <i class="fa-regular fa-bell me-1"></i>Follow-up Scheduled: <strong>${followUpStr}</strong>
+                  </span>
+                ` : '<span class="text-muted small">No follow-up date scheduled</span>'}
+              </div>
+              <div class="d-flex gap-2">
+                <button class="btn btn-outline-danger btn-sm rounded-pill px-3" onclick="window.deleteHospitalVisit('${v.id}');" type="button">
+                  <i class="fa-regular fa-trash-can me-1"></i>Delete
+                </button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join('');
+
+    } catch (err) {
+      if (err.status === 401) {
+        listEl.innerHTML = `
+          <div class="card border-0 rounded-4 p-5 text-center bg-white shadow-sm">
+            <div class="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle" style="width:64px;height:64px;background:#fce7f1;">
+              <i class="fa-solid fa-lock fs-2 text-primary-pink"></i>
+            </div>
+            <h5 class="fw-bold">Sign In to View Your Medical Visits</h5>
+            <p class="text-ink-soft small mb-3">Your clinical visits and doctor prescriptions are protected with medical confidentiality. Sign in to view and maintain your history.</p>
+            <div>
+              <a class="btn btn-pink rounded-pill px-4 fw-semibold" href="${loginHref}">
+                <i class="fa-solid fa-arrow-right-to-bracket me-2"></i>Log In to SheCare
+              </a>
+            </div>
+          </div>
+        `;
+      } else {
+        listEl.innerHTML = `
+          <div class="alert alert-danger">
+            <i class="fa-solid fa-triangle-exclamation me-2"></i>Failed to load hospital visit history: ${esc(err.message || 'Please check server connection.')}
+          </div>
+        `;
+      }
+    }
+  }
+
+  // Delete Hospital Visit
+  window.deleteHospitalVisit = async function(visitId) {
+    if (!confirm('Are you sure you want to delete this hospital visit record?')) return;
+    try {
+      await window.SheCareAPI.hospitalVisits.delete(visitId);
+      loadHospitalVisits();
+    } catch (err) {
+      alert('Could not delete record: ' + (err.message || 'Please try again.'));
+    }
+  };
+
+  // Save Hospital Visit Form submission
+  async function handleSaveVisit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('saveVisitBtn');
+    const alertEl = document.getElementById('visitAlert');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Saving Visit...';
+    alertEl.className = 'alert d-none';
+
+    const payload = {
+      hospitalName: document.getElementById('visitHospitalName').value.trim(),
+      hospitalAddress: document.getElementById('visitHospitalAddress').value.trim(),
+      doctorName: document.getElementById('visitDoctorName').value.trim(),
+      department: document.getElementById('visitDepartment').value,
+      visitDate: document.getElementById('visitDate').value,
+      visitTime: document.getElementById('visitTime').value.trim(),
+      reason: document.getElementById('visitReason').value.trim(),
+      diagnosis: document.getElementById('visitDiagnosis').value.trim(),
+      prescriptions: document.getElementById('visitPrescriptions').value.trim(),
+      vitalSigns: document.getElementById('visitVitals').value.trim(),
+      followUpDate: document.getElementById('visitFollowUp').value,
+      notes: document.getElementById('visitNotes').value.trim()
+    };
+
+    try {
+      await window.SheCareAPI.hospitalVisits.create(payload);
+      
+      const modal = bootstrap.Modal.getInstance(document.getElementById('recordVisitModal'));
+      if (modal) modal.hide();
+
+      // Switch to history tab and refresh
+      document.getElementById('tabVisitHistory').click();
+      loadHospitalVisits();
+      alert('Hospital visit recorded successfully and saved to your history!');
+    } catch (err) {
+      alertEl.className = 'alert alert-danger';
+      alertEl.textContent = err.message || 'Could not save hospital visit. Please ensure you are logged in.';
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-floppy-disk me-2"></i>Save Hospital Visit';
+    }
+  }
+
+  // Event Listeners Setup
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Initialize Map FIRST, then Render Hospitals
+    initMap();
+    renderHospitals();
+
+    // 2. Automatically detect live GPS location on load to fetch nearby hospitals and suggested hospital
+    detectLiveLocation(false);
+
+    // 3. Pre-fetch visit count badge if user is logged in
+    window.SheCareAPI?.hospitalVisits?.list().then(visits => {
+      const badgeEl = document.getElementById('visitCountBadge');
+      if (badgeEl && visits && visits.length > 0) {
+        badgeEl.textContent = visits.length;
+        badgeEl.classList.remove('d-none');
+      }
+    }).catch(() => {});
+
+    // Map Mode Switch Buttons
+    document.getElementById('btnMapGoogle')?.addEventListener('click', () => switchMapMode('google'));
+    document.getElementById('btnMapLeaflet')?.addEventListener('click', () => switchMapMode('leaflet'));
+
+    // Window Resize Handler for Leaflet
+    window.addEventListener('resize', () => {
+      if (map) map.invalidateSize();
+    });
+
+    // Tab Navigation: Nearby Hospitals vs Hospital Visit History
+    const tabNearbyHospitals = document.getElementById('tabNearbyHospitals');
+    const tabVisitHistory = document.getElementById('tabVisitHistory');
+    const hospitalsMainView = document.getElementById('hospitalsMainView');
+    const visitHistoryView = document.getElementById('visitHistoryView');
+
+    tabNearbyHospitals?.addEventListener('click', () => {
+      tabNearbyHospitals.classList.add('active');
+      tabVisitHistory.classList.remove('active');
+      hospitalsMainView.classList.remove('d-none');
+      visitHistoryView.classList.add('d-none');
+      setTimeout(() => {
+        if (map) {
+          map.invalidateSize();
+          updateMapMarkers(getFilteredHospitals());
+        }
+      }, 150);
+    });
+
+    tabVisitHistory?.addEventListener('click', () => {
+      tabVisitHistory.classList.add('active');
+      tabNearbyHospitals.classList.remove('active');
+      hospitalsMainView.classList.add('d-none');
+      visitHistoryView.classList.remove('d-none');
+      loadHospitalVisits();
+    });
+
+    // City Buttons
+    document.querySelectorAll('.city-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const city = btn.dataset.city;
+        const lat = parseFloat(btn.dataset.lat);
+        const lng = parseFloat(btn.dataset.lng);
+        const name = btn.dataset.name;
+        switchCity(city, lat, lng, name);
+      });
+    });
+
+    // Auto GPS Quick Button
+    document.getElementById('autoGpsQuickBtn')?.addEventListener('click', () => {
+      detectLiveLocation(true);
+    });
+
+    // Specialist Chips
+    document.querySelectorAll('.spec-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        document.querySelectorAll('.spec-chip').forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        activeSpecialty = chip.dataset.spec;
+        renderHospitals();
+      });
+    });
+
+    // Detect Location Button in Hero
+    document.getElementById('detectLocationBtn')?.addEventListener('click', () => {
+      detectLiveLocation(true);
+    });
+
+    // Recenter Map
+    document.getElementById('recenterMapBtn')?.addEventListener('click', () => {
+      if (map) {
+        map.setView([userCoords.lat, userCoords.lng], 14);
+        if (userMarker) userMarker.openPopup();
+      }
+    });
+
+    // Radius Select
+    document.getElementById('radiusSelect')?.addEventListener('change', (e) => {
+      maxRadiusKm = parseInt(e.target.value, 10);
+      renderHospitals();
+    });
+
+    // Manual Location Search
+    document.getElementById('manualLocBtn')?.addEventListener('click', () => {
+      const q = document.getElementById('manualLocSearch').value.trim();
+      searchLocation(q);
+    });
+
+    document.getElementById('manualLocSearch')?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        searchLocation(e.target.value.trim());
+      }
+    });
+
+    // Modal Trigger
+    document.getElementById('openRecordVisitModalBtn')?.addEventListener('click', () => {
+      window.openRecordVisitModal();
+    });
+
+    // Refresh Visits Button
+    document.getElementById('refreshVisitsBtn')?.addEventListener('click', loadHospitalVisits);
+
+    // Save Visit Form Submit
+    document.getElementById('recordVisitForm')?.addEventListener('submit', handleSaveVisit);
+  });
+
+})();
+</script>
+</body>
+</html>

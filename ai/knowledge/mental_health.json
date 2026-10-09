@@ -1,0 +1,28 @@
+[
+  {
+    "id": "mh_anxiety_panic",
+    "topic": "Acute Anxiety & Panic Grounding",
+    "keywords": ["anxiety", "panic attack", "racing heart anxiety", "overwhelmed", "nervous breathless"],
+    "guidelines": "NICE Clinical Guidelines: Generalised Anxiety Disorder and Panic Disorder",
+    "assessment": "Panic attacks involve acute sympathetic nervous system hyperarousal causing palpitations, hyperventilation, trembling, and a sense of impending doom.",
+    "immediateInterventions": [
+      "4-7-8 Rhythmic Breathing: Inhale through the nose for 4 seconds, hold for 7 seconds, exhale slowly through pursed lips for 8 seconds. Perform 4 cycles to stimulate parasympathetic vagal tone.",
+      "5-4-3-2-1 Sensory Grounding: Identify 5 things you can see, 4 you can touch, 3 you can hear, 2 you can smell, and 1 you can taste to anchor nervous system awareness.",
+      "Somatic reassurance: Remind yourself that panic surges typically peak within 10 minutes and will pass."
+    ],
+    "redFlags": "Chest pain radiating to arm/jaw, severe persistent shortness of breath, or thoughts of self-harm require immediate emergency assistance. National Mental Health Helpline (KIRAN India): 1800-599-0019 / Emergency: 112."
+  },
+  {
+    "id": "mh_perinatal_postpartum_depression",
+    "topic": "Postpartum Depression & Perinatal Mood Assessment",
+    "keywords": ["postpartum depression", "baby blues", "crying after birth", "sad after baby", "postpartum anxiety"],
+    "guidelines": "ACOG Committee Opinion No. 757: Screening for Perinatal Depression / Edinburgh Postnatal Depression Scale (EPDS)",
+    "assessment": "While 'baby blues' occur in up to 80% of mothers and resolve within 2 weeks, persistent sad mood, feelings of inadequacy, detachment from the infant, or debilitating insomnia beyond 2 weeks indicate Postpartum Depression.",
+    "supportActions": [
+      "Screen using the EPDS self-assessment questionnaire.",
+      "Involve a trusted support person (partner, family member, doula) to take over night infant feedings for dedicated sleep blocks.",
+      "Consult an obstetrician or perinatal psychiatrist for evidence-based talk therapy (CBT, IPT) and medication options safe during lactation."
+    ],
+    "redFlags": "Intrusive thoughts of harming oneself or the baby, hallucinations, or severe disorganization are psychiatric emergencies (Postpartum Psychosis). Call 112 immediately."
+  }
+]

@@ -1,0 +1,2993 @@
+[
+  {
+    "id": "tadasana",
+    "name": "Mountain Pose",
+    "sanskritName": "Tadasana",
+    "category": "Beginner",
+    "difficulty": "Beginner",
+    "targetBodyAreas": [
+      "feet",
+      "ankles",
+      "calves",
+      "thighs",
+      "spine",
+      "posture"
+    ],
+    "muscles": [
+      "quadriceps",
+      "core",
+      "erector spinae"
+    ],
+    "alignmentTips": [],
+    "precautions": "Stand with feet hip-width apart if lightheaded or dealing with low blood pressure.",
+    "instructions": [
+      "Stand with big toes touching and heels slightly apart, distributing weight evenly through both feet.",
+      "Engage quadriceps, draw tailbone down, and lengthen spine upward.",
+      "Roll shoulders back and down, allowing arms to rest alongside torso with palms facing forward.",
+      "Gaze softly forward and breathe deeply through the nose."
+    ],
+    "breathing": "Deep diaphragmatic breathing; inhale to lengthen the crown upward, exhale to ground down through soles.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library",
+      "HuggingFace:omergoshen"
+    ],
+    "photo_url": "https://pocketyoga.com/assets/images/full/MountainArmsSide.png"
+  },
+  {
+    "id": "vrikshasana",
+    "name": "Tree Pose",
+    "sanskritName": "Vrikshasana",
+    "category": "Balance",
+    "difficulty": "Beginner",
+    "targetBodyAreas": [
+      "ankles",
+      "calves",
+      "thighs",
+      "hips",
+      "groin",
+      "core"
+    ],
+    "muscles": [
+      "gluteus medius",
+      "adductors",
+      "core stabilisers"
+    ],
+    "alignmentTips": [],
+    "precautions": "Never place foot directly on the side of the knee joint. Use a wall for balance support if pregnant.",
+    "instructions": [
+      "Shift weight onto standing leg, rooting through all four corners of the foot.",
+      "Place sole of opposite foot onto your inner calf or inner thigh (never on the knee joint).",
+      "Bring hands to prayer (Anjali Mudra) at heart center or reach overhead.",
+      "Fix gaze on an unmoving point (Drishti) for stability."
+    ],
+    "breathing": "Steady, calm nasal inhalation and exhalation to quiet inner ear equilibrium.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library",
+      "HuggingFace:omergoshen"
+    ],
+    "photo_url": "https://pocketyoga.com/assets/images/full/TreePrayer_R.png"
+  },
+  {
+    "id": "sukhasana",
+    "name": "Easy Pose",
+    "sanskritName": "Sukhasana",
+    "category": "Beginner",
+    "difficulty": "Beginner",
+    "targetBodyAreas": [
+      "hips",
+      "groin",
+      "spine",
+      "knees"
+    ],
+    "muscles": [
+      "erector spinae",
+      "transverse abdominis"
+    ],
+    "alignmentTips": [],
+    "precautions": "Sit on a folded blanket or yoga cushion if hips are tight or knees sit higher than pelvis.",
+    "instructions": [
+      "Sit cross-legged on floor or cushion with spine erect.",
+      "Rest hands gently on knees with palms facing up or down in Jnana Mudra.",
+      "Lengthen back of neck and breathe slowly into lower abdomen."
+    ],
+    "breathing": "Slow 4-second inhalation, 4-second exhalation.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library",
+      "HuggingFace:omergoshen"
+    ],
+    "photo_url": "https://pocketyoga.com/assets/images/full/Easy.png"
+  },
+  {
+    "id": "balasana",
+    "name": "Child's Pose",
+    "sanskritName": "Balasana",
+    "category": "Restorative",
+    "difficulty": "Beginner",
+    "targetBodyAreas": [
+      "lower back",
+      "hips",
+      "thighs",
+      "ankles",
+      "shoulders"
+    ],
+    "muscles": [
+      "latissimus dorsi",
+      "lumbar extensors"
+    ],
+    "alignmentTips": [],
+    "precautions": "Widen knees comfortably during pregnancy to create space for the abdomen.",
+    "instructions": [
+      "Kneel on floor, big toes touching, knees separated wide.",
+      "Fold torso forward between thighs, resting forehead on mat or cushion.",
+      "Extend arms long overhead or rest alongside thighs."
+    ],
+    "breathing": "Expand breath into back ribs and posterior lungs.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library",
+      "HuggingFace:omergoshen"
+    ],
+    "photo_url": "https://pocketyoga.com/assets/images/full/ChildTraditional.png"
+  },
+  {
+    "id": "vajrasana",
+    "name": "Thunderbolt Pose",
+    "sanskritName": "Vajrasana",
+    "category": "Beginner",
+    "difficulty": "Beginner",
+    "targetBodyAreas": [
+      "quadriceps",
+      "ankles",
+      "pelvic floor",
+      "spine"
+    ],
+    "muscles": [
+      "tibialis anterior",
+      "quadriceps"
+    ],
+    "alignmentTips": [],
+    "precautions": "Place cushion under ankles if tops of feet feel cramped.",
+    "instructions": [
+      "Kneel on mat, sitting directly back onto heels with toes pointing straight back.",
+      "Rest palms on thighs, keep spine straight, chin parallel to floor."
+    ],
+    "breathing": "Slow, steady abdominal breathing.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library",
+      "HuggingFace:omergoshen"
+    ],
+    "photo_url": "https://pocketyoga.com/assets/images/full/Thunderbolt.png"
+  },
+  {
+    "id": "marjariasana",
+    "name": "Cat Pose",
+    "sanskritName": "Marjariasana",
+    "category": "Beginner",
+    "difficulty": "Beginner",
+    "targetBodyAreas": [
+      "spine",
+      "neck",
+      "shoulders",
+      "abdominals"
+    ],
+    "muscles": [
+      "rectus abdominis",
+      "serratus anterior"
+    ],
+    "alignmentTips": [],
+    "precautions": "Avoid aggressive neck flexion if cervical spine is sensitive.",
+    "instructions": [
+      "Begin on hands and knees with wrists under shoulders and knees under hips.",
+      "Exhale, press mat away, round spine toward ceiling, tuck chin toward chest."
+    ],
+    "breathing": "Exhale fully as spine curves upward.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library",
+      "HuggingFace:omergoshen"
+    ],
+    "photo_url": "https://pocketyoga.com/assets/images/full/Cat.png"
+  },
+  {
+    "id": "bitilasana",
+    "name": "Cow Pose",
+    "sanskritName": "Bitilasana",
+    "category": "Beginner",
+    "difficulty": "Beginner",
+    "targetBodyAreas": [
+      "chest",
+      "neck",
+      "spine",
+      "abdominals"
+    ],
+    "muscles": [
+      "erector spinae"
+    ],
+    "alignmentTips": [],
+    "precautions": "Do not overarch lumbar spine excessively during pregnancy.",
+    "instructions": [
+      "From tabletop on hands and knees, inhale, lower belly gently toward mat.",
+      "Lift sit-bones, open collarbones, and gaze gently upward."
+    ],
+    "breathing": "Deep inhalation as chest expands forward.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library",
+      "HuggingFace:omergoshen"
+    ],
+    "photo_url": "https://pocketyoga.com/assets/images/full/Dog.png"
+  },
+  {
+    "id": "adho_mukha_svanasana",
+    "name": "Downward-Facing Dog",
+    "sanskritName": "Adho Mukha Svanasana",
+    "category": "Standing",
+    "difficulty": "Beginner",
+    "targetBodyAreas": [
+      "hamstrings",
+      "calves",
+      "shoulders",
+      "spine",
+      "hands"
+    ],
+    "muscles": [
+      "deltoids",
+      "triceps",
+      "hamstrings",
+      "gastrocnemius"
+    ],
+    "alignmentTips": [],
+    "precautions": "Avoid in late third trimester if inversion triggers reflux, or in uncontrolled hypertension.",
+    "instructions": [
+      "From tabletop, tuck toes and lift hips toward ceiling in an inverted V-shape.",
+      "Press through all 10 knuckles, lengthen spine, reach heels toward floor.",
+      "Keep head between upper arms, neck relaxed."
+    ],
+    "breathing": "Long, smooth rhythmic breathing.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library",
+      "HuggingFace:myyim"
+    ]
+  },
+  {
+    "id": "bhujangasana",
+    "name": "Cobra Pose",
+    "sanskritName": "Bhujangasana",
+    "category": "Backbends",
+    "difficulty": "Beginner",
+    "targetBodyAreas": [
+      "spine",
+      "chest",
+      "lungs",
+      "shoulders",
+      "abdominals"
+    ],
+    "muscles": [
+      "erector spinae",
+      "gluteals",
+      "latissimus dorsi"
+    ],
+    "alignmentTips": [],
+    "precautions": "Contraindicated during pregnancy (avoid lying prone on abdomen).",
+    "instructions": [
+      "Lie prone on belly, legs extended hip-width apart.",
+      "Place palms beneath shoulders, elbows hugged in by ribs.",
+      "Inhale, use spinal muscles to lift chest, keeping pubic bone grounded."
+    ],
+    "breathing": "Inhale to lift, exhale to hold or lower.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library",
+      "HuggingFace:omergoshen"
+    ],
+    "photo_url": "https://pocketyoga.com/assets/images/full/CobraFull.png"
+  },
+  {
+    "id": "setu_bandhasana",
+    "name": "Bridge Pose",
+    "sanskritName": "Setu Bandhasana",
+    "category": "Backbends",
+    "difficulty": "Beginner",
+    "targetBodyAreas": [
+      "glutes",
+      "hamstrings",
+      "spine",
+      "chest",
+      "thyroid"
+    ],
+    "muscles": [
+      "gluteus maximus",
+      "hamstrings",
+      "quadriceps"
+    ],
+    "alignmentTips": [],
+    "precautions": "Do not turn head from side to side while hips are elevated.",
+    "instructions": [
+      "Lie supine with knees bent, feet flat on mat hip-width apart, arms by sides.",
+      "Press through feet to lift hips toward ceiling.",
+      "Roll shoulders underneath and interlace fingers beneath pelvis if comfortable."
+    ],
+    "breathing": "Deep expansive breaths into front chest and belly.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library"
+    ]
+  },
+  {
+    "id": "makarasana",
+    "name": "Crocodile Pose",
+    "sanskritName": "Makarasana",
+    "category": "Restorative",
+    "difficulty": "Beginner",
+    "targetBodyAreas": [
+      "lumbar spine",
+      "sacrum",
+      "diaphragm"
+    ],
+    "muscles": [
+      "diaphragm"
+    ],
+    "alignmentTips": [],
+    "precautions": "Avoid in pregnancy due to prone position.",
+    "instructions": [
+      "Lie prone, cross arms in front, rest forehead on folded wrists.",
+      "Turn heels inward, toes pointing outward, releasing all effort."
+    ],
+    "breathing": "Deep diaphragmatic breathing feeling belly expand against mat.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library"
+    ]
+  },
+  {
+    "id": "pawanmuktasana",
+    "name": "Wind-Relieving Pose",
+    "sanskritName": "Pawanmuktasana",
+    "category": "Restorative",
+    "difficulty": "Beginner",
+    "targetBodyAreas": [
+      "abdominal viscera",
+      "lower back",
+      "hips"
+    ],
+    "muscles": [
+      "hip flexors"
+    ],
+    "alignmentTips": [],
+    "precautions": "Do not forcefully press knees against abdomen during pregnancy.",
+    "instructions": [
+      "Lie on back, bend knees toward chest, wrap arms around shins.",
+      "Gently rock side to side or draw forehead toward knees if neck feels comfortable."
+    ],
+    "breathing": "Inhale release slightly; exhale draw knees gently closer.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library"
+    ]
+  },
+  {
+    "id": "virabhadrasana1",
+    "name": "Warrior I",
+    "sanskritName": "Virabhadrasana I",
+    "category": "Standing",
+    "difficulty": "Intermediate",
+    "targetBodyAreas": [
+      "thighs",
+      "calves",
+      "ankles",
+      "chest",
+      "shoulders",
+      "hips"
+    ],
+    "muscles": [
+      "quadriceps",
+      "gluteals",
+      "deltoids"
+    ],
+    "alignmentTips": [],
+    "precautions": "Widen stance slightly to maintain pelvic balance if balance is compromised.",
+    "instructions": [
+      "Step one foot back 3\u20134 feet, turning back foot out 45\u00b0 with heel rooted.",
+      "Bend front knee to 90\u00b0 directly over ankle, square hips forward.",
+      "Sweep arms overhead beside ears, palms facing."
+    ],
+    "breathing": "Deep victorious Ujjayi breath.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library"
+    ]
+  },
+  {
+    "id": "virabhadrasana2",
+    "name": "Warrior II",
+    "sanskritName": "Virabhadrasana II",
+    "category": "Standing",
+    "difficulty": "Beginner",
+    "targetBodyAreas": [
+      "thighs",
+      "groin",
+      "hips",
+      "chest",
+      "shoulders"
+    ],
+    "muscles": [
+      "quadriceps",
+      "hamstrings",
+      "deltoids",
+      "core"
+    ],
+    "alignmentTips": [],
+    "precautions": "Do not allow front knee to cave inward past the big toe.",
+    "instructions": [
+      "Step feet wide (3.5\u20134 feet). Turn front foot forward and back foot perpendicular.",
+      "Bend front knee to 90\u00b0, stacked directly over front ankle.",
+      "Extend arms parallel to floor at shoulder height, gazing past front fingertips.",
+      "Keep torso upright and centered."
+    ],
+    "breathing": "Smooth, continuous breathing maintaining soft steady gaze (Drishti).",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library"
+    ]
+  },
+  {
+    "id": "virabhadrasana3",
+    "name": "Warrior III",
+    "sanskritName": "Virabhadrasana III",
+    "category": "Balance",
+    "difficulty": "Advanced",
+    "targetBodyAreas": [
+      "ankles",
+      "hamstrings",
+      "glutes",
+      "back",
+      "core"
+    ],
+    "muscles": [
+      "gluteus medius",
+      "hamstrings",
+      "erector spinae",
+      "transverse abdominis"
+    ],
+    "alignmentTips": [],
+    "precautions": "Use a chair or blocks under hands for support if balance is unsteady.",
+    "instructions": [
+      "From standing, hinge forward at hips while lifting back leg parallel to floor.",
+      "Reach arms forward or alongside torso, forming a straight line from crown to back heel.",
+      "Keep both hip bones level facing floor."
+    ],
+    "breathing": "Steady, focused nasal breathing.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library"
+    ]
+  },
+  {
+    "id": "utkatasana",
+    "name": "Chair Pose",
+    "sanskritName": "Utkatasana",
+    "category": "Standing",
+    "difficulty": "Beginner",
+    "targetBodyAreas": [
+      "thighs",
+      "calves",
+      "spine",
+      "ankles",
+      "shoulders"
+    ],
+    "muscles": [
+      "quadriceps",
+      "gluteus maximus",
+      "calves",
+      "deltoids"
+    ],
+    "alignmentTips": [],
+    "precautions": "Do not bend knees deeper than 90\u00b0 if managing patellofemoral knee pain.",
+    "instructions": [
+      "Stand with feet hip-width apart. Inhale arms overhead beside ears.",
+      "Exhale and bend knees, sitting hips back and down into an imaginary chair.",
+      "Keep weight back in heels and chest elevated."
+    ],
+    "breathing": "Full rhythmic breathing.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library",
+      "HuggingFace:omergoshen"
+    ],
+    "photo_url": "https://pocketyoga.com/assets/images/full/Chair.png"
+  },
+  {
+    "id": "trikonasana",
+    "name": "Triangle Pose",
+    "sanskritName": "Trikonasana",
+    "category": "Standing",
+    "difficulty": "Beginner",
+    "targetBodyAreas": [
+      "hamstrings",
+      "groin",
+      "hips",
+      "spine",
+      "chest"
+    ],
+    "muscles": [
+      "obliques",
+      "quadriceps",
+      "hamstrings"
+    ],
+    "alignmentTips": [],
+    "precautions": "Keep front knee soft; use a yoga block under lower hand to keep spine long.",
+    "instructions": [
+      "Step feet wide (3\u20134 feet). Turn front foot forward and back foot slightly in.",
+      "Reach front arm forward over front leg, then hinge at hip and lower hand to shin or block.",
+      "Extend top arm straight toward ceiling, rotating chest open."
+    ],
+    "breathing": "Expansive inhalation into upper ribs, steady exhalation grounding both feet.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library"
+    ]
+  },
+  {
+    "id": "parsvakonasana",
+    "name": "Extended Side Angle",
+    "sanskritName": "Parsvakonasana",
+    "category": "Standing",
+    "difficulty": "Intermediate",
+    "targetBodyAreas": [
+      "thighs",
+      "knees",
+      "ankles",
+      "groin",
+      "spine",
+      "waist"
+    ],
+    "muscles": [
+      "quadriceps",
+      "gluteals",
+      "intercostals"
+    ],
+    "alignmentTips": [],
+    "precautions": "Rest front forearm on thigh if reaching block or floor strains hip.",
+    "instructions": [
+      "From wide stance, bend front knee to 90\u00b0. Rest front forearm on thigh.",
+      "Extend top arm in a diagonal line past ear from back heel to fingertips.",
+      "Rotate chest open toward ceiling."
+    ],
+    "breathing": "Inhale along entire side body; exhale root back foot into floor.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library"
+    ]
+  },
+  {
+    "id": "ardha_chandrasana",
+    "name": "Half Moon Pose",
+    "sanskritName": "Ardha Chandrasana",
+    "category": "Balance",
+    "difficulty": "Intermediate",
+    "targetBodyAreas": [
+      "ankles",
+      "thighs",
+      "glutes",
+      "spine",
+      "abdominals"
+    ],
+    "muscles": [
+      "gluteus medius",
+      "quadriceps",
+      "core"
+    ],
+    "alignmentTips": [],
+    "precautions": "Perform against a wall for security if pregnant or dealing with balance challenges.",
+    "instructions": [
+      "From Triangle pose, bend front knee, place fingertips on block 10 inches forward.",
+      "Float back leg parallel to floor, straighten standing leg, stack top hip and shoulder open.",
+      "Reach top arm straight up toward ceiling."
+    ],
+    "breathing": "Calm, measured breaths keeping eye gaze steady.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library",
+      "HuggingFace:omergoshen",
+      "HuggingFace:myyim",
+      "HuggingFace:myyim"
+    ],
+    "photo_url": "https://pocketyoga.com/assets/images/full/HalfMoon_L.png"
+  },
+  {
+    "id": "prasarita_padottanasana",
+    "name": "Wide-Leg Forward Fold",
+    "sanskritName": "Prasarita Padottanasana",
+    "category": "Standing",
+    "difficulty": "Beginner",
+    "targetBodyAreas": [
+      "hamstrings",
+      "calves",
+      "inner groins",
+      "spine"
+    ],
+    "muscles": [
+      "hamstrings",
+      "adductors"
+    ],
+    "alignmentTips": [],
+    "precautions": "Do not fold fully forward if dealing with acute low blood pressure.",
+    "instructions": [
+      "Step feet wide (4 feet apart) with outer edges of feet parallel.",
+      "Inhale lengthen spine, exhale hinge at hips, placing hands on mat or blocks under shoulders.",
+      "Release crown of head toward floor."
+    ],
+    "breathing": "Long exhales assisting spinal decompression.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library"
+    ]
+  },
+  {
+    "id": "dandasana",
+    "name": "Staff Pose",
+    "sanskritName": "Dandasana",
+    "category": "Seated",
+    "difficulty": "Beginner",
+    "targetBodyAreas": [
+      "spine",
+      "shoulders",
+      "chest",
+      "abdominals"
+    ],
+    "muscles": [
+      "erector spinae",
+      "quadriceps"
+    ],
+    "alignmentTips": [],
+    "precautions": "Sit on a folded blanket if hamstrings are tight.",
+    "instructions": [
+      "Sit on floor with legs extended together straight in front, feet flexed.",
+      "Place palms on floor beside hips, lengthen spine upright, roll shoulders back."
+    ],
+    "breathing": "Chest-expanding breaths while maintaining steady core engagement.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library",
+      "HuggingFace:omergoshen"
+    ],
+    "photo_url": "https://pocketyoga.com/assets/images/full/Staff.png"
+  },
+  {
+    "id": "paschimottanasana",
+    "name": "Seated Forward Bend",
+    "sanskritName": "Paschimottanasana",
+    "category": "Seated",
+    "difficulty": "Intermediate",
+    "targetBodyAreas": [
+      "hamstrings",
+      "calves",
+      "spine",
+      "pelvis"
+    ],
+    "muscles": [
+      "hamstrings",
+      "erector spinae"
+    ],
+    "alignmentTips": [],
+    "precautions": "Contraindicated during pregnancy (avoid abdominal compression).",
+    "instructions": [
+      "From Staff pose, inhale reach arms overhead, exhale hinge forward from hips.",
+      "Hold shins, ankles, or feet, leading with chest with a long spine."
+    ],
+    "breathing": "Inhale lengthen spine forward; exhale fold deeper.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library"
+    ]
+  },
+  {
+    "id": "baddha_konasana",
+    "name": "Butterfly Pose",
+    "sanskritName": "Baddha Konasana",
+    "category": "Seated",
+    "difficulty": "Beginner",
+    "targetBodyAreas": [
+      "inner groins",
+      "hips",
+      "pelvic floor",
+      "spine"
+    ],
+    "muscles": [
+      "adductors"
+    ],
+    "alignmentTips": [],
+    "precautions": "Place blocks under knees if groin or knees experience sharp sensation.",
+    "instructions": [
+      "Sit tall, bend knees, bring soles of feet together, letting knees fall open.",
+      "Hold feet or ankles, lengthen spine tall, gently draw knees toward mat."
+    ],
+    "breathing": "Smooth, relaxing pelvic floor breaths.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library",
+      "HuggingFace:omergoshen"
+    ],
+    "photo_url": "https://pocketyoga.com/assets/images/full/BoundAngle.png"
+  },
+  {
+    "id": "ardha_matsyendrasana",
+    "name": "Half Lord of the Fishes",
+    "sanskritName": "Ardha Matsyendrasana",
+    "category": "Seated",
+    "difficulty": "Intermediate",
+    "targetBodyAreas": [
+      "spine",
+      "hips",
+      "neck",
+      "shoulders"
+    ],
+    "muscles": [
+      "obliques",
+      "erector spinae"
+    ],
+    "alignmentTips": [],
+    "precautions": "Avoid deep closed twists during pregnancy; perform open gentle twists instead.",
+    "instructions": [
+      "Sit with legs extended. Bend right knee, place right foot outside left thigh.",
+      "Inhale left arm up, exhale twist torso to right, hooking elbow outside knee.",
+      "Gaze softly over back shoulder."
+    ],
+    "breathing": "Inhale to lengthen spine upward; exhale to gently deepen rotational twist.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library"
+    ]
+  },
+  {
+    "id": "janu_sirsasana",
+    "name": "Head-to-Knee Pose",
+    "sanskritName": "Janu Sirsasana",
+    "category": "Seated",
+    "difficulty": "Beginner",
+    "targetBodyAreas": [
+      "hamstrings",
+      "groin",
+      "spine",
+      "shoulders"
+    ],
+    "muscles": [
+      "hamstrings",
+      "latissimus dorsi"
+    ],
+    "alignmentTips": [],
+    "precautions": "Angle hips wider apart during pregnancy to provide room for belly.",
+    "instructions": [
+      "Sit with left leg extended, bend right knee, placing right sole against inner left thigh.",
+      "Turn torso toward extended leg, fold forward with long spine reaching for foot or shin."
+    ],
+    "breathing": "Inhale lengthen sternum forward; exhale soften chest toward thigh.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library"
+    ]
+  },
+  {
+    "id": "garudasana",
+    "name": "Eagle Pose",
+    "sanskritName": "Garudasana",
+    "category": "Balance",
+    "difficulty": "Intermediate",
+    "targetBodyAreas": [
+      "ankles",
+      "calves",
+      "thighs",
+      "hips",
+      "shoulders",
+      "upper back"
+    ],
+    "muscles": [
+      "quadriceps",
+      "gluteus medius",
+      "rhomboids"
+    ],
+    "alignmentTips": [],
+    "precautions": "Rest toes of wrapping foot on floor or block if balance is unstable.",
+    "instructions": [
+      "Stand, bend knees slightly, wrap right thigh over left thigh, hooking foot behind calf.",
+      "Cross left arm over right at elbows, wrap forearms, press palms together.",
+      "Sink hips low, lift elbows to shoulder height, breathe steadily."
+    ],
+    "breathing": "Slow steady breathing into space between shoulder blades.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library",
+      "HuggingFace:omergoshen",
+      "HuggingFace:myyim"
+    ],
+    "photo_url": "https://pocketyoga.com/assets/images/full/Eagle_R.png"
+  },
+  {
+    "id": "natarajasana",
+    "name": "Dancer Pose",
+    "sanskritName": "Natarajasana",
+    "category": "Balance",
+    "difficulty": "Advanced",
+    "targetBodyAreas": [
+      "quadriceps",
+      "shoulders",
+      "chest",
+      "ankles",
+      "spine"
+    ],
+    "muscles": [
+      "hamstrings",
+      "erector spinae",
+      "deltoids"
+    ],
+    "alignmentTips": [],
+    "precautions": "Practice near a wall for safety; avoid crunching lower back.",
+    "instructions": [
+      "Shift weight to standing foot. Bend other knee, grasp inner ankle with same-side hand.",
+      "Reach other arm forward and up. Kick foot back and up, arching spine gracefully."
+    ],
+    "breathing": "Calm, steady breathing maintaining Drishti focal point.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library",
+      "HuggingFace:myyim",
+      "HuggingFace:myyim"
+    ]
+  },
+  {
+    "id": "bakasana",
+    "name": "Crow Pose",
+    "sanskritName": "Bakasana",
+    "category": "Balance",
+    "difficulty": "Advanced",
+    "targetBodyAreas": [
+      "wrists",
+      "arms",
+      "shoulders",
+      "core",
+      "groin"
+    ],
+    "muscles": [
+      "triceps",
+      "anterior deltoids",
+      "rectus abdominis"
+    ],
+    "alignmentTips": [],
+    "precautions": "Place a bolster or pillow in front of face while learning.",
+    "instructions": [
+      "Squat, plant hands shoulder-width apart, fingers spread wide.",
+      "Lift hips high, place knees against upper triceps near armpits.",
+      "Shift weight forward onto hands, gaze slightly ahead, float feet off mat."
+    ],
+    "breathing": "Controlled exhalation engaging core lock (Uddiyana Bandha).",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library",
+      "HuggingFace:omergoshen",
+      "HuggingFace:myyim",
+      "HuggingFace:myyim"
+    ],
+    "photo_url": "https://pocketyoga.com/assets/images/full/Crane.png"
+  },
+  {
+    "id": "vasisthasana",
+    "name": "Side Plank",
+    "sanskritName": "Vasisthasana",
+    "category": "Balance",
+    "difficulty": "Intermediate",
+    "targetBodyAreas": [
+      "wrists",
+      "arms",
+      "shoulders",
+      "obliques",
+      "ankles"
+    ],
+    "muscles": [
+      "obliques",
+      "serratus anterior",
+      "gluteus medius"
+    ],
+    "alignmentTips": [],
+    "precautions": "Lower bottom knee to floor for modified variation if wrists feel strain.",
+    "instructions": [
+      "From plank, shift onto outer edge of right foot, stack left foot on top.",
+      "Press right palm into floor under shoulder, reach left arm toward ceiling, lifting hips high."
+    ],
+    "breathing": "Steady, deep breaths holding strong diagonal line.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library"
+    ]
+  },
+  {
+    "id": "ustrasana",
+    "name": "Camel Pose",
+    "sanskritName": "Ustrasana",
+    "category": "Backbends",
+    "difficulty": "Intermediate",
+    "targetBodyAreas": [
+      "chest",
+      "throat",
+      "hip flexors",
+      "spine",
+      "quadriceps"
+    ],
+    "muscles": [
+      "erector spinae",
+      "gluteus maximus"
+    ],
+    "alignmentTips": [],
+    "precautions": "Do not drop head back forcefully if neck is sensitive. Avoid overextending in late pregnancy.",
+    "instructions": [
+      "Kneel with hips over knees, hip-width apart.",
+      "Place hands on sacrum, fingers pointing down, draw elbows together.",
+      "Inhale lift chest high, arch back, reaching hands to heels if accessible."
+    ],
+    "breathing": "Expansive inhalations opening heart center.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library"
+    ]
+  },
+  {
+    "id": "dhanurasana",
+    "name": "Bow Pose",
+    "sanskritName": "Dhanurasana",
+    "category": "Backbends",
+    "difficulty": "Intermediate",
+    "targetBodyAreas": [
+      "chest",
+      "shoulders",
+      "quadriceps",
+      "spine",
+      "abdominals"
+    ],
+    "muscles": [
+      "hamstrings",
+      "erector spinae"
+    ],
+    "alignmentTips": [],
+    "precautions": "Contraindicated during pregnancy and for high blood pressure.",
+    "instructions": [
+      "Lie on belly, bend knees, reach back to hold outer ankles.",
+      "Inhale, kick feet back and up into hands, lifting chest and thighs off mat.",
+      "Gaze forward, maintaining steady breathing."
+    ],
+    "breathing": "Natural breathing without holding breath against abdominal pressure.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library",
+      "HuggingFace:omergoshen"
+    ],
+    "photo_url": "https://pocketyoga.com/assets/images/full/Bow.png"
+  },
+  {
+    "id": "salabhasana",
+    "name": "Locust Pose",
+    "sanskritName": "Salabhasana",
+    "category": "Backbends",
+    "difficulty": "Beginner",
+    "targetBodyAreas": [
+      "glutes",
+      "hamstrings",
+      "erector spinae",
+      "shoulders"
+    ],
+    "muscles": [
+      "gluteus maximus",
+      "hamstrings",
+      "latissimus dorsi"
+    ],
+    "alignmentTips": [],
+    "precautions": "Contraindicated in pregnancy.",
+    "instructions": [
+      "Lie on belly with arms along sides, palms facing down.",
+      "Inhale and lift head, chest, arms, and legs simultaneously off mat.",
+      "Keep neck long, gazing down and forward."
+    ],
+    "breathing": "Inhale to lift and lengthen; exhale maintain steady hold.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library"
+    ]
+  },
+  {
+    "id": "chakrasana",
+    "name": "Wheel Pose",
+    "sanskritName": "Urdhva Dhanurasana",
+    "category": "Backbends",
+    "difficulty": "Advanced",
+    "targetBodyAreas": [
+      "arms",
+      "wrists",
+      "legs",
+      "glutes",
+      "spine",
+      "chest"
+    ],
+    "muscles": [
+      "quadriceps",
+      "gluteals",
+      "triceps",
+      "erector spinae"
+    ],
+    "alignmentTips": [],
+    "precautions": "Warm up thoroughly with Bridge pose first.",
+    "instructions": [
+      "Lie supine, knees bent, feet flat near sit-bones. Hands beside ears with fingers pointing to shoulders.",
+      "Press through feet and palms, lifting hips and chest off mat into upward arch.",
+      "Straighten arms and broaden chest."
+    ],
+    "breathing": "Deep expansive chest inhalations.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library"
+    ]
+  },
+  {
+    "id": "sirsasana",
+    "name": "Headstand",
+    "sanskritName": "Sirsasana",
+    "category": "Inversions",
+    "difficulty": "Advanced",
+    "targetBodyAreas": [
+      "core",
+      "shoulders",
+      "arms",
+      "cervical spine"
+    ],
+    "muscles": [
+      "deltoids",
+      "trapezius",
+      "rectus abdominis"
+    ],
+    "alignmentTips": [],
+    "precautions": "Requires experienced instruction; contraindicated in cervical disc trauma and hypertension.",
+    "instructions": [
+      "Interlace fingers on mat, forearms down elbow-width apart.",
+      "Place crown of head on mat cupped by hands. Walk feet in and lift legs up vertically."
+    ],
+    "breathing": "Slow, controlled, steady breathing.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library",
+      "HuggingFace:myyim",
+      "HuggingFace:myyim"
+    ]
+  },
+  {
+    "id": "sarvangasana",
+    "name": "Shoulder Stand",
+    "sanskritName": "Sarvangasana",
+    "category": "Inversions",
+    "difficulty": "Advanced",
+    "targetBodyAreas": [
+      "shoulders",
+      "neck",
+      "thyroid",
+      "core"
+    ],
+    "muscles": [
+      "deltoids",
+      "core",
+      "quadriceps"
+    ],
+    "alignmentTips": [],
+    "precautions": "Never turn head while in shoulder stand to protect cervical vertebrae.",
+    "instructions": [
+      "Lie on back, lift legs and hips overhead, supporting mid-back with hands.",
+      "Extend legs vertically toward ceiling, keeping weight on shoulders rather than neck."
+    ],
+    "breathing": "Steady breathing with throat gently locked in Jalandhara Bandha.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library",
+      "HuggingFace:myyim"
+    ]
+  },
+  {
+    "id": "halasana",
+    "name": "Plow Pose",
+    "sanskritName": "Halasana",
+    "category": "Inversions",
+    "difficulty": "Advanced",
+    "targetBodyAreas": [
+      "spine",
+      "hamstrings",
+      "neck",
+      "thyroid"
+    ],
+    "muscles": [
+      "core",
+      "quadriceps"
+    ],
+    "alignmentTips": [],
+    "precautions": "Avoid if suffering from cervical disc problems or during late pregnancy.",
+    "instructions": [
+      "From Shoulder Stand, hinge at hips and lower toes to floor behind head.",
+      "Keep legs straight and interlace fingers on mat behind back."
+    ],
+    "breathing": "Deep, calm nasal breathing.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library",
+      "HuggingFace:omergoshen",
+      "HuggingFace:myyim",
+      "HuggingFace:myyim"
+    ],
+    "photo_url": "https://pocketyoga.com/assets/images/full/Plow.png"
+  },
+  {
+    "id": "pincha_mayurasana",
+    "name": "Forearm Stand",
+    "sanskritName": "Pincha Mayurasana",
+    "category": "Inversions",
+    "difficulty": "Advanced",
+    "targetBodyAreas": [
+      "shoulders",
+      "arms",
+      "core",
+      "upper back"
+    ],
+    "muscles": [
+      "deltoids",
+      "serratus anterior",
+      "core"
+    ],
+    "alignmentTips": [],
+    "precautions": "Practice near a wall; avoid in shoulder injuries.",
+    "instructions": [
+      "Forearms on mat shoulder-width apart. Walk feet close to elbows in Dolphin pose.",
+      "Engage core and kick legs upward, balancing in vertical line above forearms."
+    ],
+    "breathing": "Steady, focused breaths.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library",
+      "HuggingFace:omergoshen"
+    ],
+    "photo_url": "https://pocketyoga.com/assets/images/full/FeatheredPeacock.png"
+  },
+  {
+    "id": "supta_matsyendrasana",
+    "name": "Supine Spinal Twist",
+    "sanskritName": "Supta Matsyendrasana",
+    "category": "Twists",
+    "difficulty": "Beginner",
+    "targetBodyAreas": [
+      "spine",
+      "hips",
+      "chest",
+      "obliques"
+    ],
+    "muscles": [
+      "obliques",
+      "erector spinae"
+    ],
+    "alignmentTips": [],
+    "precautions": "Keep twist gentle; support knees on pillow during pregnancy.",
+    "instructions": [
+      "Lie supine, draw right knee to chest, extend right arm in T-shape.",
+      "Exhale and guide right knee across torso to left, keeping both shoulders grounded."
+    ],
+    "breathing": "Deep exhales allowing back to unwind.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library",
+      "HuggingFace:omergoshen"
+    ],
+    "photo_url": "https://pocketyoga.com/assets/images/full/SupineSpinalTwist_L.png"
+  },
+  {
+    "id": "ananda_balasana",
+    "name": "Happy Baby",
+    "sanskritName": "Ananda Balasana",
+    "category": "Restorative",
+    "difficulty": "Beginner",
+    "targetBodyAreas": [
+      "hips",
+      "inner groins",
+      "sacrum",
+      "hamstrings"
+    ],
+    "muscles": [
+      "adductors"
+    ],
+    "alignmentTips": [],
+    "precautions": "Hold ankles or behind knees if feet are difficult to reach.",
+    "instructions": [
+      "Lie on back, bend knees toward armpits, grab outside edges of feet with hands.",
+      "Stack ankles above knees with shins perpendicular to floor, gently rocking side to side."
+    ],
+    "breathing": "Deep, slow diaphragmatic breaths into pelvic bowl.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library",
+      "HuggingFace:omergoshen"
+    ],
+    "photo_url": "https://pocketyoga.com/assets/images/full/BlissfulBaby.png"
+  },
+  {
+    "id": "savasana",
+    "name": "Corpse Pose",
+    "sanskritName": "Savasana",
+    "category": "Restorative",
+    "difficulty": "Beginner",
+    "targetBodyAreas": [
+      "full body",
+      "nervous system",
+      "mind"
+    ],
+    "muscles": [
+      "all muscles relaxed"
+    ],
+    "alignmentTips": [],
+    "precautions": "In second and third trimester of pregnancy, lie on left side supported by pillows.",
+    "instructions": [
+      "Lie flat on back with legs comfortably apart, arms by sides with palms facing up.",
+      "Close eyes, release all muscular control, and allow breath to flow naturally."
+    ],
+    "breathing": "Effortless natural breathing.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library"
+    ]
+  },
+  {
+    "id": "padmasana",
+    "name": "Lotus Pose",
+    "sanskritName": "Padmasana",
+    "category": "Seated",
+    "difficulty": "Advanced",
+    "targetBodyAreas": [
+      "hips",
+      "ankles",
+      "knees",
+      "spine"
+    ],
+    "muscles": [
+      "erector spinae"
+    ],
+    "alignmentTips": [],
+    "precautions": "Do not force feet into lotus if knees experience any twist or pain. Practice Half Lotus (Ardha Padmasana) instead.",
+    "instructions": [
+      "Sit on floor, bend right knee, place right foot high onto left upper thigh.",
+      "Bend left knee, carefully place left foot high onto right upper thigh with soles facing up.",
+      "Lengthen spine upright, resting hands on knees in Jnana or Chin Mudra."
+    ],
+    "breathing": "Slow, expansive rhythmic breathing.",
+    "assessmentRules": {},
+    "sources": [
+      "SheCares Clinical Biomechanical Library",
+      "HuggingFace:omergoshen"
+    ],
+    "photo_url": "https://pocketyoga.com/assets/images/full/LotusFull.png"
+  },
+  {
+    "id": "padangusthasana",
+    "name": "Big Toe Pose",
+    "sanskritName": "Padangusthasana",
+    "category": "Standing",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/ForwardBendBigToe.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "padahastasana",
+    "name": "Gorilla Pose",
+    "sanskritName": "Padahastasana",
+    "category": "Standing",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Gorilla.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "svarga_dvijasana",
+    "name": "Bird of Paradise Pose",
+    "sanskritName": "Svarga Dvijasana",
+    "category": "Standing",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/ChairTwistBindUp_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "parivritta_svarga_dvijasana",
+    "name": "Revolved Bird of Paradise Pose",
+    "sanskritName": "Parivritta Svarga Dvijasana",
+    "category": "Standing",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/BirdOfParadiseRevolved_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "urdhva_hastasana",
+    "name": "Upward Salute",
+    "sanskritName": "Urdhva Hastasana",
+    "category": "Standing",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/MountainSalute.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "ashta_chandrasana",
+    "name": "High Lunge Pose",
+    "sanskritName": "Ashta Chandrasana",
+    "category": "Standing",
+    "difficulty": "",
+    "photo_url": "https://pocketyoga.com/assets/images/full/LungeCrescent_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "anjaneyasana",
+    "name": "Low Lunge Pose",
+    "sanskritName": "Anjaneyasana",
+    "category": "Standing",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/WarriorIKneeling_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "durvasasana",
+    "name": "Standing Foot Behind the Head Pose",
+    "sanskritName": "Durvasasana",
+    "category": "Standing",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/StandingFootBehindHead_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "trivikramasana_a",
+    "name": "Standing Foot to Head Pose",
+    "sanskritName": "Trivikramasana A",
+    "category": "Standing",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/TrivikramaI_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "richikasana",
+    "name": "Standing Foot Behind the Head Forward Bend Pose",
+    "sanskritName": "Richikasana",
+    "category": "Standing",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/StandingForwardBendFootBehindHead_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "ardha_uttanasana",
+    "name": "Half Standing Forward Bend Pose",
+    "sanskritName": "Ardha Uttanasana",
+    "category": "Standing",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/ForwardBendHalfWay.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "uttanasana",
+    "name": "Standing Forward Bend Pose",
+    "sanskritName": "Uttanasana",
+    "category": "Standing",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/ForwardBend.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "ardha_baddha_padmottanasana",
+    "name": "Standing Half Bound Lotus Forward Bend Pose",
+    "sanskritName": "Ardha Baddha Padmottanasana",
+    "category": "Standing",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/StandingForwardBendHalfLotus_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "utkata_konasana",
+    "name": "Goddess Pose",
+    "sanskritName": "Utkata Konasana",
+    "category": "Standing",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Goddess_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "parivritta_ardha_chandrasana",
+    "name": "Revolved Half Moon Pose",
+    "sanskritName": "Parivritta Ardha Chandrasana",
+    "category": "Standing",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/HalfMoonRevolved_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "utthita_hasta_padangushthasana_b",
+    "name": "Extended Standing Hand to Big Toe Pose",
+    "sanskritName": "Utthita Hasta Padangushthasana B",
+    "category": "Standing",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/StandingHandToToeExtended_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "parivritta_hasta_padangushthasana",
+    "name": "Revolved Standing Hand to Big Toe Pose",
+    "sanskritName": "Parivritta Hasta Padangushthasana",
+    "category": "Standing",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/StandingHandToToeRevolved_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "utthita_hasta_padangushthasana_a",
+    "name": "Standing Hand to Big Toe Pose",
+    "sanskritName": "Utthita Hasta Padangushthasana A",
+    "category": "Standing",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/StandingHandToToeFull_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "parshvottanasana",
+    "name": "Pyramid Pose",
+    "sanskritName": "Parshvottanasana",
+    "category": "Standing",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/PyramidPrayer_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "utthita_parshvakonasana",
+    "name": "Extended Side Angle Pose",
+    "sanskritName": "Utthita Parshvakonasana",
+    "category": "Standing",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/WarriorIIForwardArmForward_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "urdhva_prasarita_eka_padasana",
+    "name": "Standing Splits Pose",
+    "sanskritName": "Urdhva Prasarita Eka Padasana",
+    "category": "Standing",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/SplitsStanding_L.png",
+    "sources": [
+      "HuggingFace:omergoshen",
+      "HuggingFace:myyim"
+    ]
+  },
+  {
+    "id": "dandayamana_dhanurasana",
+    "name": "Dancer  Pose",
+    "sanskritName": "Dandayamana Dhanurasana",
+    "category": "Standing",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/LordOfTheDance_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "utthita_trikonasana",
+    "name": "Triangle Pose",
+    "sanskritName": "Utthita Trikonasana",
+    "category": "Standing",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/TriangleForward_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "parivritta_trikonasana",
+    "name": "Revolved Triangle Pose",
+    "sanskritName": "Parivritta Trikonasana",
+    "category": "Standing",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/TriangleRevolved_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "virabhadrasana_a",
+    "name": "Warrior I Pose",
+    "sanskritName": "Virabhadrasana A",
+    "category": "Standing",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/WarriorI_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "virabhadrasana_b",
+    "name": "Warrior II Pose",
+    "sanskritName": "Virabhadrasana B",
+    "category": "Standing",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/WarriorII_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "virabhadrasana_c",
+    "name": "Warrior III Pose",
+    "sanskritName": "Virabhadrasana C",
+    "category": "Standing",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/WarriorIII_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "prasarita_padottanasana_a",
+    "name": "Wide Legged Forward Bend I Pose",
+    "sanskritName": "Prasarita Padottanasana A",
+    "category": "Standing",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/WideLeggedForwardBendI_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "prasarita_padottanasana_b",
+    "name": "Wide Legged Forward Bend II Pose",
+    "sanskritName": "Prasarita Padottanasana B",
+    "category": "Standing",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/WideLeggedForwardBendII_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "prasarita_padottanasana_c",
+    "name": "Wide Legged Forward Bend III Pose",
+    "sanskritName": "Prasarita Padottanasana C",
+    "category": "Standing",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/WideLeggedForwardBendIII_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "prasarita_padottanasana_d",
+    "name": "Wide Legged Forward Bend IV Pose",
+    "sanskritName": "Prasarita Padottanasana D",
+    "category": "Standing",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/WideLeggedForwardBendIV_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "parivritta_prasarita_padottanasana",
+    "name": "Revolved Wide Legged Forward Bend",
+    "sanskritName": "Parivritta Prasarita Padottanasana",
+    "category": "Standing",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/WideLeggedForwardBendRevolved_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "parshva_prasarita_padottanasana",
+    "name": "Side Wide Legged Forward Bend",
+    "sanskritName": "Parshva Prasarita Padottanasana",
+    "category": "Standing",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/WideLeggedForwardBendSide_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "akarna_dhanurasana",
+    "name": "Archer's Pose",
+    "sanskritName": "Akarna Dhanurasana",
+    "category": "Seated",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Archer_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "navasana",
+    "name": "Boat Pose",
+    "sanskritName": "Navasana",
+    "category": "Seated",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/BoatFull.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "dvi_pada_shirshasana_a",
+    "name": "Both Feet Behind the Head I Pose",
+    "sanskritName": "Dvi Pada Shirshasana A",
+    "category": "Seated",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/FootBehindHeadTwoLegged.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "gomukhasana",
+    "name": "Cow Face Pose",
+    "sanskritName": "Gomukhasana",
+    "category": "Seated",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/KneePileBind_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "agnistambhasana",
+    "name": "Fire Log Pose",
+    "sanskritName": "Agnistambhasana",
+    "category": "Seated",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/FireLog_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "garbha_pindasana",
+    "name": "Embryo in Womb Pose",
+    "sanskritName": "Garbha Pindasana",
+    "category": "Seated",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/EmbryoWomb.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "eka_pada_shirshasana_a",
+    "name": "Foot Behind the Head I Pose",
+    "sanskritName": "Eka Pada Shirshasana A",
+    "category": "Seated",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/FootBehindHead_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "eka_pada_shirshasana_b",
+    "name": "Foot Behind the Head II Pose",
+    "sanskritName": "Eka Pada Shirshasana B",
+    "category": "Seated",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/FootBehindHeadForward_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "paschimottanasana_a",
+    "name": "Seated Forward Bend I Pose",
+    "sanskritName": "Paschimottanasana A",
+    "category": "Seated",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/SeatedForwardBend.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "paschimottanasana_b",
+    "name": "Seated Forward Bend II Pose",
+    "sanskritName": "Paschimottanasana B",
+    "category": "Seated",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/SeatedForwardBendII.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "paschimottanasana_c",
+    "name": "Seated Forward Bend III Pose",
+    "sanskritName": "Paschimottanasana C",
+    "category": "Seated",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/SeatedForwardBendIII.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "paschimottanasana_d",
+    "name": "Seated Forward Bend IV Pose",
+    "sanskritName": "Paschimottanasana D",
+    "category": "Seated",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/SeatedForwardBendIV.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "ardha_baddha_padma_paschimottanasana",
+    "name": "Seated Half Bound Lotus Forward Bend Pose",
+    "sanskritName": "Ardha Baddha Padma Paschimottanasana",
+    "category": "Seated",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/SeatedForwardBendHalfLotus_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "tiryan_mukha_eka_pada_paschimottanasana",
+    "name": "Seated Three Limbed Forward Bend Pose",
+    "sanskritName": "Tiryan Mukha Eka Pada Paschimottanasana",
+    "category": "Seated",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/SeatedForwardBendThreeLimbs_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "malasana",
+    "name": "Garland Pose",
+    "sanskritName": "Malasana",
+    "category": "Seated",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/GarlandSideways_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "parighasana",
+    "name": "Seated Gate Pose",
+    "sanskritName": "Parighasana",
+    "category": "Seated",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Gate_R.png",
+    "sources": [
+      "HuggingFace:omergoshen",
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "janu_shirshasana_a",
+    "name": "Head to Knee I Pose",
+    "sanskritName": "Janu Shirshasana A",
+    "category": "Seated",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/HeadToKnee_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "janu_shirshasana_b",
+    "name": "Head to Knee II Pose",
+    "sanskritName": "Janu Shirshasana B",
+    "category": "Seated",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/HeadToKneeII_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "janu_shirshasana_c",
+    "name": "Head to Knee III Pose",
+    "sanskritName": "Janu Shirshasana C",
+    "category": "Seated",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/HeadToKneeIII_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "virasana",
+    "name": "Hero Pose",
+    "sanskritName": "Virasana",
+    "category": "Seated",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Hero.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "kraunchasana",
+    "name": "Heron Pose",
+    "sanskritName": "Kraunchasana",
+    "category": "Seated",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Heron_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "pashasana",
+    "name": "Noose Pose",
+    "sanskritName": "Pashasana",
+    "category": "Seated ",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/SeatedOnHeelsTwistBound_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "ardha_kapotasana",
+    "name": "Half Pigeon Pose",
+    "sanskritName": "Ardha Kapotasana",
+    "category": "Seated ",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/PigeonHalf_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "marichyasana_a",
+    "name": "Sage Marichi's I Pose",
+    "sanskritName": "Marichyasana A",
+    "category": "Seated ",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/MarichiITraditional_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "marichyasana_b",
+    "name": "Sage Marichi's II Pose",
+    "sanskritName": "Marichyasana B",
+    "category": "Seated ",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/MarichiIITraditional_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "marichyasana_c",
+    "name": "Sage Marichi's III Pose",
+    "sanskritName": "Marichyasana C",
+    "category": "Seated ",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/MarichiIIITraditional_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "marichyasana_d",
+    "name": "Sage Marichi's IV Pose",
+    "sanskritName": "Marichyasana D",
+    "category": "Seated ",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/MarichiIVTraditional_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "skandasana",
+    "name": "Side Lunge Pose",
+    "sanskritName": "Skandasana",
+    "category": "Seated",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/SideLunge_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "_pose",
+    "name": " Pose",
+    "sanskritName": "",
+    "category": "",
+    "difficulty": "",
+    "photo_url": "",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "hanumanasana",
+    "name": "Front Splits Pose",
+    "sanskritName": "Hanumanasana",
+    "category": "Seated",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/SplitsFront_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "ardha_hanumanasana",
+    "name": "Half Splits Pose",
+    "sanskritName": "Ardha Hanumanasana",
+    "category": "Forward Bend",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/PyramidKneeling_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "samakonasana",
+    "name": "Wide Splits Pose",
+    "sanskritName": "Samakonasana",
+    "category": "Seated",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/SplitsWide.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "padangushthasana",
+    "name": "Toe Stand Pose",
+    "sanskritName": "Padangushthasana",
+    "category": "Seated",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/ToeStand_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "supta_nitambasana",
+    "name": "Banana Pose",
+    "sanskritName": "Supta Nitambasana",
+    "category": "Supine",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Banana_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "setu_bandha_sarvangasana",
+    "name": "Bridge Pose",
+    "sanskritName": "Setu Bandha Sarvangasana",
+    "category": "Supine",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Bridge.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "shavasana",
+    "name": "Corpse Pose",
+    "sanskritName": "Shavasana",
+    "category": "Supine",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Corpse.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "matsyasana",
+    "name": "Fish Pose",
+    "sanskritName": "Matsyasana",
+    "category": "Supine",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/FishPreparation.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "supta_trivikramasana",
+    "name": "Supine Foot to Head Pose",
+    "sanskritName": "Supta Trivikramasana",
+    "category": "Supine",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/SupineTrivikrama_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "supta_padangushthasana_b",
+    "name": "Extended Supine Hand to Big Toe Pose",
+    "sanskritName": "Supta Padangushthasana B",
+    "category": "Supine",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/SupineHandToToeExtended_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "supta_padangushthasana_a",
+    "name": "Supine Hand to Big Toe Pose",
+    "sanskritName": "Supta Padangushthasana A",
+    "category": "Supine",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/SupineHandToToeFull_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "yoga_nidrasana",
+    "name": "Sleeping Yogi Pose",
+    "sanskritName": "Yoga Nidrasana",
+    "category": "Supine",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/YogicSleep.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "supta_samakonasana",
+    "name": "Supine Straddle Pose",
+    "sanskritName": "Supta Samakonasana",
+    "category": "Supine",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/SupineStraddle.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "supta_dandasana",
+    "name": "Waterfall Pose",
+    "sanskritName": "Supta Dandasana",
+    "category": "Supine",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/CorpseDoubleLegRaise.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "pavanamuktasan",
+    "name": "Wind Removing Pose",
+    "sanskritName": "Pavanamuktasan",
+    "category": "Supine",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Turtle.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "ardha_dhanurasana",
+    "name": "Half Bow Pose",
+    "sanskritName": "Ardha Dhanurasana",
+    "category": "Prone",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/ProneBowHalf_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "advasana",
+    "name": "Reverse Corpse Pose",
+    "sanskritName": "Advasana",
+    "category": "Prone",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/CorpseFrontArmsForward.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "uttana_shishosana",
+    "name": "Puppy Pose",
+    "sanskritName": "Uttana Shishosana",
+    "category": "Prone",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/PuppyExtended.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "bhekasana",
+    "name": "Frog Pose",
+    "sanskritName": "Bhekasana",
+    "category": "Prone",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/FrogTraditional.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "shalabhasana_a",
+    "name": "Locust I Pose",
+    "sanskritName": "Shalabhasana A",
+    "category": "Prone",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Locust.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "shalabhasana_b",
+    "name": "Locust II Pose",
+    "sanskritName": "Shalabhasana B",
+    "category": "Prone",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/LocustII.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "shalabhasana_c",
+    "name": "Locust III Pose",
+    "sanskritName": "Shalabhasana C",
+    "category": "Prone",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/LocustIII.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "gherandasana",
+    "name": "Sage Gheranda's Pose",
+    "sanskritName": "Gherandasana",
+    "category": "Prone",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/GherandaI_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "sarpasana",
+    "name": "Snake Pose",
+    "sanskritName": "Sarpasana",
+    "category": "Prone",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Snake.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "salamba_bhujangasana",
+    "name": "Sphinx Pose",
+    "sanskritName": "Salamba Bhujangasana",
+    "category": "Prone",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Sphinx.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "kurmasana",
+    "name": "Tortoise Pose",
+    "sanskritName": "Kurmasana",
+    "category": "Prone",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/SupineTortoise.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "https://pocketyoga.com/assets/images/full/boxneutral.png",
+    "name": "Table Pose",
+    "sanskritName": "https://pocketyoga.com/assets/images/full/BoxNeutral.png",
+    "category": "Arm Leg Support",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/BoxNeutral.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "ushtrasana",
+    "name": "Camel Pose",
+    "sanskritName": "Ushtrasana",
+    "category": "Arm Leg Support",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Camel.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "ardha_pincha_mayurasana",
+    "name": "Dolphin Pose",
+    "sanskritName": "Ardha Pincha Mayurasana",
+    "category": "Arm Leg Support",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Dolphin.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "adho_mukha_shvanasana",
+    "name": "Downward-Facing Dog Pose",
+    "sanskritName": "Adho Mukha Shvanasana",
+    "category": "Arm Leg Support",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/DownwardDog.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "ashtangasana",
+    "name": "Eight Point Pose",
+    "sanskritName": "Ashtangasana",
+    "category": "Arm Leg Support",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/EightPoint.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "vineeta_rajahamsasana",
+    "name": "Humble Flamingo Pose",
+    "sanskritName": "Vineeta Rajahamsasana",
+    "category": "Arm Leg Support",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/FlamingoHumble_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "vatayanasana",
+    "name": "Horse Pose",
+    "sanskritName": "Vatayanasana",
+    "category": "Arm Leg Support",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Horse_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "uttana_pristhasana",
+    "name": "Lizard Pose",
+    "sanskritName": "Uttana Pristhasana",
+    "category": "Arm Leg Support",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Lizard_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "utthita_ashwa_sanchalanasana",
+    "name": "Lunge Pose",
+    "sanskritName": "Utthita Ashwa Sanchalanasana",
+    "category": "Arm Leg Support",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Lunge_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "vakra_hanumanasana",
+    "name": "Crooked Monkey Pose",
+    "sanskritName": "Vakra Hanumanasana",
+    "category": "Arm Leg Support",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/CrookedMonkey_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "kapotasana",
+    "name": "Pigeon Pose",
+    "sanskritName": "Kapotasana",
+    "category": "Arm Leg Support",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Pigeon.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "eka_pada_raja_kapotasana",
+    "name": "One Legged King Pigeon Pose",
+    "sanskritName": "Eka Pada Raja Kapotasana",
+    "category": "Seated",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/PigeonKing_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "phalakasana",
+    "name": "Plank Pose",
+    "sanskritName": "Phalakasana",
+    "category": "Arm Leg Support",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Plank.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "purvottanasana",
+    "name": "Upward Plank Pose",
+    "sanskritName": "Purvottanasana",
+    "category": "Arm Leg Support",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/PlankUpward.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "chaturanga_dandasana",
+    "name": "Four Limbed Staff Pose",
+    "sanskritName": "Chaturanga Dandasana",
+    "category": "Arm Leg Support",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/FourLimbedStaff.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "vishvamitrasana",
+    "name": "Flying Warrior Pose",
+    "sanskritName": "Vishvamitrasana",
+    "category": "Arm Leg Support",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/VisvamitraFull_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "vasishthasana",
+    "name": "Side Plank Pose",
+    "sanskritName": "Vasishthasana",
+    "category": "Arm Leg Support",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/PlankSide_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "utthita_vasishthasana",
+    "name": "Extended Side Plank Pose",
+    "sanskritName": "Utthita Vasishthasana",
+    "category": "Arm Leg Support",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/PlankSideExtended_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "dvi_pada_viparita_dandasana",
+    "name": "Inverted Staff Pose",
+    "sanskritName": "Dvi Pada Viparita Dandasana",
+    "category": "Arm Leg Support",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/StaffInverted.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "laghu_vajrasana",
+    "name": "Little Thunderbolt Pose",
+    "sanskritName": "Laghu Vajrasana",
+    "category": "Arm Leg Support",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/LittleThunderbolt.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "vyaghrasana",
+    "name": "Tiger Pose",
+    "sanskritName": "Vyaghrasana",
+    "category": "Arm Leg Support",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Tiger_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "urdhva_mukha_shvanasana",
+    "name": "Upward-Facing Dog Pose",
+    "sanskritName": "Urdhva Mukha Shvanasana",
+    "category": "Arm Leg Support",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/UpwardDog.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "urdhva_dhanurasana",
+    "name": "Wheel Pose",
+    "sanskritName": "Urdhva Dhanurasana",
+    "category": "Arm Leg Support",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Wheel.png",
+    "sources": [
+      "HuggingFace:omergoshen",
+      "HuggingFace:myyim",
+      "HuggingFace:myyim",
+      "HuggingFace:myyim"
+    ]
+  },
+  {
+    "id": "chamatkarasana",
+    "name": "Wild Thing Pose",
+    "sanskritName": "Chamatkarasana",
+    "category": "Arm Leg Support",
+    "difficulty": "Beginner",
+    "photo_url": "https://pocketyoga.com/assets/images/full/WildThing_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "dvi_pada_shirshasana_b",
+    "name": "Both Feet Behind the Head II Pose",
+    "sanskritName": "Dvi Pada Shirshasana B",
+    "category": "Arm Balance",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/FootBehindHeadTwoLeggedElevated.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "ganda_bherundasana",
+    "name": "Chin Stand Pose",
+    "sanskritName": "Ganda Bherundasana",
+    "category": "Arm Balance",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/ChinStand.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "kakasana",
+    "name": "Crow Pose",
+    "sanskritName": "Kakasana",
+    "category": "Arm Balance",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Crow.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "karnapidasana",
+    "name": "Deaf Man's Pose",
+    "sanskritName": "Karnapidasana",
+    "category": "Inversion",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/DeafMan.png",
+    "sources": [
+      "HuggingFace:omergoshen",
+      "HuggingFace:myyim"
+    ]
+  },
+  {
+    "id": "ashtavakrasana",
+    "name": "Eight Angle Pose",
+    "sanskritName": "Ashtavakrasana",
+    "category": "Arm Balance",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/EightAngle_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "shayanasana",
+    "name": "Elbow Balance Pose",
+    "sanskritName": "Shayanasana",
+    "category": "Arm Balance",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/RelaxedStance.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "eka_hasta_bhujasana",
+    "name": "Elephant Trunk Pose",
+    "sanskritName": "Eka Hasta Bhujasana",
+    "category": "Arm Balance",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/ElephantTrunk_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "tittibhasana",
+    "name": "Firefly Pose",
+    "sanskritName": "Tittibhasana",
+    "category": "Arm Balance",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Firefly.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "brahmacharyasana",
+    "name": "Floating Stick Pose",
+    "sanskritName": "Brahmacharyasana",
+    "category": "Arm Balance",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/FloatingStick.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "eka_pada_koundinyasana",
+    "name": "Flying Man Pose",
+    "sanskritName": "Eka Pada Koundinyasana",
+    "category": "Arm Balance",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/LungeHandsOnMatFlying_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "parivritta_eka_pada_koundinyasana",
+    "name": "Revolved Flying Man Pose",
+    "sanskritName": "Parivritta Eka Pada Koundinyasana",
+    "category": "Arm Balance",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/FlyingManRevolved_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "dvi_pada_koundinyasana",
+    "name": "Two Legged Sage Koundinya's Pose",
+    "sanskritName": "Dvi Pada Koundinyasana",
+    "category": "Arm Balance",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/CrowSideExtended_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "parshva_bakasana",
+    "name": "Side Crow Pose",
+    "sanskritName": "Parshva Bakasana",
+    "category": "Arm Balance",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/CrowSide_R.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "maksikanagasana",
+    "name": "Dragonfly  Pose",
+    "sanskritName": "Maksikanagasana",
+    "category": "Arm Balance",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Grasshopper_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "adho_mukha_vrikshasana",
+    "name": "Handstand Pose",
+    "sanskritName": "Adho Mukha Vrikshasana",
+    "category": "Arm Balance",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Handstand.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "salamba_shirshasana_a",
+    "name": "Supported Headstand Pose",
+    "sanskritName": "Salamba Shirshasana A",
+    "category": "Arm Balance",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/HeadstandSupported.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "salamba_shirshasana_b",
+    "name": "Tripod Headstand Pose",
+    "sanskritName": "Salamba Shirshasana B",
+    "category": "Arm Balance",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/HeadstandTripod.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "uddayana_uttana_pristhasana",
+    "name": "Flying Lizard Pose",
+    "sanskritName": "Uddayana Uttana Pristhasana",
+    "category": "Arm Balance",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/FlyingLizard_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "mayurasana",
+    "name": "Peacock Pose",
+    "sanskritName": "Mayurasana",
+    "category": "Arm Balance",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Peacock.png",
+    "sources": [
+      "HuggingFace:omergoshen",
+      "HuggingFace:myyim"
+    ]
+  },
+  {
+    "id": "lolasana",
+    "name": "Pendant Pose",
+    "sanskritName": "Lolasana",
+    "category": "Arm Balance",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Pendant.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "eka_pada_galavasana",
+    "name": "Flying Pigeon Pose",
+    "sanskritName": "Eka Pada Galavasana",
+    "category": "Arm Balance",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/PigeonFlying_L.png",
+    "sources": [
+      "HuggingFace:omergoshen",
+      "HuggingFace:myyim"
+    ]
+  },
+  {
+    "id": "kukkutasana",
+    "name": "Rooster Pose",
+    "sanskritName": "Kukkutasana",
+    "category": "Arm Balance",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Rooster.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "vrischikasana_a",
+    "name": "Scorpion Pose",
+    "sanskritName": "Vrischikasana A",
+    "category": "Inversion",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/Scorpion.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "bhujapidasana",
+    "name": "Shoulder Pressing Pose",
+    "sanskritName": "Bhujapidasana",
+    "category": "Arm Balance",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/ScaleForward.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "urdhva_padmasana",
+    "name": "Shoulder Stand with Lotus Legs Pose",
+    "sanskritName": "Urdhva Padmasana",
+    "category": "Inversion",
+    "difficulty": "Advanced",
+    "photo_url": "https://pocketyoga.com/assets/images/full/ShoulderstandLotus.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "salamba_sarvangasana",
+    "name": "Supported Shoulder Stand Pose",
+    "sanskritName": "Salamba Sarvangasana",
+    "category": "Inversion",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/ShoulderstandSupported.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "parivritta_utkatasana",
+    "name": "Bound Revolved Chair Pose",
+    "sanskritName": "Parivritta Utkatasana",
+    "category": "Standing",
+    "difficulty": "Intermediate",
+    "photo_url": "https://pocketyoga.com/assets/images/full/ChairTwistBind_L.png",
+    "sources": [
+      "HuggingFace:omergoshen"
+    ]
+  },
+  {
+    "id": "bala_kakasana",
+    "name": "Baby Crow Pose",
+    "sanskritName": "Bala Kakasana",
+    "category": "Asana",
+    "difficulty": "All Levels",
+    "photo_url": null,
+    "sources": [
+      "HuggingFace:myyim"
+    ]
+  },
+  {
+    "id": "astavakrasana",
+    "name": "Eight-Angle Pose",
+    "sanskritName": "Astavakrasana",
+    "category": "Asana",
+    "difficulty": "All Levels",
+    "photo_url": null,
+    "sources": [
+      "HuggingFace:myyim"
+    ]
+  },
+  {
+    "id": "devaduuta_panna_asana",
+    "name": "Fallen Angel Pose",
+    "sanskritName": "Devaduuta Panna Asana",
+    "category": "Asana",
+    "difficulty": "All Levels",
+    "photo_url": null,
+    "sources": [
+      "HuggingFace:myyim",
+      "HuggingFace:myyim"
+    ]
+  },
+  {
+    "id": "adho_mukha_vrksasana",
+    "name": "Handstand",
+    "sanskritName": "Adho Mukha Vrksasana",
+    "category": "Asana",
+    "difficulty": "All Levels",
+    "photo_url": null,
+    "sources": [
+      "HuggingFace:myyim"
+    ]
+  },
+  {
+    "id": "eka_pada_rajakapotasana",
+    "name": "King Pigeon Pose",
+    "sanskritName": "Eka Pada Rajakapotasana",
+    "category": "Asana",
+    "difficulty": "All Levels",
+    "photo_url": null,
+    "sources": [
+      "HuggingFace:myyim",
+      "HuggingFace:myyim"
+    ]
+  },
+  {
+    "id": "utthan_pristhasana",
+    "name": "Lizard Pose",
+    "sanskritName": "Utthan Pristhasana",
+    "category": "Asana",
+    "difficulty": "All Levels",
+    "photo_url": null,
+    "sources": [
+      "HuggingFace:myyim",
+      "HuggingFace:myyim"
+    ]
+  },
+  {
+    "id": "eka_pada_urdhva_dhanurasana",
+    "name": "One-Legged Wheel Pose",
+    "sanskritName": "Eka Pada Urdhva Dhanurasana",
+    "category": "Asana",
+    "difficulty": "All Levels",
+    "photo_url": null,
+    "sources": [
+      "HuggingFace:myyim",
+      "HuggingFace:myyim"
+    ]
+  },
+  {
+    "id": "tolasana",
+    "name": "Scale Pose",
+    "sanskritName": "Tolasana",
+    "category": "Asana",
+    "difficulty": "All Levels",
+    "photo_url": null,
+    "sources": [
+      "HuggingFace:myyim",
+      "HuggingFace:myyim",
+      "HuggingFace:myyim"
+    ]
+  },
+  {
+    "id": "parsva_bakasana",
+    "name": "Side Crow Pose",
+    "sanskritName": "Parsva Bakasana",
+    "category": "Asana",
+    "difficulty": "All Levels",
+    "photo_url": null,
+    "sources": [
+      "HuggingFace:myyim",
+      "HuggingFace:myyim",
+      "HuggingFace:myyim"
+    ]
+  },
+  {
+    "id": "mukta_hasta_sirsasana_a",
+    "name": "Tripod Headstand",
+    "sanskritName": "Mukta Hasta Sirsasana A",
+    "category": "Asana",
+    "difficulty": "All Levels",
+    "photo_url": null,
+    "sources": [
+      "HuggingFace:myyim"
+    ]
+  },
+  {
+    "id": "virabhadrasana_iii",
+    "name": "Warrior III Pose",
+    "sanskritName": "Virabhadrasana III",
+    "category": "Asana",
+    "difficulty": "All Levels",
+    "photo_url": null,
+    "sources": [
+      "HuggingFace:myyim"
+    ]
+  },
+  {
+    "id": "parsva_bhuja_dandasana",
+    "name": "Grasshopper Pose",
+    "sanskritName": "Parsva Bhuja Dandasana",
+    "category": "Asana",
+    "difficulty": "All Levels",
+    "photo_url": null,
+    "sources": [
+      "HuggingFace:myyim"
+    ]
+  },
+  {
+    "id": "bala_parsva_bhuja_dandasana",
+    "name": "Baby Grasshopper Pose",
+    "sanskritName": "Bala Parsva Bhuja Dandasana",
+    "category": "Asana",
+    "difficulty": "All Levels",
+    "photo_url": null,
+    "sources": [
+      "HuggingFace:myyim"
+    ]
+  },
+  {
+    "id": "eka_pada_koundinyasana_ii",
+    "name": "Sage Kaundinya's pose",
+    "sanskritName": "Eka Pada Koundinyasana II",
+    "category": "Asana",
+    "difficulty": "All Levels",
+    "photo_url": null,
+    "sources": [
+      "HuggingFace:myyim",
+      "HuggingFace:myyim"
+    ]
+  },
+  {
+    "id": "utthita_parsvakonasana",
+    "name": "Extended Side Angle Pose",
+    "sanskritName": "Utthita Parsvakonasana",
+    "category": "Asana",
+    "difficulty": "All Levels",
+    "photo_url": null,
+    "sources": [
+      "HuggingFace:myyim"
+    ]
+  },
+  {
+    "id": "baddha_utthita_parsvakonasana",
+    "name": "Bound Extended Side Angle Pose",
+    "sanskritName": "Baddha Utthita Parsvakonasana",
+    "category": "Asana",
+    "difficulty": "All Levels",
+    "photo_url": null,
+    "sources": [
+      "HuggingFace:myyim"
+    ]
+  }
+]

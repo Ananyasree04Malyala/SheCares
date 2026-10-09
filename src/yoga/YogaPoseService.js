@@ -1,0 +1,1112 @@
+'use strict';
+
+/**
+ * YogaPoseService — Backend Knowledge Base & Search Engine for 40+ Clinical Yoga Poses.
+ * Supports:
+ * - English names, Sanskrit names, aliases, common names
+ * - Fuzzy and partial match
+ * - Category, difficulty, target body areas, benefits, contraindications
+ * - Prenatal safety filter with medical precaution notices
+ */
+
+const YOGA_POSES = [
+  // --- 1. BEGINNER FOUNDATIONS ---
+  {
+    id: 'tadasana',
+    imageUrl: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=800&auto=format&fit=crop',
+    name: 'Mountain Pose',
+    sanskritName: 'Tadasana',
+    aliases: ['mountain', 'samastitihi', 'standing pose', 'tadasan', 'mountain pose'],
+    category: 'Beginner',
+    difficulty: 'Beginner',
+    prenatalSafe: true,
+    targetBodyAreas: ['feet', 'ankles', 'calves', 'thighs', 'spine', 'posture'],
+    muscles: ['quadriceps', 'core', 'erector spinae'],
+    flexibilityAreas: ['chest', 'shoulders'],
+    benefits: 'Improves posture and spinal alignment, strengthens thighs and core, establishes centered calm.',
+    precautions: 'Stand with feet hip-width apart if lightheaded or dealing with low blood pressure.',
+    contraindications: 'Recent severe foot or ankle trauma.',
+    instructions: [
+      'Stand with big toes touching and heels slightly apart, distributing weight evenly through both feet.',
+      'Engage quadriceps, draw tailbone down, and lengthen spine upward.',
+      'Roll shoulders back and down, allowing arms to rest alongside torso with palms facing forward.',
+      'Gaze softly forward and breathe deeply through the nose.'
+    ],
+    breathing: 'Deep diaphragmatic breathing; inhale to lengthen the crown upward, exhale to ground down through soles.',
+    commonMistakes: ['Locking knees back', 'Arching lower back excessively', 'Hunching shoulders toward ears'],
+    correctionInstructions: 'Unlock knees with a micro-softness, tuck pelvis slightly, and roll shoulders down your back.'
+  },
+  {
+    id: 'vrikshasana',
+    imageUrl: '../assets/yoga3d/tree.jpg',
+    thumbnailUrl: '../assets/yoga3d/tree.jpg',
+    name: 'Tree Pose',
+    sanskritName: 'Vrikshasana',
+    aliases: ['tree', 'tree pose', 'vriksha', 'vrikshasan', 'balance on one leg'],
+    category: 'Balance',
+    difficulty: 'Beginner',
+    prenatalSafe: true,
+    targetBodyAreas: ['ankles', 'calves', 'thighs', 'hips', 'groin', 'core'],
+    muscles: ['gluteus medius', 'adductors', 'core stabilisers'],
+    flexibilityAreas: ['hips', 'groin'],
+    benefits: 'Enhances neuromuscular balance, strengthens ankles, tones pelvic floor and core.',
+    precautions: 'Never place foot directly on the side of the knee joint. Use a wall for balance support if pregnant.',
+    contraindications: 'Severe acute ankle sprain or vertigo.',
+    instructions: [
+      'Shift weight onto standing leg, rooting through all four corners of the foot.',
+      'Place sole of opposite foot onto your inner calf or inner thigh (never on the knee joint).',
+      'Bring hands to prayer (Anjali Mudra) at heart center or reach overhead.',
+      'Fix gaze on an unmoving point (Drishti) for stability.'
+    ],
+    breathing: 'Steady, calm nasal inhalation and exhalation to quiet inner ear equilibrium.',
+    commonMistakes: ['Pressing foot against knee joint', 'Hips swaying laterally out of square', 'Holding breath'],
+    correctionInstructions: 'Square hips forward, press inner thigh and foot firmly against each other, and breathe evenly.'
+  },
+  {
+    id: 'sukhasana',
+    imageUrl: 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?q=80&w=800&auto=format&fit=crop',
+    name: 'Easy Pose',
+    sanskritName: 'Sukhasana',
+    aliases: ['easy pose', 'cross legged', 'sukhasan', 'meditation seat', 'sitting cross legged'],
+    category: 'Beginner',
+    difficulty: 'Beginner',
+    prenatalSafe: true,
+    targetBodyAreas: ['hips', 'groin', 'spine', 'knees'],
+    muscles: ['erector spinae', 'transverse abdominis'],
+    flexibilityAreas: ['outer hips', 'ankles'],
+    benefits: 'Calms central nervous system, promotes mental clarity, opens hips, aligns vertebral column.',
+    precautions: 'Sit on a folded blanket or yoga cushion if hips are tight or knees sit higher than pelvis.',
+    contraindications: 'Recent knee surgery or severe knee osteoarthritis.',
+    instructions: [
+      'Sit cross-legged on floor or cushion with spine erect.',
+      'Rest hands gently on knees with palms facing up or down in Jnana Mudra.',
+      'Lengthen back of neck and breathe slowly into lower abdomen.'
+    ],
+    breathing: 'Slow 4-second inhalation, 4-second exhalation.',
+    commonMistakes: ['Slouching lower back', 'Collapsing chest inward'],
+    correctionInstructions: 'Elevate pelvis on a block to allow natural lumbar lordosis curve.'
+  },
+  {
+    id: 'balasana',
+    imageUrl: '../assets/yoga3d/child.jpg',
+    thumbnailUrl: '../assets/yoga3d/child.jpg',
+    name: "Child's Pose",
+    sanskritName: 'Balasana',
+    aliases: ['child', 'child pose', 'childs pose', 'balasan', 'resting pose', 'relax back'],
+    category: 'Restorative',
+    difficulty: 'Beginner',
+    prenatalSafe: true,
+    targetBodyAreas: ['lower back', 'hips', 'thighs', 'ankles', 'shoulders'],
+    muscles: ['latissimus dorsi', 'lumbar extensors'],
+    flexibilityAreas: ['lower back', 'sacrum', 'hips'],
+    benefits: 'Releases lumbar tension, calms adrenaline and stress, decompresses vertebral discs.',
+    precautions: 'Widen knees comfortably during pregnancy to create space for the abdomen.',
+    contraindications: 'Diarrhea, late-stage third-trimester breech positioning, or acute knee trauma.',
+    instructions: [
+      'Kneel on floor, big toes touching, knees separated wide.',
+      'Fold torso forward between thighs, resting forehead on mat or cushion.',
+      'Extend arms long overhead or rest alongside thighs.'
+    ],
+    breathing: 'Expand breath into back ribs and posterior lungs.',
+    commonMistakes: ['Hips lifting high off heels', 'Holding tension in shoulders'],
+    correctionInstructions: 'Place a blanket under sit-bones or forehead to allow full muscular surrender.'
+  },
+  {
+    id: 'vajrasana',
+    imageUrl: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=800&auto=format&fit=crop',
+    name: 'Thunderbolt Pose',
+    sanskritName: 'Vajrasana',
+    aliases: ['thunderbolt', 'vajrasan', 'adamantine pose', 'diamond pose', 'kneeling pose'],
+    category: 'Beginner',
+    difficulty: 'Beginner',
+    prenatalSafe: true,
+    targetBodyAreas: ['quadriceps', 'ankles', 'pelvic floor', 'spine'],
+    muscles: ['tibialis anterior', 'quadriceps'],
+    flexibilityAreas: ['ankles', 'tops of feet'],
+    benefits: 'Enhances digestion (safe right after meals), strengthens pelvic floor, calms mind.',
+    precautions: 'Place cushion under ankles if tops of feet feel cramped.',
+    contraindications: 'Acute knee injury or severe osteoarthritis.',
+    instructions: [
+      'Kneel on mat, sitting directly back onto heels with toes pointing straight back.',
+      'Rest palms on thighs, keep spine straight, chin parallel to floor.'
+    ],
+    breathing: 'Slow, steady abdominal breathing.',
+    commonMistakes: ['Slouching shoulders', 'Heels splaying outward excessively'],
+    correctionInstructions: 'Keep big toes touching and sit tall through spine.'
+  },
+  {
+    id: 'marjariasana',
+    imageUrl: 'https://images.unsplash.com/photo-1599447421416-3414500d18a5?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1599447421416-3414500d18a5?q=80&w=800&auto=format&fit=crop',
+    name: 'Cat Pose',
+    sanskritName: 'Marjariasana',
+    aliases: ['cat', 'cat pose', 'marjari', 'marjariasas', 'spine flex'],
+    category: 'Beginner',
+    difficulty: 'Beginner',
+    prenatalSafe: true,
+    targetBodyAreas: ['spine', 'neck', 'shoulders', 'abdominals'],
+    muscles: ['rectus abdominis', 'serratus anterior'],
+    flexibilityAreas: ['thoracic spine', 'cervical spine'],
+    benefits: 'Massages spinal column and viscera, eases lower back tension, relieves neck stiffness.',
+    precautions: 'Avoid aggressive neck flexion if cervical spine is sensitive.',
+    contraindications: 'Recent neck or severe wrist injury.',
+    instructions: [
+      'Begin on hands and knees with wrists under shoulders and knees under hips.',
+      'Exhale, press mat away, round spine toward ceiling, tuck chin toward chest.'
+    ],
+    breathing: 'Exhale fully as spine curves upward.',
+    commonMistakes: ['Bending elbows', 'Holding breath'],
+    correctionInstructions: 'Keep arms straight and initiate rounding from tailbone through crown.'
+  },
+  {
+    id: 'bitilasana',
+    imageUrl: 'https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?q=80&w=800&auto=format&fit=crop',
+    name: 'Cow Pose',
+    sanskritName: 'Bitilasana',
+    aliases: ['cow', 'cow pose', 'bitila', 'bitilasan', 'back arch'],
+    category: 'Beginner',
+    difficulty: 'Beginner',
+    prenatalSafe: true,
+    targetBodyAreas: ['chest', 'neck', 'spine', 'abdominals'],
+    muscles: ['erector spinae'],
+    flexibilityAreas: ['chest', 'anterior abdominal wall'],
+    benefits: 'Enhances spinal mobility, opens chest and lungs, counteracts sitting slump.',
+    precautions: 'Do not overarch lumbar spine excessively during pregnancy.',
+    contraindications: 'Severe neck issues (keep head neutral).',
+    instructions: [
+      'From tabletop on hands and knees, inhale, lower belly gently toward mat.',
+      'Lift sit-bones, open collarbones, and gaze gently upward.'
+    ],
+    breathing: 'Deep inhalation as chest expands forward.',
+    commonMistakes: ['Collapsing shoulders into neck', 'Overarching lower back'],
+    correctionInstructions: 'Broaden collarbones and draw shoulder blades down away from ears.'
+  },
+  {
+    id: 'adho_mukha_svanasana',
+    imageUrl: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=800&auto=format&fit=crop',
+    name: 'Downward-Facing Dog',
+    sanskritName: 'Adho Mukha Svanasana',
+    aliases: ['downward dog', 'downward-facing dog', 'down dog', 'adho mukha', 'adhomukha', 'downward facing dog'],
+    category: 'Standing',
+    difficulty: 'Beginner',
+    prenatalSafe: false,
+    targetBodyAreas: ['hamstrings', 'calves', 'shoulders', 'spine', 'hands'],
+    muscles: ['deltoids', 'triceps', 'hamstrings', 'gastrocnemius'],
+    flexibilityAreas: ['posterior chain', 'shoulders'],
+    benefits: 'Decompresses spine, stretches entire posterior chain, builds upper body bone density.',
+    precautions: 'Avoid in late third trimester if inversion triggers reflux, or in uncontrolled hypertension.',
+    contraindications: 'Carpal tunnel syndrome, detached retina, severe high blood pressure.',
+    instructions: [
+      'From tabletop, tuck toes and lift hips toward ceiling in an inverted V-shape.',
+      'Press through all 10 knuckles, lengthen spine, reach heels toward floor.',
+      'Keep head between upper arms, neck relaxed.'
+    ],
+    breathing: 'Long, smooth rhythmic breathing.',
+    commonMistakes: ['Weight dumping onto wrists', 'Rounding upper back', 'Locking knees'],
+    correctionInstructions: 'Bend knees slightly if hamstrings are tight to preserve long neutral spine.'
+  },
+  {
+    id: 'bhujangasana',
+    imageUrl: '../assets/yoga3d/cobra.jpg',
+    thumbnailUrl: '../assets/yoga3d/cobra.jpg',
+    name: 'Cobra Pose',
+    sanskritName: 'Bhujangasana',
+    aliases: ['cobra', 'cobra pose', 'bhujang', 'bhujangasan', 'baby cobra'],
+    category: 'Backbends',
+    difficulty: 'Beginner',
+    prenatalSafe: false,
+    targetBodyAreas: ['spine', 'chest', 'lungs', 'shoulders', 'abdominals'],
+    muscles: ['erector spinae', 'gluteals', 'latissimus dorsi'],
+    flexibilityAreas: ['thoracic spine', 'chest'],
+    benefits: 'Strengthens back musculature, opens chest cavity, stimulates thyroid and adrenal glands.',
+    precautions: 'Contraindicated during pregnancy (avoid lying prone on abdomen).',
+    contraindications: 'Pregnancy, abdominal surgery, severe lumbar disc herniation.',
+    instructions: [
+      'Lie prone on belly, legs extended hip-width apart.',
+      'Place palms beneath shoulders, elbows hugged in by ribs.',
+      'Inhale, use spinal muscles to lift chest, keeping pubic bone grounded.'
+    ],
+    breathing: 'Inhale to lift, exhale to hold or lower.',
+    commonMistakes: ['Pushing heavily through hands and jamming lower back', 'Shoulders hunched by ears'],
+    correctionInstructions: 'Lift hands slightly off floor to verify back muscle activation; roll shoulders back.'
+  },
+  {
+    id: 'setu_bandhasana',
+    imageUrl: 'https://images.unsplash.com/photo-1588286840104-8957b019727f?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1588286840104-8957b019727f?q=80&w=800&auto=format&fit=crop',
+    name: 'Bridge Pose',
+    sanskritName: 'Setu Bandhasana',
+    aliases: ['bridge', 'bridge pose', 'setu bandha', 'setu bandhasan', 'pelvic lift'],
+    category: 'Backbends',
+    difficulty: 'Beginner',
+    prenatalSafe: true,
+    targetBodyAreas: ['glutes', 'hamstrings', 'spine', 'chest', 'thyroid'],
+    muscles: ['gluteus maximus', 'hamstrings', 'quadriceps'],
+    flexibilityAreas: ['hip flexors', 'chest'],
+    benefits: 'Strengthens glutes and hamstrings, opens chest and hip flexors, calms mind.',
+    precautions: 'Do not turn head from side to side while hips are elevated.',
+    contraindications: 'Acute neck trauma.',
+    instructions: [
+      'Lie supine with knees bent, feet flat on mat hip-width apart, arms by sides.',
+      'Press through feet to lift hips toward ceiling.',
+      'Roll shoulders underneath and interlace fingers beneath pelvis if comfortable.'
+    ],
+    breathing: 'Deep expansive breaths into front chest and belly.',
+    commonMistakes: ['Knees splaying wide', 'Turning neck while elevated'],
+    correctionInstructions: 'Keep thighs parallel as if squeezing a block between knees.'
+  },
+  {
+    id: 'makarasana',
+    imageUrl: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=800&auto=format&fit=crop',
+    name: 'Crocodile Pose',
+    sanskritName: 'Makarasana',
+    aliases: ['crocodile', 'crocodile pose', 'makarasan', 'prone relaxation'],
+    category: 'Restorative',
+    difficulty: 'Beginner',
+    prenatalSafe: false,
+    targetBodyAreas: ['lumbar spine', 'sacrum', 'diaphragm'],
+    muscles: ['diaphragm'],
+    flexibilityAreas: ['lower back'],
+    benefits: 'Deeply relaxing for lumbar spine and sacrum, aids recovery from asthma and bronchitis.',
+    precautions: 'Avoid in pregnancy due to prone position.',
+    contraindications: 'Pregnancy.',
+    instructions: [
+      'Lie prone, cross arms in front, rest forehead on folded wrists.',
+      'Turn heels inward, toes pointing outward, releasing all effort.'
+    ],
+    breathing: 'Deep diaphragmatic breathing feeling belly expand against mat.',
+    commonMistakes: ['Tensing shoulders or neck'],
+    correctionInstructions: 'Completely surrender muscular tone on every exhalation.'
+  },
+  {
+    id: 'pawanmuktasana',
+    imageUrl: 'https://images.unsplash.com/photo-1508215885820-4a4074ec15bb?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1508215885820-4a4074ec15bb?q=80&w=800&auto=format&fit=crop',
+    name: 'Wind-Relieving Pose',
+    sanskritName: 'Pawanmuktasana',
+    aliases: ['wind relieving', 'pawanmukta', 'pavanmuktasana', 'knee to chest', 'gas relief'],
+    category: 'Restorative',
+    difficulty: 'Beginner',
+    prenatalSafe: false,
+    targetBodyAreas: ['abdominal viscera', 'lower back', 'hips'],
+    muscles: ['hip flexors'],
+    flexibilityAreas: ['lumbar spine', 'glutes'],
+    benefits: 'Eases bloating and trapped abdominal gas, massages colon, stretches lumbar muscles.',
+    precautions: 'Do not forcefully press knees against abdomen during pregnancy.',
+    contraindications: 'Recent abdominal surgery, pregnancy, acute hernia.',
+    instructions: [
+      'Lie on back, bend knees toward chest, wrap arms around shins.',
+      'Gently rock side to side or draw forehead toward knees if neck feels comfortable.'
+    ],
+    breathing: 'Inhale release slightly; exhale draw knees gently closer.',
+    commonMistakes: ['Straining neck muscles'],
+    correctionInstructions: 'Keep head resting on mat if neck feels tight.'
+  },
+
+  // --- 2. STANDING POSES ---
+  {
+    id: 'virabhadrasana1',
+    imageUrl: 'https://images.unsplash.com/photo-1573384999795-8f5f9f7c46c2?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1573384999795-8f5f9f7c46c2?q=80&w=800&auto=format&fit=crop',
+    name: 'Warrior I',
+    sanskritName: 'Virabhadrasana I',
+    aliases: ['warrior 1', 'warrior i', 'virabhadrasan 1', 'first warrior'],
+    category: 'Standing',
+    difficulty: 'Intermediate',
+    prenatalSafe: true,
+    targetBodyAreas: ['thighs', 'calves', 'ankles', 'chest', 'shoulders', 'hips'],
+    muscles: ['quadriceps', 'gluteals', 'deltoids'],
+    flexibilityAreas: ['hip flexors', 'calves', 'chest'],
+    benefits: 'Builds leg strength and endurance, opens chest and hips, promotes focus.',
+    precautions: 'Widen stance slightly to maintain pelvic balance if balance is compromised.',
+    contraindications: 'Recent heart condition or severe high blood pressure.',
+    instructions: [
+      'Step one foot back 3–4 feet, turning back foot out 45° with heel rooted.',
+      'Bend front knee to 90° directly over ankle, square hips forward.',
+      'Sweep arms overhead beside ears, palms facing.'
+    ],
+    breathing: 'Deep victorious Ujjayi breath.',
+    commonMistakes: ['Front knee moving past toes', 'Back heel lifting off mat', 'Hips twisted away from front'],
+    correctionInstructions: 'Square hips forward like headlights and press back heel down firmly.'
+  },
+  {
+    id: 'virabhadrasana2',
+    imageUrl: '../assets/yoga3d/warrior2.jpg',
+    thumbnailUrl: '../assets/yoga3d/warrior2.jpg',
+    name: 'Warrior II',
+    sanskritName: 'Virabhadrasana II',
+    aliases: ['warrior 2', 'warrior ii', 'virabhadrasan 2', 'second warrior'],
+    category: 'Standing',
+    difficulty: 'Beginner',
+    prenatalSafe: true,
+    targetBodyAreas: ['thighs', 'groin', 'hips', 'chest', 'shoulders'],
+    muscles: ['quadriceps', 'hamstrings', 'deltoids', 'core'],
+    flexibilityAreas: ['inner groins', 'chest'],
+    benefits: 'Strengthens thighs and core, opens hips, expands lung capacity, develops stamina.',
+    precautions: 'Do not allow front knee to cave inward past the big toe.',
+    contraindications: 'Diarrhea, recent hip replacement.',
+    instructions: [
+      'Step feet wide (3.5–4 feet). Turn front foot forward and back foot perpendicular.',
+      'Bend front knee to 90°, stacked directly over front ankle.',
+      'Extend arms parallel to floor at shoulder height, gazing past front fingertips.',
+      'Keep torso upright and centered.'
+    ],
+    breathing: 'Smooth, continuous breathing maintaining soft steady gaze (Drishti).',
+    commonMistakes: ['Front knee collapsing inward', 'Leaning torso forward over front leg', 'Drooping back arm'],
+    correctionInstructions: 'Keep torso centered directly over pelvis and lift arms level with shoulders.'
+  },
+  {
+    id: 'virabhadrasana3',
+    imageUrl: 'https://images.unsplash.com/photo-1591228127791-8e2eaef098d3?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1591228127791-8e2eaef098d3?q=80&w=800&auto=format&fit=crop',
+    name: 'Warrior III',
+    sanskritName: 'Virabhadrasana III',
+    aliases: ['warrior 3', 'warrior iii', 'virabhadrasan 3', 'airplane pose', 't balance'],
+    category: 'Balance',
+    difficulty: 'Advanced',
+    prenatalSafe: false,
+    targetBodyAreas: ['ankles', 'hamstrings', 'glutes', 'back', 'core'],
+    muscles: ['gluteus medius', 'hamstrings', 'erector spinae', 'transverse abdominis'],
+    flexibilityAreas: ['hamstrings of standing leg'],
+    benefits: 'Develops supreme balance and proprioception, tones posterior chain and core.',
+    precautions: 'Use a chair or blocks under hands for support if balance is unsteady.',
+    contraindications: 'Severe hypertension, heart conditions.',
+    instructions: [
+      'From standing, hinge forward at hips while lifting back leg parallel to floor.',
+      'Reach arms forward or alongside torso, forming a straight line from crown to back heel.',
+      'Keep both hip bones level facing floor.'
+    ],
+    breathing: 'Steady, focused nasal breathing.',
+    commonMistakes: ['Opening lifted hip upward', 'Hyperextending standing knee', 'Collapsing chest'],
+    correctionInstructions: 'Turn lifted pinky toe toward mat to square hips and maintain long neck.'
+  },
+  {
+    id: 'utkatasana',
+    imageUrl: '../assets/yoga3d/chair.jpg',
+    thumbnailUrl: '../assets/yoga3d/chair.jpg',
+    name: 'Chair Pose',
+    sanskritName: 'Utkatasana',
+    aliases: ['chair', 'chair pose', 'utkatasan', 'fierce pose', 'awkward pose', 'squat pose'],
+    category: 'Standing',
+    difficulty: 'Beginner',
+    prenatalSafe: true,
+    targetBodyAreas: ['thighs', 'calves', 'spine', 'ankles', 'shoulders'],
+    muscles: ['quadriceps', 'gluteus maximus', 'calves', 'deltoids'],
+    flexibilityAreas: ['shoulders', 'Achilles tendon'],
+    benefits: 'Tones thighs and glutes, builds ankle stability, stimulates heart and abdominal organs.',
+    precautions: 'Do not bend knees deeper than 90° if managing patellofemoral knee pain.',
+    contraindications: 'Low blood pressure or acute knee injury.',
+    instructions: [
+      'Stand with feet hip-width apart. Inhale arms overhead beside ears.',
+      'Exhale and bend knees, sitting hips back and down into an imaginary chair.',
+      'Keep weight back in heels and chest elevated.'
+    ],
+    breathing: 'Full rhythmic breathing.',
+    commonMistakes: ['Knees sliding forward past toes', 'Lower back overarching', 'Chest falling forward'],
+    correctionInstructions: 'Shift weight into heels so toes can lift slightly, and keep chest high.'
+  },
+  {
+    id: 'trikonasana',
+    imageUrl: '../assets/yoga3d/triangle.jpg',
+    thumbnailUrl: '../assets/yoga3d/triangle.jpg',
+    name: 'Triangle Pose',
+    sanskritName: 'Trikonasana',
+    aliases: ['triangle', 'triangle pose', 'trikonasan', 'extended triangle', 'utthita trikonasana'],
+    category: 'Standing',
+    difficulty: 'Beginner',
+    prenatalSafe: true,
+    targetBodyAreas: ['hamstrings', 'groin', 'hips', 'spine', 'chest'],
+    muscles: ['obliques', 'quadriceps', 'hamstrings'],
+    flexibilityAreas: ['hamstrings', 'inner groins', 'chest'],
+    benefits: 'Stretches hamstrings, groins, and spine; relieves backache; expands breathing capacity.',
+    precautions: 'Keep front knee soft; use a yoga block under lower hand to keep spine long.',
+    contraindications: 'Migraine, acute low blood pressure, neck injury (look forward instead of up).',
+    instructions: [
+      'Step feet wide (3–4 feet). Turn front foot forward and back foot slightly in.',
+      'Reach front arm forward over front leg, then hinge at hip and lower hand to shin or block.',
+      'Extend top arm straight toward ceiling, rotating chest open.'
+    ],
+    breathing: 'Expansive inhalation into upper ribs, steady exhalation grounding both feet.',
+    commonMistakes: ['Collapsing chest toward floor', 'Hyperextending front knee', 'Overreaching hand to floor'],
+    correctionInstructions: 'Rest hand higher on shin or block so top shoulder and hip stack open.'
+  },
+  {
+    id: 'parsvakonasana',
+    imageUrl: 'https://images.unsplash.com/photo-1599447292180-45fd84092ef4?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1599447292180-45fd84092ef4?q=80&w=800&auto=format&fit=crop',
+    name: 'Extended Side Angle',
+    sanskritName: 'Parsvakonasana',
+    aliases: ['side angle', 'extended side angle', 'parsvakonasana', 'utthita parsvakonasana'],
+    category: 'Standing',
+    difficulty: 'Intermediate',
+    prenatalSafe: true,
+    targetBodyAreas: ['thighs', 'knees', 'ankles', 'groin', 'spine', 'waist'],
+    muscles: ['quadriceps', 'gluteals', 'intercostals'],
+    flexibilityAreas: ['groin', 'side body'],
+    benefits: 'Strengthens legs and ankles, opens groin and chest, tones abdominal organs.',
+    precautions: 'Rest front forearm on thigh if reaching block or floor strains hip.',
+    contraindications: 'Headache, acute insomnia, high blood pressure.',
+    instructions: [
+      'From wide stance, bend front knee to 90°. Rest front forearm on thigh.',
+      'Extend top arm in a diagonal line past ear from back heel to fingertips.',
+      'Rotate chest open toward ceiling.'
+    ],
+    breathing: 'Inhale along entire side body; exhale root back foot into floor.',
+    commonMistakes: ['Dumping torso weight onto front thigh', 'Collapsing chest forward'],
+    correctionInstructions: 'Press forearm lightly against thigh to lift ribcage up and open.'
+  },
+  {
+    id: 'ardha_chandrasana',
+    imageUrl: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=800&auto=format&fit=crop',
+    name: 'Half Moon Pose',
+    sanskritName: 'Ardha Chandrasana',
+    aliases: ['half moon', 'half moon pose', 'ardha chandra', 'chandrasana'],
+    category: 'Balance',
+    difficulty: 'Intermediate',
+    prenatalSafe: true,
+    targetBodyAreas: ['ankles', 'thighs', 'glutes', 'spine', 'abdominals'],
+    muscles: ['gluteus medius', 'quadriceps', 'core'],
+    flexibilityAreas: ['hamstrings', 'groin', 'chest'],
+    benefits: 'Improves balance and coordination, strengthens standing ankle, relieves back stiffness.',
+    precautions: 'Perform against a wall for security if pregnant or dealing with balance challenges.',
+    contraindications: 'Vertigo, migraine, unmanaged low blood pressure.',
+    instructions: [
+      'From Triangle pose, bend front knee, place fingertips on block 10 inches forward.',
+      'Float back leg parallel to floor, straighten standing leg, stack top hip and shoulder open.',
+      'Reach top arm straight up toward ceiling.'
+    ],
+    breathing: 'Calm, measured breaths keeping eye gaze steady.',
+    commonMistakes: ['Dropping lifted leg below hip height', 'Rolling top shoulder forward'],
+    correctionInstructions: 'Flex lifted foot firmly and engage outer hip to keep leg elevated.'
+  },
+  {
+    id: 'prasarita_padottanasana',
+    imageUrl: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=800&auto=format&fit=crop',
+    name: 'Wide-Leg Forward Fold',
+    sanskritName: 'Prasarita Padottanasana',
+    aliases: ['wide leg fold', 'wide legged forward bend', 'prasarita', 'standing straddle fold'],
+    category: 'Standing',
+    difficulty: 'Beginner',
+    prenatalSafe: true,
+    targetBodyAreas: ['hamstrings', 'calves', 'inner groins', 'spine'],
+    muscles: ['hamstrings', 'adductors'],
+    flexibilityAreas: ['posterior chain', 'inner thighs'],
+    benefits: 'Stretches hamstrings and inner thighs, decompresses lumbar spine, calms brain.',
+    precautions: 'Do not fold fully forward if dealing with acute low blood pressure.',
+    contraindications: 'Lower back disc herniation (keep back flat and hands on blocks).',
+    instructions: [
+      'Step feet wide (4 feet apart) with outer edges of feet parallel.',
+      'Inhale lengthen spine, exhale hinge at hips, placing hands on mat or blocks under shoulders.',
+      'Release crown of head toward floor.'
+    ],
+    breathing: 'Long exhales assisting spinal decompression.',
+    commonMistakes: ['Rounding back excessively', 'Weight drifting back into heels'],
+    correctionInstructions: 'Shift weight slightly forward into balls of feet and micro-bend knees.'
+  },
+
+  // --- 3. SEATED POSES ---
+  {
+    id: 'dandasana',
+    imageUrl: 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?q=80&w=800&auto=format&fit=crop',
+    name: 'Staff Pose',
+    sanskritName: 'Dandasana',
+    aliases: ['staff', 'staff pose', 'dandasan', 'seated 90 degree'],
+    category: 'Seated',
+    difficulty: 'Beginner',
+    prenatalSafe: true,
+    targetBodyAreas: ['spine', 'shoulders', 'chest', 'abdominals'],
+    muscles: ['erector spinae', 'quadriceps'],
+    flexibilityAreas: ['hamstrings'],
+    benefits: 'Improves seated posture, strengthens back muscles, prepares body for forward folds.',
+    precautions: 'Sit on a folded blanket if hamstrings are tight.',
+    contraindications: 'Recent wrist or lower back injury.',
+    instructions: [
+      'Sit on floor with legs extended together straight in front, feet flexed.',
+      'Place palms on floor beside hips, lengthen spine upright, roll shoulders back.'
+    ],
+    breathing: 'Chest-expanding breaths while maintaining steady core engagement.',
+    commonMistakes: ['Slumping in lower back', 'Rolling shoulders forward'],
+    correctionInstructions: 'Sit up right on top of sit-bones, drawing shoulder blades together.'
+  },
+  {
+    id: 'paschimottanasana',
+    imageUrl: 'https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?q=80&w=800&auto=format&fit=crop',
+    name: 'Seated Forward Bend',
+    sanskritName: 'Paschimottanasana',
+    aliases: ['seated forward bend', 'seated forward fold', 'paschimottan', 'seated toe touch'],
+    category: 'Seated',
+    difficulty: 'Intermediate',
+    prenatalSafe: false,
+    targetBodyAreas: ['hamstrings', 'calves', 'spine', 'pelvis'],
+    muscles: ['hamstrings', 'erector spinae'],
+    flexibilityAreas: ['entire posterior chain'],
+    benefits: 'Stretches entire posterior chain, massages abdominal organs, calms nervous system.',
+    precautions: 'Contraindicated during pregnancy (avoid abdominal compression).',
+    contraindications: 'Pregnancy, acute asthma, lumbar disc herniation.',
+    instructions: [
+      'From Staff pose, inhale reach arms overhead, exhale hinge forward from hips.',
+      'Hold shins, ankles, or feet, leading with chest with a long spine.'
+    ],
+    breathing: 'Inhale lengthen spine forward; exhale fold deeper.',
+    commonMistakes: ['Yanking with arms', 'Leading with forehead instead of chest'],
+    correctionInstructions: 'Lead with sternum, keeping neck long and shoulders relaxed.'
+  },
+  {
+    id: 'baddha_konasana',
+    imageUrl: '../assets/yoga3d/butterfly.jpg',
+    thumbnailUrl: '../assets/yoga3d/butterfly.jpg',
+    name: 'Butterfly Pose',
+    sanskritName: 'Baddha Konasana',
+    aliases: ['butterfly', 'butterfly pose', 'bound angle', 'cobbler pose', 'baddha kona'],
+    category: 'Seated',
+    difficulty: 'Beginner',
+    prenatalSafe: true,
+    targetBodyAreas: ['inner groins', 'hips', 'pelvic floor', 'spine'],
+    muscles: ['adductors'],
+    flexibilityAreas: ['inner groins', 'hip adductors'],
+    benefits: 'Stimulates pelvic circulation, relieves menstrual discomfort, supports prenatal flexibility.',
+    precautions: 'Place blocks under knees if groin or knees experience sharp sensation.',
+    contraindications: 'Acute groin or knee injury.',
+    instructions: [
+      'Sit tall, bend knees, bring soles of feet together, letting knees fall open.',
+      'Hold feet or ankles, lengthen spine tall, gently draw knees toward mat.'
+    ],
+    breathing: 'Smooth, relaxing pelvic floor breaths.',
+    commonMistakes: ['Rounding back excessively', 'Bouncing knees aggressively'],
+    correctionInstructions: 'Sit on a block for pelvic tilt and allow gravity to open hips smoothly.'
+  },
+  {
+    id: 'ardha_matsyendrasana',
+    imageUrl: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=800&auto=format&fit=crop',
+    name: 'Half Lord of the Fishes',
+    sanskritName: 'Ardha Matsyendrasana',
+    aliases: ['seated twist', 'spinal twist', 'half lord of fishes', 'ardha matsyendra', 'matsyendrasana'],
+    category: 'Seated',
+    difficulty: 'Intermediate',
+    prenatalSafe: false,
+    targetBodyAreas: ['spine', 'hips', 'neck', 'shoulders'],
+    muscles: ['obliques', 'erector spinae'],
+    flexibilityAreas: ['spinal rotators', 'glutes'],
+    benefits: 'Maintains spinal rotation mobility, stimulates digestive organs, relieves back stiffness.',
+    precautions: 'Avoid deep closed twists during pregnancy; perform open gentle twists instead.',
+    contraindications: 'Pregnancy, severe spinal disc issues.',
+    instructions: [
+      'Sit with legs extended. Bend right knee, place right foot outside left thigh.',
+      'Inhale left arm up, exhale twist torso to right, hooking elbow outside knee.',
+      'Gaze softly over back shoulder.'
+    ],
+    breathing: 'Inhale to lengthen spine upward; exhale to gently deepen rotational twist.',
+    commonMistakes: ['Collapsing back into supporting hand', 'Forcing twist with neck'],
+    correctionInstructions: 'Sit tall on both sit-bones; initiate twist from thoracic spine.'
+  },
+  {
+    id: 'janu_sirsasana',
+    imageUrl: 'https://images.unsplash.com/photo-1588286840104-8957b019727f?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1588286840104-8957b019727f?q=80&w=800&auto=format&fit=crop',
+    name: 'Head-to-Knee Pose',
+    sanskritName: 'Janu Sirsasana',
+    aliases: ['head to knee', 'janu sirsa', 'head to knee pose', 'single leg forward fold'],
+    category: 'Seated',
+    difficulty: 'Beginner',
+    prenatalSafe: true,
+    targetBodyAreas: ['hamstrings', 'groin', 'spine', 'shoulders'],
+    muscles: ['hamstrings', 'latissimus dorsi'],
+    flexibilityAreas: ['hamstrings', 'hip joint'],
+    benefits: 'Stretches hamstrings and groins, calms brain, aids digestive function.',
+    precautions: 'Angle hips wider apart during pregnancy to provide room for belly.',
+    contraindications: 'Acute knee injury, severe diarrhea.',
+    instructions: [
+      'Sit with left leg extended, bend right knee, placing right sole against inner left thigh.',
+      'Turn torso toward extended leg, fold forward with long spine reaching for foot or shin.'
+    ],
+    breathing: 'Inhale lengthen sternum forward; exhale soften chest toward thigh.',
+    commonMistakes: ['Rounding through upper back to touch head to knee'],
+    correctionInstructions: 'Lead fold with heart and keep extended foot flexed.'
+  },
+
+  // --- 4. BALANCE POSES ---
+  {
+    id: 'garudasana',
+    imageUrl: 'https://images.unsplash.com/photo-1591228127791-8e2eaef098d3?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1591228127791-8e2eaef098d3?q=80&w=800&auto=format&fit=crop',
+    name: 'Eagle Pose',
+    sanskritName: 'Garudasana',
+    aliases: ['eagle', 'eagle pose', 'garudasan'],
+    category: 'Balance',
+    difficulty: 'Intermediate',
+    prenatalSafe: true,
+    targetBodyAreas: ['ankles', 'calves', 'thighs', 'hips', 'shoulders', 'upper back'],
+    muscles: ['quadriceps', 'gluteus medius', 'rhomboids'],
+    flexibilityAreas: ['shoulders', 'outer hips'],
+    benefits: 'Strengthens ankles and calves, stretches shoulders and upper back, sharpens focus.',
+    precautions: 'Rest toes of wrapping foot on floor or block if balance is unstable.',
+    contraindications: 'Recent knee injury.',
+    instructions: [
+      'Stand, bend knees slightly, wrap right thigh over left thigh, hooking foot behind calf.',
+      'Cross left arm over right at elbows, wrap forearms, press palms together.',
+      'Sink hips low, lift elbows to shoulder height, breathe steadily.'
+    ],
+    breathing: 'Slow steady breathing into space between shoulder blades.',
+    commonMistakes: ['Elbows dropping to chest', 'Holding breath'],
+    correctionInstructions: 'Lift elbows to shoulder height and draw hands away from face.'
+  },
+  {
+    id: 'natarajasana',
+    imageUrl: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=800&auto=format&fit=crop',
+    name: 'Dancer Pose',
+    sanskritName: 'Natarajasana',
+    aliases: ['dancer', 'dancer pose', 'nataraja', 'lord of the dance'],
+    category: 'Balance',
+    difficulty: 'Advanced',
+    prenatalSafe: false,
+    targetBodyAreas: ['quadriceps', 'shoulders', 'chest', 'ankles', 'spine'],
+    muscles: ['hamstrings', 'erector spinae', 'deltoids'],
+    flexibilityAreas: ['hip flexors', 'chest', 'shoulders'],
+    benefits: 'Expands chest and hip flexors, builds profound balance and leg stability.',
+    precautions: 'Practice near a wall for safety; avoid crunching lower back.',
+    contraindications: 'Low blood pressure, acute ankle or lower back injury.',
+    instructions: [
+      'Shift weight to standing foot. Bend other knee, grasp inner ankle with same-side hand.',
+      'Reach other arm forward and up. Kick foot back and up, arching spine gracefully.'
+    ],
+    breathing: 'Calm, steady breathing maintaining Drishti focal point.',
+    commonMistakes: ['Standing knee locked back', 'Hips splaying open to the side'],
+    correctionInstructions: 'Keep hips square and kick foot back into hand to power the lift.'
+  },
+  {
+    id: 'bakasana',
+    imageUrl: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=800&auto=format&fit=crop',
+    name: 'Crow Pose',
+    sanskritName: 'Bakasana',
+    aliases: ['crow', 'crow pose', 'crane pose', 'kakasana'],
+    category: 'Balance',
+    difficulty: 'Advanced',
+    prenatalSafe: false,
+    targetBodyAreas: ['wrists', 'arms', 'shoulders', 'core', 'groin'],
+    muscles: ['triceps', 'anterior deltoids', 'rectus abdominis'],
+    flexibilityAreas: ['wrists', 'hips'],
+    benefits: 'Builds arm and wrist strength, tones core, develops balance and mental fortitude.',
+    precautions: 'Place a bolster or pillow in front of face while learning.',
+    contraindications: 'Carpal tunnel syndrome, pregnancy.',
+    instructions: [
+      'Squat, plant hands shoulder-width apart, fingers spread wide.',
+      'Lift hips high, place knees against upper triceps near armpits.',
+      'Shift weight forward onto hands, gaze slightly ahead, float feet off mat.'
+    ],
+    breathing: 'Controlled exhalation engaging core lock (Uddiyana Bandha).',
+    commonMistakes: ['Looking straight down under head', 'Jumping feet up instead of shifting weight'],
+    correctionInstructions: 'Gaze 12 inches forward on floor and shift chest forward until feet float.'
+  },
+  {
+    id: 'vasisthasana',
+    imageUrl: 'https://images.unsplash.com/photo-1573384999795-8f5f9f7c46c2?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1573384999795-8f5f9f7c46c2?q=80&w=800&auto=format&fit=crop',
+    name: 'Side Plank',
+    sanskritName: 'Vasisthasana',
+    aliases: ['side plank', 'side plank pose', 'vasistha', 'side arm balance'],
+    category: 'Balance',
+    difficulty: 'Intermediate',
+    prenatalSafe: false,
+    targetBodyAreas: ['wrists', 'arms', 'shoulders', 'obliques', 'ankles'],
+    muscles: ['obliques', 'serratus anterior', 'gluteus medius'],
+    flexibilityAreas: ['shoulders'],
+    benefits: 'Strengthens wrists, arms, and obliques; builds core endurance and balance.',
+    precautions: 'Lower bottom knee to floor for modified variation if wrists feel strain.',
+    contraindications: 'Severe wrist, elbow, or shoulder injury.',
+    instructions: [
+      'From plank, shift onto outer edge of right foot, stack left foot on top.',
+      'Press right palm into floor under shoulder, reach left arm toward ceiling, lifting hips high.'
+    ],
+    breathing: 'Steady, deep breaths holding strong diagonal line.',
+    commonMistakes: ['Hips sagging toward floor', 'Top shoulder rolling forward'],
+    correctionInstructions: 'Lift hips high and stack shoulders and feet directly above one another.'
+  },
+
+  // --- 5. BACKBENDS ---
+  {
+    id: 'ustrasana',
+    imageUrl: 'https://images.unsplash.com/photo-1599447421416-3414500d18a5?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1599447421416-3414500d18a5?q=80&w=800&auto=format&fit=crop',
+    name: 'Camel Pose',
+    sanskritName: 'Ustrasana',
+    aliases: ['camel', 'camel pose', 'ustrasan'],
+    category: 'Backbends',
+    difficulty: 'Intermediate',
+    prenatalSafe: true,
+    targetBodyAreas: ['chest', 'throat', 'hip flexors', 'spine', 'quadriceps'],
+    muscles: ['erector spinae', 'gluteus maximus'],
+    flexibilityAreas: ['thoracic spine', 'hip flexors', 'chest'],
+    benefits: 'Opens front body, expands lung capacity, stimulates thyroid and sympathetic nervous system.',
+    precautions: 'Do not drop head back forcefully if neck is sensitive. Avoid overextending in late pregnancy.',
+    contraindications: 'Severe high blood pressure, acute lumbar disc problems.',
+    instructions: [
+      'Kneel with hips over knees, hip-width apart.',
+      'Place hands on sacrum, fingers pointing down, draw elbows together.',
+      'Inhale lift chest high, arch back, reaching hands to heels if accessible.'
+    ],
+    breathing: 'Expansive inhalations opening heart center.',
+    commonMistakes: ['Hips sinking back behind knees', 'Compressing lumbar spine'],
+    correctionInstructions: 'Keep hips pressing forward over knees and lift chest toward ceiling.'
+  },
+  {
+    id: 'dhanurasana',
+    imageUrl: 'https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1575052814086-f385e2e2ad1b?q=80&w=800&auto=format&fit=crop',
+    name: 'Bow Pose',
+    sanskritName: 'Dhanurasana',
+    aliases: ['bow', 'bow pose', 'dhanurasan'],
+    category: 'Backbends',
+    difficulty: 'Intermediate',
+    prenatalSafe: false,
+    targetBodyAreas: ['chest', 'shoulders', 'quadriceps', 'spine', 'abdominals'],
+    muscles: ['hamstrings', 'erector spinae'],
+    flexibilityAreas: ['front body', 'hip flexors', 'shoulders'],
+    benefits: 'Strengthens back muscles, massages abdominal organs, counters slumped posture.',
+    precautions: 'Contraindicated during pregnancy and for high blood pressure.',
+    contraindications: 'Pregnancy, hernia, high blood pressure, recent abdominal surgery.',
+    instructions: [
+      'Lie on belly, bend knees, reach back to hold outer ankles.',
+      'Inhale, kick feet back and up into hands, lifting chest and thighs off mat.',
+      'Gaze forward, maintaining steady breathing.'
+    ],
+    breathing: 'Natural breathing without holding breath against abdominal pressure.',
+    commonMistakes: ['Knees splaying wider than hips', 'Holding breath'],
+    correctionInstructions: 'Keep knees hip-width and use the kick of legs to lift upper body.'
+  },
+  {
+    id: 'salabhasana',
+    imageUrl: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=800&auto=format&fit=crop',
+    name: 'Locust Pose',
+    sanskritName: 'Salabhasana',
+    aliases: ['locust', 'locust pose', 'salabhasan', 'superman pose'],
+    category: 'Backbends',
+    difficulty: 'Beginner',
+    prenatalSafe: false,
+    targetBodyAreas: ['glutes', 'hamstrings', 'erector spinae', 'shoulders'],
+    muscles: ['gluteus maximus', 'hamstrings', 'latissimus dorsi'],
+    flexibilityAreas: ['chest'],
+    benefits: 'Strengthens glutes and lower back, prepares body for deeper backbends, improves posture.',
+    precautions: 'Contraindicated in pregnancy.',
+    contraindications: 'Pregnancy, acute headache.',
+    instructions: [
+      'Lie on belly with arms along sides, palms facing down.',
+      'Inhale and lift head, chest, arms, and legs simultaneously off mat.',
+      'Keep neck long, gazing down and forward.'
+    ],
+    breathing: 'Inhale to lift and lengthen; exhale maintain steady hold.',
+    commonMistakes: ['Craning neck backward', 'Bending knees'],
+    correctionInstructions: 'Keep legs straight and reach toes long toward back wall.'
+  },
+  {
+    id: 'chakrasana',
+    imageUrl: 'https://images.unsplash.com/photo-1588286840104-8957b019727f?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1588286840104-8957b019727f?q=80&w=800&auto=format&fit=crop',
+    name: 'Wheel Pose',
+    sanskritName: 'Urdhva Dhanurasana',
+    aliases: ['wheel', 'wheel pose', 'chakrasan', 'upward facing bow', 'full backbend'],
+    category: 'Backbends',
+    difficulty: 'Advanced',
+    prenatalSafe: false,
+    targetBodyAreas: ['arms', 'wrists', 'legs', 'glutes', 'spine', 'chest'],
+    muscles: ['quadriceps', 'gluteals', 'triceps', 'erector spinae'],
+    flexibilityAreas: ['thoracic spine', 'shoulders', 'hip flexors'],
+    benefits: 'Deeply energizes body, opens heart and lungs, builds arm and spinal strength.',
+    precautions: 'Warm up thoroughly with Bridge pose first.',
+    contraindications: 'Carpal tunnel, cardiac conditions, pregnancy, headache.',
+    instructions: [
+      'Lie supine, knees bent, feet flat near sit-bones. Hands beside ears with fingers pointing to shoulders.',
+      'Press through feet and palms, lifting hips and chest off mat into upward arch.',
+      'Straighten arms and broaden chest.'
+    ],
+    breathing: 'Deep expansive chest inhalations.',
+    commonMistakes: ['Feet splaying outward', 'Pushing only with legs without shoulder opening'],
+    correctionInstructions: 'Press firmly through inner palms and keep feet parallel.'
+  },
+
+  // --- 6. INVERSIONS / ADVANCED ---
+  {
+    id: 'sirsasana',
+    imageUrl: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=800&auto=format&fit=crop',
+    name: 'Headstand',
+    sanskritName: 'Sirsasana',
+    aliases: ['headstand', 'head stand', 'sirsasan', 'king of poses'],
+    category: 'Inversions',
+    difficulty: 'Advanced',
+    prenatalSafe: false,
+    targetBodyAreas: ['core', 'shoulders', 'arms', 'cervical spine'],
+    muscles: ['deltoids', 'trapezius', 'rectus abdominis'],
+    flexibilityAreas: ['shoulders'],
+    benefits: 'Enhances cerebral circulation, stimulates pituitary and pineal glands, calms mind.',
+    precautions: 'Requires experienced instruction; contraindicated in cervical disc trauma and hypertension.',
+    contraindications: 'Neck injury, glaucoma, high blood pressure, menstruation.',
+    instructions: [
+      'Interlace fingers on mat, forearms down elbow-width apart.',
+      'Place crown of head on mat cupped by hands. Walk feet in and lift legs up vertically.'
+    ],
+    breathing: 'Slow, controlled, steady breathing.',
+    commonMistakes: ['Dumping full bodyweight into neck', 'Elbows splaying wide'],
+    correctionInstructions: 'Press 80% of weight through forearms, keeping shoulders lifted away from ears.'
+  },
+  {
+    id: 'sarvangasana',
+    imageUrl: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=800&auto=format&fit=crop',
+    name: 'Shoulder Stand',
+    sanskritName: 'Sarvangasana',
+    aliases: ['shoulder stand', 'shoulderstand', 'sarvangasan', 'queen of poses'],
+    category: 'Inversions',
+    difficulty: 'Advanced',
+    prenatalSafe: false,
+    targetBodyAreas: ['shoulders', 'neck', 'thyroid', 'core'],
+    muscles: ['deltoids', 'core', 'quadriceps'],
+    flexibilityAreas: ['thoracic spine', 'hamstrings'],
+    benefits: 'Stimulates thyroid gland, aids venous return from legs, calms sympathetic nervous system.',
+    precautions: 'Never turn head while in shoulder stand to protect cervical vertebrae.',
+    contraindications: 'Neck injury, glaucoma, menstruation, uncontrolled high blood pressure.',
+    instructions: [
+      'Lie on back, lift legs and hips overhead, supporting mid-back with hands.',
+      'Extend legs vertically toward ceiling, keeping weight on shoulders rather than neck.'
+    ],
+    breathing: 'Steady breathing with throat gently locked in Jalandhara Bandha.',
+    commonMistakes: ['Turning neck', 'Elbows splaying wide on mat'],
+    correctionInstructions: 'Walk elbows closer together behind back and keep gaze at toes.'
+  },
+  {
+    id: 'halasana',
+    imageUrl: 'https://images.unsplash.com/photo-1508215885820-4a4074ec15bb?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1508215885820-4a4074ec15bb?q=80&w=800&auto=format&fit=crop',
+    name: 'Plow Pose',
+    sanskritName: 'Halasana',
+    aliases: ['plow', 'plow pose', 'halasan'],
+    category: 'Inversions',
+    difficulty: 'Advanced',
+    prenatalSafe: false,
+    targetBodyAreas: ['spine', 'hamstrings', 'neck', 'thyroid'],
+    muscles: ['core', 'quadriceps'],
+    flexibilityAreas: ['entire posterior chain', 'cervical extensors'],
+    benefits: 'Deeply stretches spine and hamstrings, calms brain, stimulates thyroid gland.',
+    precautions: 'Avoid if suffering from cervical disc problems or during late pregnancy.',
+    contraindications: 'Neck injury, glaucoma, high blood pressure, pregnancy.',
+    instructions: [
+      'From Shoulder Stand, hinge at hips and lower toes to floor behind head.',
+      'Keep legs straight and interlace fingers on mat behind back.'
+    ],
+    breathing: 'Deep, calm nasal breathing.',
+    commonMistakes: ['Turning head', 'Collapsing weight onto cervical vertebrae'],
+    correctionInstructions: 'Keep hips lifted high over shoulders and keep neck unmoving.'
+  },
+  {
+    id: 'pincha_mayurasana',
+    imageUrl: 'https://images.unsplash.com/photo-1573384999795-8f5f9f7c46c2?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1573384999795-8f5f9f7c46c2?q=80&w=800&auto=format&fit=crop',
+    name: 'Forearm Stand',
+    sanskritName: 'Pincha Mayurasana',
+    aliases: ['forearm stand', 'feathered peacock pose', 'pincha mayura', 'pincha'],
+    category: 'Inversions',
+    difficulty: 'Advanced',
+    prenatalSafe: false,
+    targetBodyAreas: ['shoulders', 'arms', 'core', 'upper back'],
+    muscles: ['deltoids', 'serratus anterior', 'core'],
+    flexibilityAreas: ['shoulders', 'chest'],
+    benefits: 'Builds shoulder stability and arm strength, refines balance, boosts circulation.',
+    precautions: 'Practice near a wall; avoid in shoulder injuries.',
+    contraindications: 'Shoulder impingement, glaucoma, high blood pressure.',
+    instructions: [
+      'Forearms on mat shoulder-width apart. Walk feet close to elbows in Dolphin pose.',
+      'Engage core and kick legs upward, balancing in vertical line above forearms.'
+    ],
+    breathing: 'Steady, focused breaths.',
+    commonMistakes: ['Banana back (excessive lumbar arching)', 'Elbows splaying outward'],
+    correctionInstructions: 'Knit front ribs in and press ground away with forearms.'
+  },
+
+  // --- 7. TWISTS & RESTORATIVE ---
+  {
+    id: 'supta_matsyendrasana',
+    imageUrl: 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?q=80&w=800&auto=format&fit=crop',
+    name: 'Supine Spinal Twist',
+    sanskritName: 'Supta Matsyendrasana',
+    aliases: ['supine twist', 'reclining twist', 'lying twist', 'supta matsyendra'],
+    category: 'Twists',
+    difficulty: 'Beginner',
+    prenatalSafe: true,
+    targetBodyAreas: ['spine', 'hips', 'chest', 'obliques'],
+    muscles: ['obliques', 'erector spinae'],
+    flexibilityAreas: ['glutes', 'thoracic spine', 'chest'],
+    benefits: 'Releases lumbar tension, improves spinal rotation, aids digestive relaxation.',
+    precautions: 'Keep twist gentle; support knees on pillow during pregnancy.',
+    contraindications: 'Acute spinal disc herniation.',
+    instructions: [
+      'Lie supine, draw right knee to chest, extend right arm in T-shape.',
+      'Exhale and guide right knee across torso to left, keeping both shoulders grounded.'
+    ],
+    breathing: 'Deep exhales allowing back to unwind.',
+    commonMistakes: ['Right shoulder lifting off floor', 'Forcing knee to touch ground'],
+    correctionInstructions: 'Keep both shoulder blades pinned to floor; place block under knee if needed.'
+  },
+  {
+    id: 'ananda_balasana',
+    imageUrl: 'https://images.unsplash.com/photo-1508215885820-4a4074ec15bb?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1508215885820-4a4074ec15bb?q=80&w=800&auto=format&fit=crop',
+    name: 'Happy Baby',
+    sanskritName: 'Ananda Balasana',
+    aliases: ['happy baby', 'happy baby pose', 'ananda bala', 'baby pose'],
+    category: 'Restorative',
+    difficulty: 'Beginner',
+    prenatalSafe: true,
+    targetBodyAreas: ['hips', 'inner groins', 'sacrum', 'hamstrings'],
+    muscles: ['adductors'],
+    flexibilityAreas: ['hips', 'hamstrings'],
+    benefits: 'Opens hips and inner groins, decompresses lower back and sacrum, relieves fatigue.',
+    precautions: 'Hold ankles or behind knees if feet are difficult to reach.',
+    contraindications: 'Knee injury, pregnancy third trimester (if uncomfortable lying flat on back).',
+    instructions: [
+      'Lie on back, bend knees toward armpits, grab outside edges of feet with hands.',
+      'Stack ankles above knees with shins perpendicular to floor, gently rocking side to side.'
+    ],
+    breathing: 'Deep, slow diaphragmatic breaths into pelvic bowl.',
+    commonMistakes: ['Tailbone lifting way off mat', 'Tensing neck and shoulders'],
+    correctionInstructions: 'Lengthen sacrum down toward mat and relax shoulders.'
+  },
+  {
+    id: 'savasana',
+    imageUrl: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=800&auto=format&fit=crop',
+    name: 'Corpse Pose',
+    sanskritName: 'Savasana',
+    aliases: ['savasana', 'corpse', 'corpse pose', 'shavasana', 'final relaxation', 'rest'],
+    category: 'Restorative',
+    difficulty: 'Beginner',
+    prenatalSafe: true,
+    targetBodyAreas: ['full body', 'nervous system', 'mind'],
+    muscles: ['all muscles relaxed'],
+    flexibilityAreas: ['mental and physical release'],
+    benefits: 'Calms central nervous system, lowers blood pressure and anxiety, integrates session benefits.',
+    precautions: 'In second and third trimester of pregnancy, lie on left side supported by pillows.',
+    contraindications: 'None (modify positioning for comfort).',
+    instructions: [
+      'Lie flat on back with legs comfortably apart, arms by sides with palms facing up.',
+      'Close eyes, release all muscular control, and allow breath to flow naturally.'
+    ],
+    breathing: 'Effortless natural breathing.',
+    commonMistakes: ['Attempting to control the breath', 'Mental distraction'],
+    correctionInstructions: 'Scan body from head to toe, releasing tension in jaw, eyes, and shoulders.'
+  },
+  {
+    id: 'padmasana',
+    imageUrl: 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?q=80&w=800&auto=format&fit=crop',
+    thumbnailUrl: 'https://images.unsplash.com/photo-1545205597-3d9d02c29597?q=80&w=800&auto=format&fit=crop',
+    name: 'Lotus Pose',
+    sanskritName: 'Padmasana',
+    aliases: ['lotus', 'lotus pose', 'padmasan', 'full lotus', 'kamalasana'],
+    category: 'Seated',
+    difficulty: 'Advanced',
+    prenatalSafe: true,
+    targetBodyAreas: ['hips', 'ankles', 'knees', 'spine'],
+    muscles: ['erector spinae'],
+    flexibilityAreas: ['outer hips', 'ankles'],
+    benefits: 'Deeply stabilizes nervous system, opens hips, aligns spine for extended meditation.',
+    precautions: 'Do not force feet into lotus if knees experience any twist or pain. Practice Half Lotus (Ardha Padmasana) instead.',
+    contraindications: 'Acute knee injury, ankle sprain.',
+    instructions: [
+      'Sit on floor, bend right knee, place right foot high onto left upper thigh.',
+      'Bend left knee, carefully place left foot high onto right upper thigh with soles facing up.',
+      'Lengthen spine upright, resting hands on knees in Jnana or Chin Mudra.'
+    ],
+    breathing: 'Slow, expansive rhythmic breathing.',
+    commonMistakes: ['Twisting knee joint to place foot', 'Slumping lower back'],
+    correctionInstructions: 'Open from the hip socket, never through knee torque.'
+  }
+];
+
+class YogaPoseService {
+  /**
+   * Search all yoga poses using free-text query.
+   * Matches English name, Sanskrit name, aliases, category, body areas, benefits.
+   * @param {string} query
+   * @param {object} [filters] - e.g. { category, difficulty, prenatalOnly }
+   * @returns {Array<object>}
+   */
+  static searchPoses(query, filters = {}) {
+    const q = (query || '').trim().toLowerCase();
+    let results = [...YOGA_POSES];
+
+    // Filter by prenatal
+    if (filters.prenatalOnly) {
+      results = results.filter(p => p.prenatalSafe === true);
+    }
+
+    // Filter by category
+    if (filters.category && filters.category !== 'all') {
+      const catLow = filters.category.toLowerCase();
+      results = results.filter(p => p.category.toLowerCase() === catLow);
+    }
+
+    // Filter by difficulty
+    if (filters.difficulty && filters.difficulty !== 'all') {
+      const diffLow = filters.difficulty.toLowerCase();
+      results = results.filter(p => p.difficulty.toLowerCase() === diffLow);
+    }
+
+    if (!q) {
+      return results;
+    }
+
+    return results.filter(pose => {
+      // 1. Direct name matches
+      if (pose.name.toLowerCase().includes(q)) return true;
+      if (pose.sanskritName.toLowerCase().includes(q)) return true;
+      if (pose.category.toLowerCase().includes(q)) return true;
+
+      // 2. Aliases match
+      if (pose.aliases && pose.aliases.some(a => a.toLowerCase().includes(q) || q.includes(a.toLowerCase()))) {
+        return true;
+      }
+
+      // 3. Target body areas
+      if (pose.targetBodyAreas && pose.targetBodyAreas.some(area => area.toLowerCase().includes(q) || q.includes(area.toLowerCase()))) {
+        return true;
+      }
+
+      // 4. Benefits / Instructions text
+      if (pose.benefits && pose.benefits.toLowerCase().includes(q)) return true;
+      if (pose.instructions && pose.instructions.some(inst => inst.toLowerCase().includes(q))) return true;
+
+      return false;
+    });
+  }
+
+  /**
+   * Get single pose by ID
+   */
+  static getPoseById(id) {
+    if (!id) return null;
+    const cleanId = id.toLowerCase().trim();
+    return YOGA_POSES.find(p => p.id === cleanId) || null;
+  }
+
+  /**
+   * Return full library
+   */
+  static getAllPoses() {
+    return YOGA_POSES;
+  }
+}
+
+module.exports = YogaPoseService;

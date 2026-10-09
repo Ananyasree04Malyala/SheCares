@@ -1,0 +1,42 @@
+[
+  {
+    "id": "em_chest_pain",
+    "triggers": ["chest pain", "chest pressure", "heart attack", "radiating pain in left arm", "angina"],
+    "severity": "CRITICAL_EMERGENCY",
+    "immediateAction": "Call 112 immediately. Chew 300mg soluble aspirin if available and not allergic. Rest in a semi-upright position.",
+    "warning": "Acute Coronary Syndrome / Myocardial Infarction red-flag sign.",
+    "escalationCode": "112"
+  },
+  {
+    "id": "em_severe_maternal_bleeding",
+    "triggers": ["heavy bleeding during pregnancy", "soaking a pad in an hour pregnancy", "placental bleeding", "severe pelvic cramps pregnancy"],
+    "severity": "CRITICAL_EMERGENCY",
+    "immediateAction": "Call 112 immediately or transfer urgently to the nearest maternity hospital. Lie down with elevated pelvis.",
+    "warning": "Suspected obstetric hemorrhage or placental complication.",
+    "escalationCode": "112"
+  },
+  {
+    "id": "em_hypertensive_crisis",
+    "triggers": ["bp over 180", "180/120", "systolic 190", "systolic 200", "severe headache with high bp"],
+    "severity": "HYPERTENSIVE_CRISIS",
+    "immediateAction": "Seek immediate emergency medical attention. Call 112. Do not wait for symptoms to subside.",
+    "warning": "Blood pressure exceeding 180/120 mmHg poses acute risk of end-organ damage or stroke.",
+    "escalationCode": "112"
+  },
+  {
+    "id": "em_severe_hypoglycemia",
+    "triggers": ["blood sugar below 50", "glucose 40", "shaking confused sweating sugar low", "hypoglycemic seizure"],
+    "severity": "CRITICAL_EMERGENCY",
+    "immediateAction": "Consume 15-20g of fast-acting glucose (glucose tablets, fruit juice, or 3-4 teaspoons of sugar) immediately. Recheck in 15 minutes. If uncooperative or losing consciousness, administer emergency glucagon or call 112.",
+    "warning": "Severe hypoglycemia risk of neuroglycopenia or loss of consciousness.",
+    "escalationCode": "112"
+  },
+  {
+    "id": "em_stroke_fast",
+    "triggers": ["facial drooping", "arm weakness", "slurred speech", "sudden numbness one side", "stroke"],
+    "severity": "CRITICAL_EMERGENCY",
+    "immediateAction": "Act FAST: Face drooping, Arm weakness, Speech difficulty, Time to call 112 immediately.",
+    "warning": "Acute cerebrovascular accident / ischemic stroke.",
+    "escalationCode": "112"
+  }
+]

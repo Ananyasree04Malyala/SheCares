@@ -1,0 +1,28 @@
+[
+  {
+    "id": "fit_pelvic_floor_kegels",
+    "topic": "Pelvic Floor Training & Kegel Exercises",
+    "keywords": ["pelvic floor", "kegels", "urinary leak", "postpartum recovery exercise", "core strength"],
+    "guidelines": "ACOG Committee Opinion No. 804: Physical Activity and Exercise During Pregnancy and the Postpartum Period",
+    "instruction": [
+      "Identify the correct muscles: Imagine trying to stop the flow of urine or prevent passing gas without clenching your buttocks or thighs.",
+      "Contract and lift the pelvic floor inward for 3-5 seconds, then completely relax for 5 seconds.",
+      "Repeat 10-15 repetitions, 3 times daily.",
+      "Integrate with diaphragmatic breathing: exhale as you lift/contract, inhale as you gently release."
+    ],
+    "precautions": "Do not practice Kegels while actually urinating to avoid incomplete bladder emptying or urinary tract infections."
+  },
+  {
+    "id": "fit_prenatal_safe_movement",
+    "topic": "Safe Prenatal Exercise Guidelines",
+    "keywords": ["exercise during pregnancy", "prenatal workout", "safe gym pregnancy", "walking pregnancy"],
+    "guidelines": "ACOG Practice Bulletin No. 202: Physical Activity and Exercise in Pregnancy",
+    "recommendations": [
+      "Target 150 minutes of moderate-intensity aerobic activity per week (e.g., brisk walking, prenatal swimming, stationary cycling, modified yoga).",
+      "Use the 'Talk Test': You should be able to hold a conversation while exercising without becoming breathless.",
+      "Avoid supine exercises (lying flat on back) after the 1st trimester to prevent aortocaval compression by the gravid uterus.",
+      "Avoid contact sports, hot yoga, or activities with high fall risk."
+    ],
+    "redFlags": "Stop immediately and seek medical evaluation if you experience vaginal bleeding, amniotic fluid leakage, regular painful contractions, calf swelling/pain, or chest pain."
+  }
+]

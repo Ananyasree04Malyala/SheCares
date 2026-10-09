@@ -1,0 +1,25 @@
+[
+  {
+    "id": "nutr_pcos_insulin_resistance",
+    "topic": "Nutrition for PCOS & Insulin Resistance",
+    "keywords": ["pcos diet", "insulin resistance food", "pcos nutrition", "what to eat pcos"],
+    "guidelines": "ICMR-NIN Dietary Guidelines / Endocrine Society Guidelines for Polycystic Ovary Syndrome",
+    "principles": [
+      "Low Glycemic Index (GI) and High Fiber: Focus on whole legumes (chickpeas, lentils, moong), millets (ragi, jowar, bajra), and non-starchy vegetables to avoid postprandial insulin surges.",
+      "Healthy Fats & Anti-inflammatory Omega-3s: Incorporate flaxseeds, chia seeds, walnuts, and extra virgin olive oil to downregulate systemic inflammation.",
+      "Adequate Clean Protein: 0.8 - 1.0g protein per kg body weight (paneer, tofu, Greek yogurt, lentils, eggs) to stabilize satiety hormones (GLP-1 and peptide YY).",
+      "Avoid ultra-processed foods, high-fructose corn syrups, and refined bakery carbs."
+    ]
+  },
+  {
+    "id": "nutr_iron_deficiency_anemia",
+    "topic": "Iron Deficiency Anemia in Women",
+    "keywords": ["low iron", "low hemoglobin", "anemia food", "iron rich foods", "fatigue iron"],
+    "guidelines": "WHO Guideline on Daily Iron and Folic Acid Supplementation in Menstruating Women / ICMR Anaemia Mukt Bharat",
+    "principles": [
+      "Dietary Sources: Combine heme iron (eggs, lean poultry) or non-heme iron (spinach, methi, moringa leaves, beetroot, jaggery, lentils).",
+      "Enhancer Pairing: Always consume plant-based iron with Vitamin C (lemon juice, amla, bell peppers, tomatoes) to multiply non-heme iron bioavailability by 3-4x.",
+      "Inhibitor Separation: Avoid drinking tea, coffee, or calcium-rich milk within 1 hour before or after iron-dense meals, as polyphenols and calcium inhibit iron absorption."
+    ]
+  }
+]

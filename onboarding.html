@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<link rel="icon" type="image/jpeg" href="assets/images/shecares-logo.jpg">
+<script src="js/splash.js"></script>
+<meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>Set Up Health Profile — SHECARES</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/>
+<link href="css/style.css" rel="stylesheet"/>
+<style>
+.profile-hero{background:linear-gradient(135deg,#fff7fa,#fce7f1);border:1px solid #f7d8e6;border-radius:26px;padding:28px;}
+.step-card{background:#fff;border:1px solid #f3d4e1;border-radius:20px;box-shadow:0 10px 30px rgba(232,62,131,.08);}
+.avatar{width:76px;height:76px;border-radius:50%;background:#e83e83;color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;box-shadow:0 10px 25px rgba(232,62,131,.22)}
+</style>
+</head>
+<body><div class="petal-field"></div>
+<nav class="navbar navbar-glass fixed-top py-3"><div class="container"><a class="navbar-brand d-flex align-items-center gap-2" href="dashboard.html"><span class="brand-badge">SH</span><span class="brand-name">SHECARES</span></a><a class="btn btn-outline-pink" href="dashboard.html">Skip</a></div></nav>
+<main class="section" style="padding-top:105px"><div class="container" style="max-width:850px">
+<section class="profile-hero mb-4"><div class="d-flex align-items-center gap-3"><div class="avatar" id="avatar">SC</div><div><p class="eyebrow mb-1">Personal health setup</p><h1 class="section-title mb-1">Set Up Your Health Profile</h1><p class="text-ink-soft mb-0">Add a few details so SheCare can personalize your experience.</p></div></div></section>
+<div class="step-card p-4 p-md-5"><div class="alert alert-danger d-none" id="error"></div><div class="alert alert-success d-none" id="success">Your health profile has been saved successfully.</div>
+<form id="healthForm"><div class="row g-3">
+<div class="col-md-6"><label class="form-label-pink" for="dob">Date of Birth</label><input class="form-control form-control-pink" id="dob" type="date"/></div>
+<div class="col-md-6"><label class="form-label-pink" for="blood">Blood Group</label><select class="form-select form-control-pink" id="blood"><option value="">Select blood group</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select></div>
+<div class="col-md-6"><label class="form-label-pink" for="height">Height (cm)</label><input class="form-control form-control-pink" id="height" max="250" min="50" placeholder="e.g. 165" type="number"/></div>
+<div class="col-md-6"><label class="form-label-pink" for="weight">Weight (kg)</label><input class="form-control form-control-pink" id="weight" max="300" min="10" placeholder="e.g. 60" step="0.1" type="number"/></div>
+<div class="col-12"><label class="form-label-pink" for="notes">Health Notes</label><textarea class="form-control form-control-pink" id="notes" placeholder="Allergies, ongoing care, preferences, or other useful notes..." rows="4"></textarea></div>
+</div><button class="btn btn-pink w-100 mt-4" type="submit"><i class="fa-solid fa-check me-2"></i>Save &amp; Continue to Dashboard</button></form></div>
+<p class="text-center text-ink-soft small mt-3"><a href="dashboard.html">I’ll do this later</a></p>
+</div></main>
+<script src="js/runtime-config.js"></script><script src="js/api.js"></script><script>
+document.addEventListener('DOMContentLoaded',async()=>{
+  try{
+    const d=await SheCareAPI.profile.get(),u=d||{},p=u.profile||{};
+    const first=(u.name||'SC').split(' ').map(x=>x[0]).join('').slice(0,2).toUpperCase();
+    document.getElementById('avatar').textContent=first||'SC';
+    document.getElementById('dob').value=u.dateOfBirth?String(u.dateOfBirth).slice(0,10):'';
+    document.getElementById('blood').value=p.bloodGroup||''; document.getElementById('height').value=p.heightCm??''; document.getElementById('weight').value=p.weightKg??''; document.getElementById('notes').value=p.healthNotes||'';
+    document.getElementById('healthForm').addEventListener('submit',async e=>{e.preventDefault();const btn=e.submitter,err=document.getElementById('error'),ok=document.getElementById('success');err.classList.add('d-none');btn.disabled=true;try{await SheCareAPI.profile.put({dateOfBirth:document.getElementById('dob').value,bloodGroup:document.getElementById('blood').value,heightCm:document.getElementById('height').value?Number(document.getElementById('height').value):null,weightKg:document.getElementById('weight').value?Number(document.getElementById('weight').value):null,healthNotes:document.getElementById('notes').value});ok.classList.remove('d-none');setTimeout(()=>location.href='dashboard.html',700)}catch(x){err.textContent=x.message;err.classList.remove('d-none')}finally{btn.disabled=false}});
+  }catch(e){if(e.status===401)location.href='login.html';}
+});
+</script></body></html>

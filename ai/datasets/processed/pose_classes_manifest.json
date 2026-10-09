@@ -1,0 +1,207 @@
+[
+  {
+    "class_index": 0,
+    "dataset_name": "Tadasana",
+    "shecares_normalized_id": "tadasana"
+  },
+  {
+    "class_index": 1,
+    "dataset_name": "Vrikshasana",
+    "shecares_normalized_id": "vrikshasana"
+  },
+  {
+    "class_index": 2,
+    "dataset_name": "Sukhasana",
+    "shecares_normalized_id": "sukhasana"
+  },
+  {
+    "class_index": 3,
+    "dataset_name": "Balasana",
+    "shecares_normalized_id": "balasana"
+  },
+  {
+    "class_index": 4,
+    "dataset_name": "Vajrasana",
+    "shecares_normalized_id": "vajrasana"
+  },
+  {
+    "class_index": 5,
+    "dataset_name": "Marjariasana",
+    "shecares_normalized_id": "marjariasana"
+  },
+  {
+    "class_index": 6,
+    "dataset_name": "Bitilasana",
+    "shecares_normalized_id": "bitilasana"
+  },
+  {
+    "class_index": 7,
+    "dataset_name": "Adho Mukha Svanasana",
+    "shecares_normalized_id": "adho_mukha_svanasana"
+  },
+  {
+    "class_index": 8,
+    "dataset_name": "Bhujangasana",
+    "shecares_normalized_id": "bhujangasana"
+  },
+  {
+    "class_index": 9,
+    "dataset_name": "Setu Bandhasana",
+    "shecares_normalized_id": "setu_bandhasana"
+  },
+  {
+    "class_index": 10,
+    "dataset_name": "Makarasana",
+    "shecares_normalized_id": "makarasana"
+  },
+  {
+    "class_index": 11,
+    "dataset_name": "Pawanmuktasana",
+    "shecares_normalized_id": "pawanmuktasana"
+  },
+  {
+    "class_index": 12,
+    "dataset_name": "Virabhadrasana1",
+    "shecares_normalized_id": "virabhadrasana1"
+  },
+  {
+    "class_index": 13,
+    "dataset_name": "Virabhadrasana2",
+    "shecares_normalized_id": "virabhadrasana2"
+  },
+  {
+    "class_index": 14,
+    "dataset_name": "Virabhadrasana3",
+    "shecares_normalized_id": "virabhadrasana3"
+  },
+  {
+    "class_index": 15,
+    "dataset_name": "Utkatasana",
+    "shecares_normalized_id": "utkatasana"
+  },
+  {
+    "class_index": 16,
+    "dataset_name": "Trikonasana",
+    "shecares_normalized_id": "trikonasana"
+  },
+  {
+    "class_index": 17,
+    "dataset_name": "Parsvakonasana",
+    "shecares_normalized_id": "parsvakonasana"
+  },
+  {
+    "class_index": 18,
+    "dataset_name": "Ardha Chandrasana",
+    "shecares_normalized_id": "ardha_chandrasana"
+  },
+  {
+    "class_index": 19,
+    "dataset_name": "Prasarita Padottanasana",
+    "shecares_normalized_id": "prasarita_padottanasana"
+  },
+  {
+    "class_index": 20,
+    "dataset_name": "Dandasana",
+    "shecares_normalized_id": "dandasana"
+  },
+  {
+    "class_index": 21,
+    "dataset_name": "Paschimottanasana",
+    "shecares_normalized_id": "paschimottanasana"
+  },
+  {
+    "class_index": 22,
+    "dataset_name": "Baddha Konasana",
+    "shecares_normalized_id": "baddha_konasana"
+  },
+  {
+    "class_index": 23,
+    "dataset_name": "Ardha Matsyendrasana",
+    "shecares_normalized_id": "ardha_matsyendrasana"
+  },
+  {
+    "class_index": 24,
+    "dataset_name": "Janu Sirsasana",
+    "shecares_normalized_id": "janu_sirsasana"
+  },
+  {
+    "class_index": 25,
+    "dataset_name": "Garudasana",
+    "shecares_normalized_id": "garudasana"
+  },
+  {
+    "class_index": 26,
+    "dataset_name": "Natarajasana",
+    "shecares_normalized_id": "natarajasana"
+  },
+  {
+    "class_index": 27,
+    "dataset_name": "Bakasana",
+    "shecares_normalized_id": "bakasana"
+  },
+  {
+    "class_index": 28,
+    "dataset_name": "Vasisthasana",
+    "shecares_normalized_id": "vasisthasana"
+  },
+  {
+    "class_index": 29,
+    "dataset_name": "Ustrasana",
+    "shecares_normalized_id": "ustrasana"
+  },
+  {
+    "class_index": 30,
+    "dataset_name": "Dhanurasana",
+    "shecares_normalized_id": "dhanurasana"
+  },
+  {
+    "class_index": 31,
+    "dataset_name": "Salabhasana",
+    "shecares_normalized_id": "salabhasana"
+  },
+  {
+    "class_index": 32,
+    "dataset_name": "Chakrasana",
+    "shecares_normalized_id": "chakrasana"
+  },
+  {
+    "class_index": 33,
+    "dataset_name": "Sirsasana",
+    "shecares_normalized_id": "sirsasana"
+  },
+  {
+    "class_index": 34,
+    "dataset_name": "Sarvangasana",
+    "shecares_normalized_id": "sarvangasana"
+  },
+  {
+    "class_index": 35,
+    "dataset_name": "Halasana",
+    "shecares_normalized_id": "halasana"
+  },
+  {
+    "class_index": 36,
+    "dataset_name": "Pincha Mayurasana",
+    "shecares_normalized_id": "pincha_mayurasana"
+  },
+  {
+    "class_index": 37,
+    "dataset_name": "Supta Matsyendrasana",
+    "shecares_normalized_id": "supta_matsyendrasana"
+  },
+  {
+    "class_index": 38,
+    "dataset_name": "Ananda Balasana",
+    "shecares_normalized_id": "ananda_balasana"
+  },
+  {
+    "class_index": 39,
+    "dataset_name": "Savasana",
+    "shecares_normalized_id": "savasana"
+  },
+  {
+    "class_index": 40,
+    "dataset_name": "Padmasana",
+    "shecares_normalized_id": "padmasana"
+  }
+]

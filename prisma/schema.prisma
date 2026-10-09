@@ -1,0 +1,444 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String               @id @default(cuid())
+  name                String
+  email               String               @unique
+  phone               String?              @unique
+  passwordHash        String
+  dateOfBirth         DateTime?
+  gender              String?
+  createdAt           DateTime             @default(now())
+  updatedAt           DateTime             @updatedAt
+  profile             Profile?
+  emergencyContacts   EmergencyContact[]
+  healthRecords       HealthRecord[]
+  bloodPressure       BloodPressureRecord[]
+  glucose             GlucoseRecord[]
+  periods             PeriodRecord[]
+  pregnancy           PregnancyRecord?
+  appointments        Appointment[]
+  reminders           Reminder[]
+  medicines           Medicine[]
+  moods               MoodRecord[]
+  water               WaterIntake[]
+  fitness             FitnessRecord[]
+  sosAlerts           SOSAlert[]
+  conversations      ChatConversation[]
+  resetTokens         PasswordResetToken[]
+  activityHistory     ActivityHistory[]
+  wearableConnections WearableConnection[]
+  wearableReadings    WearableReading[]
+  wearableDailySummaries WearableDailySummary[]
+  wearableSyncLogs    WearableSyncLog[]
+  wearableAlerts      WearableAlert[]
+}
+
+model Profile {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  bloodGroup        String?
+  heightCm          Float?
+  weightKg          Float?
+  healthNotes       String?
+  emergencyInfo     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model EmergencyContact {
+  id           String   @id @default(cuid())
+  userId       String
+  name         String
+  phone        String
+  relationship String?
+  createdAt    DateTime @default(now())
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId])
+}
+
+model HealthRecord {
+  id         String   @id @default(cuid())
+  userId     String
+  recordType String
+  value      String
+  unit       String?
+  notes      String?
+  recordedAt DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId, recordedAt])
+}
+
+model BloodPressureRecord {
+  id         String   @id @default(cuid())
+  userId     String
+  systolic   Int
+  diastolic  Int
+  pulse      Int?
+  notes      String?
+  recordedAt DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId, recordedAt])
+}
+
+model GlucoseRecord {
+  id          String   @id @default(cuid())
+  userId      String
+  value       Float
+  readingType String
+  notes       String?
+  recordedAt  DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId, recordedAt])
+}
+
+model PeriodRecord {
+  id          String   @id @default(cuid())
+  userId      String
+  periodStart DateTime
+  periodEnd   DateTime?
+  cycleLength Int?
+  notes       String?
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId, periodStart])
+}
+
+model PregnancyRecord {
+  id                 String   @id @default(cuid())
+  userId             String   @unique
+  lastMenstrualPeriod DateTime?
+  estimatedDueDate   DateTime?
+  notes              String?
+  createdAt          DateTime @default(now())
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Appointment {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String?
+  doctor    String
+  date      DateTime
+  time      String
+  location  String?
+  notes     String?
+  status    String   @default("Upcoming")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId, date])
+}
+
+model Reminder {
+  id            String   @id @default(cuid())
+  userId        String
+  title         String
+  description   String?
+  reminderDate  DateTime?
+  reminderTime  String
+  repeatPattern String?
+  completed     Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId, reminderDate])
+}
+
+model Medicine {
+  id        String   @id @default(cuid())
+  userId    String
+  name      String
+  dosage    String?
+  frequency String?
+  startDate DateTime?
+  endDate   DateTime?
+  notes     String?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId, startDate])
+}
+
+model MoodRecord {
+  id         String   @id @default(cuid())
+  userId     String
+  mood       String
+  notes      String?
+  recordedAt DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId, recordedAt])
+}
+
+model WaterIntake {
+  id         String   @id @default(cuid())
+  userId     String
+  amount     Float
+  recordedAt DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId, recordedAt])
+}
+
+model FitnessRecord {
+  id         String   @id @default(cuid())
+  userId     String
+  activity   String
+  duration   Int?
+  calories   Int?
+  recordedAt DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId, recordedAt])
+}
+
+model SOSAlert {
+  id        String   @id @default(cuid())
+  userId    String
+  latitude  Float?
+  longitude Float?
+  address   String?
+  alertTime DateTime @default(now())
+  status    String   @default("recorded")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId, alertTime])
+}
+
+model ChatConversation {
+  id        String        @id @default(cuid())
+  userId    String
+  createdAt DateTime      @default(now())
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages  ChatMessage[]
+  @@index([userId, createdAt])
+}
+
+model ChatMessage {
+  id             String           @id @default(cuid())
+  conversationId String
+  role           String
+  message        String
+  createdAt      DateTime         @default(now())
+  conversation   ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  @@index([conversationId, createdAt])
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  userId    String
+  tokenHash String   @unique
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId, expiresAt])
+}
+
+
+
+model ActivityHistory {
+  id         String   @id @default(cuid())
+  userId     String
+  action     String
+  module     String
+  title      String
+  details    String?
+  entityId   String?
+  occurredAt DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  @@index([userId, occurredAt])
+}
+
+model PendingSignup {
+  id               String    @id @default(cuid())
+  name             String
+  email            String
+  phone            String
+  passwordHash     String
+  emailOtpHash     String
+  emailOtpExpires  DateTime
+  phoneOtpHash     String?
+  phoneOtpExpires  DateTime?
+  emailVerified    Boolean   @default(false)
+  phoneVerified    Boolean   @default(false)
+  attempts         Int       @default(0)
+  expiresAt        DateTime
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  @@index([email, expiresAt])
+  @@index([phone, expiresAt])
+}
+
+model LoginOtp {
+  id        String   @id @default(cuid())
+  phone     String
+  codeHash  String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  @@index([phone, expiresAt])
+}
+
+enum WearableProvider {
+  ANDROID_HEALTH_CONNECT
+  APPLE_HEALTH_KIT
+  FITBIT
+  GARMIN
+  SAMSUNG_HEALTH
+  WEAR_OS
+  DEMO_SIMULATOR
+}
+
+enum WearableSyncStatus {
+  CONNECTED
+  SYNCHRONIZING
+  WAITING_FOR_DEVICE
+  PERMISSION_REQUIRED
+  DISCONNECTED
+  ERROR
+}
+
+enum HealthMetricType {
+  HEART_RATE
+  RESTING_HEART_RATE
+  HRV
+  SPO2
+  RESPIRATORY_RATE
+  SKIN_TEMPERATURE
+  BLOOD_PRESSURE_SYSTOLIC
+  BLOOD_PRESSURE_DIASTOLIC
+  STEPS
+  DISTANCE
+  CALORIES_ACTIVE
+  CALORIES_TOTAL
+  ACTIVE_MINUTES
+  EXERCISE_SESSION
+  SLEEP_DURATION
+  SLEEP_SESSION
+  BODY_WEIGHT
+  MENSTRUAL_EVENT
+}
+
+model WearableConnection {
+  id                  String             @id @default(cuid())
+  userId              String
+  provider            WearableProvider
+  deviceName          String?
+  deviceModel         String?
+  platformOs          String?            // "Android 14", "iOS 17.4", "WearOS 4.0"
+  status              WearableSyncStatus @default(PERMISSION_REQUIRED)
+  permittedMetrics    String[]           // Array of granted metrics (e.g. ["HEART_RATE", "STEPS", "SLEEP_DURATION"])
+  isDemo              Boolean            @default(false)
+  lastSyncAt          DateTime?
+  lastSuccessfulSyncAt DateTime?
+  syncCursor          String?            // Opaque provider sync token / cursor
+  errorMessage        String?
+  metadata            Json?
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  user                User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  readings            WearableReading[]
+  dailySummaries      WearableDailySummary[]
+  syncLogs            WearableSyncLog[]
+
+  @@unique([userId, provider, isDemo])
+  @@index([userId, status])
+}
+
+model WearableReading {
+  id             String           @id @default(cuid())
+  userId         String
+  connectionId   String?
+  metricType     HealthMetricType
+  value          Float
+  unit           String           // "bpm", "ms", "%", "celsius", "steps", "meters", "kcal", "minutes", "hours", "mmHg", "kg"
+  timestamp      DateTime         // Original sample timestamp recorded by device/platform
+  source         String           // "android_health_connect", "apple_healthkit", "fitbit", "garmin", "wear_os", "demo_simulator"
+  deviceName     String?
+  recordHash     String           // SHA-256 hash (userId + metricType + timestamp + value) for idempotent deduplication
+  isDemo         Boolean          @default(false)
+  recordedAt     DateTime         @default(now())
+  syncedAt       DateTime         @default(now())
+  metadata       Json?            // Extra data (e.g. sleep stage, workout type, confidence score)
+  createdAt      DateTime         @default(now())
+
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  connection     WearableConnection? @relation(fields: [connectionId], references: [id], onDelete: SetNull)
+
+  @@unique([userId, recordHash])
+  @@index([userId, metricType, timestamp])
+  @@index([userId, timestamp])
+  @@index([isDemo])
+}
+
+model WearableDailySummary {
+  id             String           @id @default(cuid())
+  userId         String
+  connectionId   String?
+  date           DateTime         // YYYY-MM-DD at 00:00:00 UTC
+  stepsTotal     Int?             @default(0)
+  distanceMeters Float?           @default(0)
+  caloriesBurned Int?             @default(0)
+  activeMinutes  Int?             @default(0)
+  avgHeartRate   Float?
+  minHeartRate   Float?
+  maxHeartRate   Float?
+  restingHeartRate Float?
+  avgHrv         Float?
+  avgSpo2        Float?
+  sleepHours     Float?
+  avgSkinTemp    Float?
+  isDemo         Boolean          @default(false)
+  calculatedAt   DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  connection     WearableConnection? @relation(fields: [connectionId], references: [id], onDelete: SetNull)
+
+  @@unique([userId, date, isDemo])
+  @@index([userId, date])
+}
+
+model WearableSyncLog {
+  id                 String             @id @default(cuid())
+  userId             String
+  connectionId       String?
+  provider           WearableProvider
+  recordsReceived    Int                @default(0)
+  newRecordsInserted Int                @default(0)
+  duplicatesSkipped  Int                @default(0)
+  syncDurationMs     Int?
+  status             String             // "SUCCESS", "PARTIAL", "FAILED"
+  isDemo             Boolean            @default(false)
+  errorMessage       String?
+  startedAt          DateTime           @default(now())
+  completedAt        DateTime           @default(now())
+
+  user               User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  connection         WearableConnection? @relation(fields: [connectionId], references: [id], onDelete: SetNull)
+
+  @@index([userId, startedAt])
+}
+
+model WearableAlert {
+  id             String           @id @default(cuid())
+  userId         String
+  alertType      String           // "HIGH_HR", "LOW_HR", "LOW_SPO2", "HIGH_SKIN_TEMP", "SLEEP_DEBT", "BASELINE_DEVIATION"
+  severity       String           // "INFO", "WARNING", "HIGH"
+  title          String
+  message        String
+  metricType     HealthMetricType?
+  metricValue    Float?
+  baselineValue  Float?
+  isRead         Boolean          @default(false)
+  isDismissed    Boolean          @default(false)
+  triggeredAt    DateTime         @default(now())
+
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead, triggeredAt])
+}
+
+

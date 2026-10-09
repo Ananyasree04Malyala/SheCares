@@ -1,0 +1,30 @@
+[
+  {
+    "id": "preg_first_trimester_nausea",
+    "topic": "First Trimester Morning Sickness & Nausea",
+    "keywords": ["morning sickness", "nausea pregnancy", "vomiting pregnancy", "first trimester sick", "hyperemesis"],
+    "guidelines": "ACOG Practice Bulletin No. 189: Nausea and Vomiting of Pregnancy",
+    "assessment": "Nausea and vomiting affect up to 80% of pregnant individuals in the 1st trimester, typically driven by rising beta-hCG and estrogen concentrations, peaking around weeks 8-10.",
+    "lifestyleMeasures": [
+      "Eat small, frequent protein-rich and complex carbohydrate meals every 1-2 hours to prevent an empty stomach.",
+      "Keep dry crackers or plain toast at the bedside and eat before rising.",
+      "Ginger supplements (250 mg four times daily) or ginger tea show clinical efficacy in mild nausea.",
+      "Vitamin B6 (pyridoxine 10-25 mg three times daily) is considered first-line safe pharmacological therapy under obstetric supervision."
+    ],
+    "redFlags": "Inability to keep liquids down for >24 hours, dark concentrated urine, dizziness on standing, or weight loss >5% of pre-pregnancy weight indicates Hyperemesis Gravidarum requiring IV rehydration and hospital review."
+  },
+  {
+    "id": "preg_preeclampsia_screen",
+    "topic": "Gestational Hypertension & Preeclampsia Awareness",
+    "keywords": ["high bp pregnancy", "preeclampsia", "swelling face pregnancy", "protein in urine", "headache pregnancy"],
+    "guidelines": "ACOG Practice Bulletin No. 222: Gestational Hypertension and Preeclampsia",
+    "assessment": "Preeclampsia is a multisystem disorder characterized by new-onset hypertension (systolic >= 140 mmHg or diastolic >= 90 mmHg on two occasions) after 20 weeks of gestation, often with proteinuria or organ dysfunction.",
+    "warningSymptoms": [
+      "Persistent frontal headache non-responsive to acetaminophen",
+      "Visual disturbances (scotoma, blurred vision, flashing spots)",
+      "Right upper quadrant / epigastric abdominal pain",
+      "Sudden rapid edema of the face, hands, or periorbital area"
+    ],
+    "redFlags": "Any BP >= 160/110 mmHg or severe persistent epigastric pain is a critical hypertensive emergency. Proceed to the labor & delivery emergency room immediately or call 112."
+  }
+]

@@ -1,0 +1,20 @@
+const router=require('express').Router();
+const c=require('../controllers/auth.controller');
+const {authRequired}=require('../middleware/auth');
+router.post('/register',c.register);
+router.post('/register/start',c.registerStart);
+router.post('/register/verify-email',c.verifyEmail);
+router.post('/register/verify-phone',c.verifyPhone);
+router.post('/register/verify-both',c.verifyBoth);
+router.post('/register/complete',c.completeRegistration);
+
+router.post('/login',c.login);
+router.post('/login/otp/send',c.sendLoginOtp);
+router.post('/login/otp/verify',c.verifyLoginOtp);
+router.post('/login/phone/send',c.sendPhoneLoginOtp);
+router.post('/login/phone/verify',c.verifyPhoneLoginOtp);
+router.post('/logout',c.logout);
+router.get('/me',authRequired,c.me);
+router.post('/forgot-password',c.forgot);
+router.post('/reset-password',c.reset);
+module.exports=router;
