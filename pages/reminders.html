@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<link rel="icon" type="image/jpeg" href="assets/images/shecares-logo.jpg">
+<script src="js/splash.js"></script><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>Health Reminders — SHECARES</title><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/><link href="css/style.css" rel="stylesheet"/></head><body><div class="petal-field"></div><nav class="navbar navbar-glass fixed-top py-3"><div class="container"><a class="navbar-brand d-flex align-items-center gap-2" href="dashboard.html"><span class="brand-badge">SH</span><span class="brand-name">SHECARES</span></a><a class="btn btn-outline-pink" href="dashboard.html">Dashboard</a></div></nav><main class="section" style="padding-top:105px"><div class="container" style="max-width:900px"><div class="d-flex justify-content-between align-items-end mb-4"><div><p class="eyebrow mb-1">Daily wellness</p><h1 class="section-title mb-1">Health Reminders</h1><p class="text-ink-soft mb-0">Never miss an important self-care moment.</p></div></div><div class="tool-card mb-4"><form class="row g-2 align-items-end" id="remForm"><div class="col-md-4"><label class="form-label-pink" for="rTitle">Reminder</label><input class="form-control form-control-pink" id="rTitle" placeholder="Drink Water" required=""/></div><div class="col-md-3"><label class="form-label-pink" for="rType">Type</label><select class="form-select form-control-pink" id="rType"><option>Drink Water</option><option>Take Medicine</option><option>Yoga &amp; Meditation</option><option>Bed Time</option><option>Other</option></select></div><div class="col-md-2"><label class="form-label-pink" for="rTime">Time</label><input class="form-control form-control-pink" id="rTime" required="" type="time"/></div><div class="col-md-3"><button class="btn btn-pink w-100" type="submit">+ Add Reminder</button></div></form></div><div class="d-flex gap-2 mb-3"><button class="btn btn-pink filter active" data-filter="all" type="button">All</button><button class="btn btn-outline-pink filter" data-filter="today" type="button">Today</button><button class="btn btn-outline-pink filter" data-filter="upcoming" type="button">Upcoming</button><button class="btn btn-outline-pink filter" data-filter="completed" type="button">Completed</button></div><div id="remList"></div></div></main><script>document.addEventListener('DOMContentLoaded',async()=>{const api=SheCareAPI.resource('reminders');let list=[],filter='all';const el=document.getElementById('remList');async function load(){list=await api.list();render()}function render(){const data=list.filter(x=>filter==='all'||filter==='completed'&&x.completed||filter==='today'&&!x.completed||filter==='upcoming'&&!x.completed);el.innerHTML=data.length?'':'<div class="glass-card p-4 text-center text-ink-soft">No reminders in this view. Add one above.</div>';data.forEach(x=>{el.insertAdjacentHTML('beforeend',`<div class="tool-card mb-3 d-flex align-items-center justify-content-between"><div><div class="fw-bold">${x.title}</div><small class="text-ink-soft">${x.description||x.title} · ${x.reminderTime}</small></div><div class="d-flex gap-2"><button class="btn btn-sm ${x.completed?'btn-outline-pink':'btn-pink'}" data-done="${x.id}" type="button">${x.completed?'Completed':'Mark done'}</button><button class="btn btn-sm btn-outline-pink" data-del="${x.id}" type="button" aria-label="Delete reminder"><i class="fa-solid fa-trash"></i></button></div></div>`)});el.querySelectorAll('[data-done]').forEach(b=>b.onclick=async()=>{const x=list.find(r=>r.id===b.dataset.done);if(x){await api.update(x.id,{completed:!x.completed});load()}});el.querySelectorAll('[data-del]').forEach(b=>b.onclick=async()=>{await api.delete(b.dataset.del);load()})}document.getElementById('remForm').onsubmit=async e=>{e.preventDefault();try{await api.create({title:document.getElementById('rTitle').value,type:document.getElementById('rType').value,description:document.getElementById('rType').value,reminderTime:document.getElementById('rTime').value,completed:false});e.target.reset();load()}catch(err){alert(err.message)}};document.querySelectorAll('.filter').forEach(b=>b.onclick=()=>{filter=b.dataset.filter;document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');render()});load().catch(e=>{if(e.status===401)location.href='login.html'})});</script>
+<!-- SHECARE UNIVERSAL AI HEALTH ASSISTANT -->
+<button aria-label="Open AI Assistant" class="shecare-ai-fab" id="shecareAiFab" title="AI Assistant" type="button">
+<span class="sai-monogram">AI</span><span class="shecare-ai-pulse"></span>
+</button>
+<div aria-hidden="true" class="shecare-ai-panel" id="shecareAiPanel">
+<div class="shecare-ai-panel-header">
+<div class="d-flex align-items-center gap-2"><div class="shecare-ai-avatar"><span class="sai-avatar-mark">AI</span></div><div><div class="fw-bold">AI — SheCare</div><small>AI-powered health assistant</small></div></div>
+<button aria-label="Close" class="shecare-ai-close" id="shecareAiClose" type="button"><i class="fa-solid fa-xmark"></i></button>
+</div>
+<div class="shecare-ai-subtle-note text-center py-1 text-muted" style="font-size:10.5px; background:#fff7fa; border-bottom:1px solid #f4d7e4;">Health information only — not a diagnosis.</div>
+<div aria-live="polite" class="shecare-ai-body" id="shecareAiBody" role="log"></div>
+<div class="shecare-ai-suggestions" id="shecareAiSuggestions">
+<button data-ai-suggest="How can I check my blood pressure?" type="button">Check BP</button>
+<button data-ai-suggest="What can I do for period pain?" type="button">Period pain</button>
+<button data-ai-suggest="What should I know about pregnancy?" type="button">Pregnancy</button>
+<button data-ai-suggest="How can I manage stress?" type="button">Stress</button>
+</div>
+<div class="shecare-ai-footer">
+<button aria-label="Voice input" class="shecare-ai-mic" id="shecareAiMic" title="Voice input" type="button"><i class="fa-solid fa-microphone"></i></button>
+<input autocomplete="off" class="form-control form-control-pink" id="shecareAiInput" maxlength="600" placeholder="Ask me anything about your health…" type="text"/>
+<button aria-label="Send" class="btn btn-pink" id="shecareAiSend" type="button"><i class="fa-solid fa-paper-plane"></i></button>
+</div>
+</div>
+<!-- FLOATING SOS BUTTON -->
+<button aria-label="SOS" class="sos-float" data-sos-trigger="" title="SOS" type="button"><span class="sos-label">SOS</span></button>
+<div aria-hidden="true" class="modal fade" id="sosModal" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered"><div class="modal-content glass-modal">
+<div class="modal-body p-4 text-center" id="sosConfirmStep">
+<div class="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle" style="width:70px;height:70px;background:var(--secondary);"><i class="fa-solid fa-triangle-exclamation fs-2 text-danger"></i></div>
+<h5 class="fw-bold">Do you want to send an emergency SOS?</h5>
+<p class="text-ink-soft small">Your emergency contacts will be alerted. For immediate emergency services in India, call 112.</p>
+<div class="d-flex justify-content-center gap-3 mt-4"><button class="btn btn-outline-pink px-4" data-bs-dismiss="modal" id="sosCancelBtn" type="button">Cancel</button><button class="btn btn-danger-soft px-4" id="sosYesBtn" type="button">Yes, Send SOS</button></div>
+</div>
+<div class="modal-body p-4 text-center d-none" id="sosSuccessStep">
+<div class="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle" style="width:70px;height:70px;background:#e7f9ee;"><i class="fa-solid fa-circle-check fs-2 text-success"></i></div>
+<h5 class="fw-bold">Emergency Alert Recorded</h5><p class="text-ink-soft small mb-4">Your SOS event has been recorded. If you are in immediate danger, call 112 now.</p><div class="d-flex justify-content-center gap-2"><a class="btn btn-danger-soft" href="tel:112"><i class="fa-solid fa-phone me-1"></i>Call 112</a><button class="btn btn-pink" data-bs-dismiss="modal" type="button">Close</button></div>
+</div>
+</div></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="js/runtime-config.js"></script><script src="js/api.js"></script><script src="js/script.js"></script></body></html>

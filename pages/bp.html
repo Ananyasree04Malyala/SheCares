@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<link rel="icon" type="image/jpeg" href="assets/images/shecares-logo.jpg">
+<script src="js/splash.js"></script><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>Blood Pressure Check — SHECARES</title><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/><link href="css/style.css" rel="stylesheet"/></head><body><div class="petal-field"></div><nav class="navbar navbar-glass fixed-top py-3"><div class="container"><a class="navbar-brand d-flex align-items-center gap-2" href="dashboard.html"><span class="brand-badge">SH</span><span class="brand-name">SHECARES</span></a><div class="d-flex gap-2"><a class="btn btn-outline-pink" href="dashboard.html"><i class="fa-solid fa-arrow-left me-1"></i>Dashboard</a></div></div></nav><main class="section" style="padding-top:105px"><div class="container" style="max-width:900px"><div class="profile-hero mb-4"><div class="d-flex align-items-center gap-3"><div class="quick-icon"><i class="fa-solid fa-heart-pulse"></i></div><div><p class="eyebrow mb-1">Vital Health</p><h1 class="section-title mb-1">Check Blood Pressure</h1><p class="text-ink-soft mb-0">Enter a recent reading to understand its category.</p></div></div></div><div class="step-card p-4 p-md-5"><div class="alert alert-light border mb-4"><i class="fa-solid fa-circle-info text-primary-pink me-2"></i>Use a properly fitted upper-arm cuff. Sit quietly for about 5 minutes before measuring. This tool is for screening/education and does not diagnose hypertension.</div>
+<div class="alert alert-light border shadow-sm rounded-3 p-3 mb-4 d-flex justify-content-between align-items-center flex-wrap gap-2" style="background: linear-gradient(135deg, #fff5f8, #f8faff); border-left: 4px solid #6c757d !important;">
+  <div class="d-flex align-items-center gap-2">
+    <div class="rounded-circle d-flex align-items-center justify-content-center bg-white shadow-xs text-muted" style="width:38px;height:38px;">
+      <i class="fa-solid fa-shield-heart text-primary-pink"></i>
+    </div>
+    <div>
+      <div class="d-flex align-items-center gap-2">
+        <strong class="text-ink small">Official Wearable Vitals</strong>
+        <span class="badge bg-secondary-subtle text-secondary border py-0 px-2" id="bpWatchSyncBadge" style="font-size:0.7rem;"><i class="fa-solid fa-circle-pause me-1"></i>Checking...</span>
+      </div>
+      <small class="text-ink-soft">Verified BP: <strong class="text-muted" id="bpLiveWatchBp">--/-- mmHg</strong> · Pulse: <strong class="text-muted" id="bpLiveWatchHr">-- BPM</strong></small>
+    </div>
+  </div>
+  <button type="button" class="btn btn-sm btn-pink py-1 px-3 shadow-xs" id="bpApplyWatchVitalsBtn">
+    <i class="fa-solid fa-wand-magic-sparkles me-1"></i>Import Wearable Vitals
+  </button>
+</div>
+<form id="bpForm"><div class="row g-3"><div class="col-md-4"><label class="form-label-pink" for="systolic">Systolic (top number)</label><input class="form-control form-control-pink" id="systolic" max="300" min="50" placeholder="e.g. 120" required="" type="number"/></div><div class="col-md-4"><label class="form-label-pink" for="diastolic">Diastolic (bottom number)</label><input class="form-control form-control-pink" id="diastolic" max="200" min="30" placeholder="e.g. 80" required="" type="number"/></div><div class="col-md-4"><label class="form-label-pink" for="pulse">Pulse (optional)</label><input class="form-control form-control-pink" id="pulse" max="250" min="20" placeholder="e.g. 72" type="number"/></div></div><button class="btn btn-pink w-100 mt-4" type="submit"><i class="fa-solid fa-stethoscope me-2"></i>Check Reading</button><button class="btn btn-outline-pink w-100 mt-2" id="openBpDeviceConnectBtn" type="button"><i class="fa-brands fa-bluetooth me-1"></i><i class="fa-solid fa-wifi me-2"></i>Connect BP Monitor (Bluetooth / Wi-Fi)</button></form><div class="mt-4 d-none" id="bpResult"></div><div class="mt-4 small text-ink-soft"><strong>Seek urgent help:</strong> If a reading is above 180 systolic and/or above 120 diastolic, repeat after at least 1 minute. If it remains that high, contact a healthcare professional promptly; with chest pain, shortness of breath, weakness/numbness, vision change, difficulty speaking, or other severe symptoms, call emergency services immediately.</div></div></div></main>
+<!-- SHECARE UNIVERSAL AI HEALTH ASSISTANT -->
+<button aria-label="Open AI Assistant" class="shecare-ai-fab" id="shecareAiFab" title="AI Assistant" type="button">
+<span class="sai-monogram">AI</span><span class="shecare-ai-pulse"></span>
+</button>
+<div aria-hidden="true" class="shecare-ai-panel" id="shecareAiPanel">
+<div class="shecare-ai-panel-header">
+<div class="d-flex align-items-center gap-2"><div class="shecare-ai-avatar"><span class="sai-avatar-mark">AI</span></div><div><div class="fw-bold">AI — SheCare</div><small>AI-powered health assistant</small></div></div>
+<button aria-label="Close" class="shecare-ai-close" id="shecareAiClose" type="button"><i class="fa-solid fa-xmark"></i></button>
+</div>
+<div class="shecare-ai-subtle-note text-center py-1 text-muted" style="font-size:10.5px; background:#fff7fa; border-bottom:1px solid #f4d7e4;">Health information only — not a diagnosis.</div>
+<div aria-live="polite" class="shecare-ai-body" id="shecareAiBody" role="log"></div>
+<div class="shecare-ai-suggestions" id="shecareAiSuggestions">
+<button data-ai-suggest="Assess my health symptoms: please guide me." type="button">🩺 Health Assessment</button>
+<button data-ai-suggest="How can I check my blood pressure?" type="button">Check BP</button>
+<button data-ai-suggest="What are pregnancy BP warning signs?" type="button">Pregnancy BP</button>
+<button data-ai-suggest="What can I do for period pain?" type="button">Period pain</button>
+</div>
+<div class="shecare-ai-footer">
+<button aria-label="Voice input" class="shecare-ai-mic" id="shecareAiMic" title="Voice input" type="button"><i class="fa-solid fa-microphone"></i></button>
+<input autocomplete="off" class="form-control form-control-pink" id="shecareAiInput" maxlength="600" placeholder="Ask me anything about your health…" type="text"/>
+<button aria-label="Send" class="btn btn-pink" id="shecareAiSend" type="button"><i class="fa-solid fa-paper-plane"></i></button>
+</div>
+</div>
+<!-- FLOATING SOS BUTTON -->
+<button aria-label="SOS" class="sos-float" data-sos-trigger="" title="SOS" type="button"><span class="sos-label">SOS</span></button>
+<div aria-hidden="true" class="modal fade" id="sosModal" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered"><div class="modal-content glass-modal">
+<div class="modal-body p-4 text-center" id="sosConfirmStep">
+<div class="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle" style="width:70px;height:70px;background:var(--secondary);"><i class="fa-solid fa-triangle-exclamation fs-2 text-danger"></i></div>
+<h5 class="fw-bold">Do you want to send an emergency SOS?</h5>
+<p class="text-ink-soft small">Your emergency contacts will be alerted. For immediate emergency services in India, call 112.</p>
+<div class="d-flex justify-content-center gap-3 mt-4"><button class="btn btn-outline-pink px-4" data-bs-dismiss="modal" id="sosCancelBtn" type="button">Cancel</button><button class="btn btn-danger-soft px-4" id="sosYesBtn" type="button">Yes, Send SOS</button></div>
+</div>
+<div class="modal-body p-4 text-center d-none" id="sosSuccessStep">
+<div class="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle" style="width:70px;height:70px;background:#e7f9ee;"><i class="fa-solid fa-circle-check fs-2 text-success"></i></div>
+<h5 class="fw-bold">Emergency Alert Recorded</h5><p class="text-ink-soft small mb-4">Your SOS event has been recorded. If you are in immediate danger, call 112 now.</p><div class="d-flex justify-content-center gap-2"><a class="btn btn-danger-soft" href="tel:112"><i class="fa-solid fa-phone me-1"></i>Call 112</a><button class="btn btn-pink" data-bs-dismiss="modal" type="button">Close</button></div>
+</div>
+</div></div>
+</div>
+<script src="js/runtime-config.js"></script><script src="js/api.js"></script><script src="js/script.js"></script><script src="js/device-connector.js"></script><script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const bpEl = document.getElementById('bpLiveWatchBp');
+  const hrEl = document.getElementById('bpLiveWatchHr');
+  const badgeEl = document.getElementById('bpWatchSyncBadge');
+  const applyBtn = document.getElementById('bpApplyWatchVitalsBtn');
+
+  let latestWearableBp = null;
+  let latestWearableHr = null;
+
+  try {
+    const status = await SheCareAPI.wearables.getStatus();
+    const metrics = status.latestMetrics || {};
+    
+    if (metrics.HEART_RATE) {
+      latestWearableHr = metrics.HEART_RATE.value;
+      if (hrEl) {
+        hrEl.textContent = `${Math.round(latestWearableHr)} BPM`;
+        hrEl.className = 'text-danger';
+      }
+    } else {
+      if (hrEl) hrEl.textContent = '-- BPM';
+    }
+
+    if (metrics.BLOOD_PRESSURE_SYSTOLIC && metrics.BLOOD_PRESSURE_DIASTOLIC) {
+      latestWearableBp = {
+        systolic: Math.round(metrics.BLOOD_PRESSURE_SYSTOLIC.value),
+        diastolic: Math.round(metrics.BLOOD_PRESSURE_DIASTOLIC.value)
+      };
+      if (bpEl) {
+        bpEl.textContent = `${latestWearableBp.systolic}/${latestWearableBp.diastolic} mmHg`;
+        bpEl.className = 'text-primary-pink';
+      }
+    } else {
+      if (bpEl) {
+        bpEl.textContent = 'Not supported by device';
+        bpEl.className = 'text-muted';
+      }
+    }
+
+    if (badgeEl) {
+      if (status.connectedCount > 0) {
+        badgeEl.className = 'badge bg-success-subtle text-success border border-success-subtle py-0 px-2';
+        badgeEl.innerHTML = '<i class="fa-solid fa-circle-check me-1"></i>Wearable Connected';
+      } else {
+        badgeEl.className = 'badge bg-secondary-subtle text-secondary border py-0 px-2';
+        badgeEl.innerHTML = '<i class="fa-solid fa-circle-pause me-1"></i>No Wearable Connected';
+      }
+    }
+  } catch (err) {
+    if (bpEl) bpEl.textContent = '--/-- mmHg';
+    if (hrEl) hrEl.textContent = '-- BPM';
+  }
+
+  if (applyBtn) {
+    applyBtn.onclick = () => {
+      if (!latestWearableBp && !latestWearableHr) {
+        alert('No authorized wearable health data is available yet. Connect your wearable in the Wearables Hub.');
+        return;
+      }
+      if (latestWearableBp) {
+        document.getElementById('systolic').value = latestWearableBp.systolic;
+        document.getElementById('diastolic').value = latestWearableBp.diastolic;
+      }
+      if (latestWearableHr) {
+        document.getElementById('pulse').value = Math.round(latestWearableHr);
+      }
+    };
+  }
+
+  const f=document.getElementById('bpForm'),r=document.getElementById('bpResult');
+  f.addEventListener('submit',async e=>{
+    e.preventDefault();
+    const s=Number(document.getElementById('systolic').value),d=Number(document.getElementById('diastolic').value),p=Number(document.getElementById('pulse').value||0);
+    let cat,note,cls;
+    if(s>180||d>120){cat='Severely high reading';note='Repeat after at least 1 minute. If it remains this high, seek prompt medical care; with severe symptoms call 112.';cls='alert-danger'}
+    else if(s>=140||d>=90){cat='High blood pressure — Stage 2 range';note='One reading does not diagnose hypertension. Repeat correctly and discuss persistent readings with a clinician.';cls='alert-warning'}
+    else if(s>=130||d>=80){cat='High blood pressure — Stage 1 range';note='Repeat on separate occasions and discuss persistent readings with a clinician.';cls='alert-warning'}
+    else if(s>=120&&d<80){cat='Elevated range';note='Continue healthy habits and monitor as advised.';cls='alert-info'}
+    else{cat='Normal range';note='This reading is in the normal category for adults.';cls='alert-success'}
+    r.className='alert '+cls+' mt-4';
+    r.innerHTML='<h5 class="fw-bold mb-2">'+cat+'</h5><div><strong>'+s+'/'+d+' mmHg</strong>'+(p?' · Pulse '+p+' bpm':'')+'</div><p class="mb-2 mt-2">'+note+'</p><button class="btn btn-sm btn-pink mt-2" id="aiAssessBpBtn" type="button"><i class="fa-solid fa-robot me-1"></i>Get Full AI Clinical Assessment</button>';
+    document.getElementById('aiAssessBpBtn').onclick=()=>{if(window.openSheCareAi){window.openSheCareAi('Please perform an AI clinical health assessment for my blood pressure reading: Systolic '+s+' mmHg, Diastolic '+d+' mmHg'+(p?', Pulse '+p+' bpm':'')+'. What is my clinical risk level, possible causes, and what actions should I take?');}};
+    try{await SheCareAPI.resource('blood-pressure').create({systolic:s,diastolic:d,pulse:p||null});}
+    catch(err){r.insertAdjacentHTML('beforeend','<p class="small mt-2 mb-0">Saved locally for this screen, but backend save failed: '+err.message+'</p>')}
+  });
+});
+</script></body></html>
