@@ -36,7 +36,12 @@ app.get('*',(req,res)=>{
   res.sendFile(path.join(__dirname,'index.html'));
 });
 
-app.use((err,_req,res,_next)=>{console.error('Unhandled server error:',err.message);if(err.name==='ZodError')return res.status(400).json({success:false,error:'Please check the submitted information.'});if(err.code==='P2002')return res.status(409).json({success:false,error:'A record with one of these unique values already exists.'});res.status(500).json({success:false,error:'An unexpected server error occurred.'});});
+app.use((err,_req,res,_next)=>{
+  console.error('Unhandled server error:', err.stack || err.message);
+  if(err.name==='ZodError') return res.status(400).json({success:false,error:'Please check the submitted information.', details: err.errors});
+  if(err.code==='P2002') return res.status(409).json({success:false,error:'A record with one of these unique values already exists.'});
+  res.status(500).json({success:false,error: err.message || 'An unexpected server error occurred.', stack: err.stack});
+});
 if (require.main === module) {
   const server = app.listen(env.PORT, () => console.log(`SheCare running at http://localhost:${env.PORT} and http://127.0.0.1:${env.PORT}`));
   process.on('SIGINT', async () => { await prisma.$disconnect(); server.close(() => process.exit(0)); });
