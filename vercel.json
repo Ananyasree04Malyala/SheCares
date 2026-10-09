@@ -1,29 +1,22 @@
 {
   "rewrites": [
-    { "source": "/css/:path*", "destination": "/css/:path*" },
-    { "source": "/js/:path*", "destination": "/js/:path*" },
-    { "source": "/assets/:path*", "destination": "/assets/:path*" },
-    { "source": "/pages/:path*", "destination": "/pages/:path*" },
     { "source": "/api", "destination": "/api/index.js" },
     { "source": "/api/(.*)", "destination": "/api/index.js?path=$1" },
-    { "source": "/pregnancy.html", "destination": "/pages/pregnancy.html" },
-    { "source": "/period.html", "destination": "/pages/period.html" },
-    { "source": "/mental.html", "destination": "/pages/mental.html" },
-    { "source": "/emergency.html", "destination": "/pages/emergency.html" },
-    { "source": "/caretaker.html", "destination": "/pages/caretaker.html" },
-    { "source": "/food.html", "destination": "/pages/food.html" },
-    { "source": "/diabetic.html", "destination": "/pages/diabetic.html" },
-    { "source": "/fitness.html", "destination": "/pages/fitness.html" },
-    { "source": "/yoga.html", "destination": "/pages/fitness.html" },
-    { "source": "/hospitals.html", "destination": "/pages/hospitals.html" },
-    { "source": "/help.html", "destination": "/pages/help.html" },
-    { "source": "/contact.html", "destination": "/pages/contact.html" }
+    { "source": "/pregnancy", "destination": "/pages/pregnancy.html" },
+    { "source": "/period", "destination": "/pages/period.html" },
+    { "source": "/mental", "destination": "/pages/mental.html" },
+    { "source": "/emergency", "destination": "/pages/emergency.html" },
+    { "source": "/caretaker", "destination": "/pages/caretaker.html" },
+    { "source": "/food", "destination": "/pages/food.html" },
+    { "source": "/diabetic", "destination": "/pages/diabetic.html" },
+    { "source": "/fitness", "destination": "/pages/fitness.html" },
+    { "source": "/yoga", "destination": "/pages/fitness.html" },
+    { "source": "/hospitals", "destination": "/pages/hospitals.html" },
+    { "source": "/help", "destination": "/pages/help.html" },
+    { "source": "/contact", "destination": "/pages/contact.html" }
   ],
   "functions": {
     "api/index.js": {
-      "includeFiles": "assets/**,css/**,js/**,pages/**,*.html"
-    },
-    "api/[...slug].js": {
       "includeFiles": "assets/**,css/**,js/**,pages/**,*.html"
     }
   }
