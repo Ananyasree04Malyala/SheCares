@@ -3,6 +3,7 @@ const { ok, fail } = require('../utils/api');
 const { chat, configured } = require('../services/ai');
 const clinicalEngine = require('../services/clinicalEngine');
 const healthAnalyticsEngine = require('../services/healthAnalyticsEngine');
+const AIHealthAssistant = require('../ai/AIHealthAssistant');
 const v = require('../utils/validate');
 const { recordHistory } = require('../services/history');
 
@@ -83,7 +84,6 @@ async function create(req, res) {
   const userMsg = p.message;
   let reply;
   try {
-    const AIHealthAssistant = require('../ai/AIHealthAssistant');
     reply = await AIHealthAssistant.handleChat(convoUserId, userMsg, history);
   } catch (err) {
     console.warn('[Chat] Service error, using clinical reasoning fallback:', err.message);

@@ -17,7 +17,7 @@
   ],
   "functions": {
     "api/index.js": {
-      "includeFiles": "assets/**,css/**,js/**,pages/**,*.html"
+      "includeFiles": "src/**,prisma/**,assets/**,css/**,js/**,pages/**,*.html"
     }
   }
 }
