@@ -1,16 +1,20 @@
 /* ==========================================================================
    SHECARES — App Opening Splash Screen Controller
-   Displays the official SheCares logo symbol on app opening
+   Displays the official SheCares logo symbol ONLY when the app opens freshly
    ========================================================================== */
 (function initAppSplashScreen() {
-  if (document.getElementById('scSplashScreen')) return;
+  // Only show splash screen once per fresh session opening
+  if (sessionStorage.getItem('sc_splash_shown') === 'true' || document.getElementById('scSplashScreen')) {
+    return;
+  }
+  sessionStorage.setItem('sc_splash_shown', 'true');
 
   // Create splash screen element
   const splash = document.createElement('div');
   splash.id = 'scSplashScreen';
 
   const isPagesSubdir = window.location.pathname.includes('/pages/');
-  const logoPath = isPagesSubdir ? '../assets/images/shecares-logo.jpg' : 'assets/images/shecares-logo.jpg';
+  const logoPath = isPagesSubdir ? '/assets/images/shecares-logo.jpg' : '/assets/images/shecares-logo.jpg';
 
   splash.innerHTML = `
     <div class="sc-splash-logo-wrap">
@@ -28,7 +32,7 @@
   const mount = () => {
     if (document.body) {
       document.body.appendChild(splash);
-    } else {
+    } else if (document.documentElement) {
       document.documentElement.appendChild(splash);
     }
 

@@ -741,11 +741,11 @@ function initEmergencyContacts(){const list=document.getElementById('emergencyCo
 
 /* Splash screen controller */
 function initAppSplashScreen() {
-  if (document.getElementById('scSplashScreen')) return;
+  if (sessionStorage.getItem('sc_splash_shown') === 'true' || document.getElementById('scSplashScreen')) return;
+  sessionStorage.setItem('sc_splash_shown', 'true');
   const splash = document.createElement('div');
   splash.id = 'scSplashScreen';
-  const isPagesSubdir = window.location.pathname.includes('/pages/');
-  const logoPath = isPagesSubdir ? '../assets/images/shecares-logo.jpg' : 'assets/images/shecares-logo.jpg';
+  const logoPath = '/assets/images/shecares-logo.jpg';
   splash.innerHTML = `
     <div class="sc-splash-logo-wrap">
       <div class="sc-splash-glow"></div>
@@ -774,3 +774,4 @@ function initAppSplashScreen() {
     setTimeout(dismiss, 1200);
   }
 }
+
