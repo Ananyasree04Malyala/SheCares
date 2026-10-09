@@ -18,8 +18,12 @@ async function create(req, res) {
   // Resolve active user (auth or visitor fallback)
   let activeUserId = req.userId;
   if (!activeUserId) {
-    const defaultUser = await prisma.user.findFirst({ select: { id: true } });
-    if (defaultUser) activeUserId = defaultUser.id;
+    try {
+      const defaultUser = await prisma.user.findFirst({ select: { id: true } });
+      if (defaultUser) activeUserId = defaultUser.id;
+    } catch (dbErr) {
+      console.warn('[Chat] Could not query default user from DB:', dbErr.message);
+    }
   }
 
   // Load user's actual health metrics and clinical abnormalities
