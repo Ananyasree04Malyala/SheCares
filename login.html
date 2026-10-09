@@ -78,7 +78,7 @@
 <!-- Visual side: uploaded reference photo -->
 <div class="login-visual fade-in-up in-view">
 <div class="login-visual-content">
-<a class="d-inline-flex align-items-center gap-2 mb-4 text-decoration-none" href="index.html">
+<a class="d-inline-flex align-items-center gap-2 mb-4 text-decoration-none" href="/index.html">
 <span class="brand-badge">SH</span>
 <span class="fw-bold fs-5" style="color:#fff;">SHECARES</span>
 </a>
@@ -90,7 +90,7 @@
 <div class="login-form-side">
 <div class="login-box fade-in-up in-view">
 <div id="recaptcha-container" aria-hidden="true"></div>
-<a class="d-inline-flex align-items-center gap-2 mb-4 text-decoration-none d-lg-none" href="index.html">
+<a class="d-inline-flex align-items-center gap-2 mb-4 text-decoration-none d-lg-none" href="/index.html">
 <span class="brand-badge">SH</span>
 <span class="fw-bold fs-5 text-primary-pink">SHECARES</span>
 </a>
@@ -145,7 +145,7 @@
 <input class="form-check-input" id="rememberMe" type="checkbox"/>
 <label class="form-check-label small text-ink-soft" data-i18n="remember_me" for="rememberMe">Remember me</label>
 </div>
-<a class="small" data-i18n="forgot_password" href="forgot-password.html">Forgot password?</a>
+<a class="small" data-i18n="forgot_password" href="/forgot-password.html">Forgot password?</a>
 </div>
 <button class="btn btn-pink ripple w-100" data-i18n="login_btn" type="submit">Log In</button>
 </form>
@@ -161,7 +161,7 @@
 <div class="success-icon"><i class="fa-solid fa-circle-check fs-2 text-success"></i></div>
 <h5 class="fw-bold mb-1"><span data-i18n="welcome_back_comma">Welcome back,</span> <span id="loginSuccessName">there</span>!</h5>
 <p class="text-ink-soft small mb-4" data-i18n="logged_in_msg">You're logged in. Continue whenever you're ready.</p>
-<a class="btn btn-pink ripple w-100" href="index.html"><span data-i18n="get_started">Get Started</span> <i class="fa-solid fa-arrow-right ms-1"></i></a>
+<a class="btn btn-pink ripple w-100" href="/index.html"><span data-i18n="get_started">Get Started</span> <i class="fa-solid fa-arrow-right ms-1"></i></a>
 </div>
 </div>
 <!-- SIGNUP -->
@@ -202,12 +202,12 @@
 <div class="success-icon"><i class="fa-solid fa-circle-check fs-2 text-success"></i></div>
 <h5 class="fw-bold mb-1" data-i18n="account_created">Account created!</h5>
 <p class="text-ink-soft small mb-4" data-i18n="account_created_subtitle">Let's set up your health profile so every module can personalize itself for you.</p>
-<a class="btn btn-pink ripple w-100" href="onboarding.html"><span data-i18n="setup_health_profile">Set Up Health Profile</span> <i class="fa-solid fa-arrow-right ms-1"></i></a>
-<a class="d-block text-center small text-ink-soft mt-3" data-i18n="skip_for_now" href="dashboard.html">Skip for now</a>
+<a class="btn btn-pink ripple w-100" href="/onboarding.html"><span data-i18n="setup_health_profile">Set Up Health Profile</span> <i class="fa-solid fa-arrow-right ms-1"></i></a>
+<a class="d-block text-center small text-ink-soft mt-3" data-i18n="skip_for_now" href="/dashboard.html">Skip for now</a>
 </div>
 </div>
 </div>
-<p class="text-center text-ink-soft small mt-4 mb-0"><a href="index.html"><i class="fa-solid fa-arrow-left me-1"></i><span data-i18n="back_to_home">Back to home</span></a></p>
+<p class="text-center text-ink-soft small mt-4 mb-0"><a href="/index.html"><i class="fa-solid fa-arrow-left me-1"></i><span data-i18n="back_to_home">Back to home</span></a></p>
 </div>
 </div>
 </div>
@@ -435,7 +435,7 @@
     document.getElementById('loginFormStep').classList.add('d-none');
     document.getElementById('loginSuccessStep').classList.remove('d-none');
     document.getElementById('loginSuccessName').textContent=(user?.name||'there').split(' ')[0];
-    setTimeout(()=>location.href='dashboard.html',700);
+    setTimeout(()=>location.href="/dashboard.html",700);
   }
 
   document.querySelectorAll('.pass-toggle').forEach(icon=>icon.addEventListener('click',()=>{
@@ -601,7 +601,7 @@
       await SheCareAPI.completeRegistration(signupChallengeId);
       document.getElementById('signupOtpStep').classList.add('d-none');
       document.getElementById('signupSuccessStep').classList.remove('d-none');
-      setTimeout(()=>location.href='onboarding.html',700);
+      setTimeout(()=>location.href="/onboarding.html",700);
     }catch(err){
       document.getElementById('signupOtpStatus').textContent=err.message;
       btn.disabled=false;

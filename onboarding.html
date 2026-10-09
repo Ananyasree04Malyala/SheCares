@@ -17,7 +17,7 @@
 </style>
 </head>
 <body><div class="petal-field"></div>
-<nav class="navbar navbar-glass fixed-top py-3"><div class="container"><a class="navbar-brand d-flex align-items-center gap-2" href="dashboard.html"><span class="brand-badge">SH</span><span class="brand-name">SHECARES</span></a><a class="btn btn-outline-pink" href="dashboard.html">Skip</a></div></nav>
+<nav class="navbar navbar-glass fixed-top py-3"><div class="container"><a class="navbar-brand d-flex align-items-center gap-2" href="/dashboard.html"><span class="brand-badge">SH</span><span class="brand-name">SHECARES</span></a><a class="btn btn-outline-pink" href="/dashboard.html">Skip</a></div></nav>
 <main class="section" style="padding-top:105px"><div class="container" style="max-width:850px">
 <section class="profile-hero mb-4"><div class="d-flex align-items-center gap-3"><div class="avatar" id="avatar">SC</div><div><p class="eyebrow mb-1">Personal health setup</p><h1 class="section-title mb-1">Set Up Your Health Profile</h1><p class="text-ink-soft mb-0">Add a few details so SheCare can personalize your experience.</p></div></div></section>
 <div class="step-card p-4 p-md-5"><div class="alert alert-danger d-none" id="error"></div><div class="alert alert-success d-none" id="success">Your health profile has been saved successfully.</div>
@@ -28,7 +28,7 @@
 <div class="col-md-6"><label class="form-label-pink" for="weight">Weight (kg)</label><input class="form-control form-control-pink" id="weight" max="300" min="10" placeholder="e.g. 60" step="0.1" type="number"/></div>
 <div class="col-12"><label class="form-label-pink" for="notes">Health Notes</label><textarea class="form-control form-control-pink" id="notes" placeholder="Allergies, ongoing care, preferences, or other useful notes..." rows="4"></textarea></div>
 </div><button class="btn btn-pink w-100 mt-4" type="submit"><i class="fa-solid fa-check me-2"></i>Save &amp; Continue to Dashboard</button></form></div>
-<p class="text-center text-ink-soft small mt-3"><a href="dashboard.html">I’ll do this later</a></p>
+<p class="text-center text-ink-soft small mt-3"><a href="/dashboard.html">I’ll do this later</a></p>
 </div></main>
 <script src="js/runtime-config.js"></script><script src="js/api.js"></script><script>
 document.addEventListener('DOMContentLoaded',async()=>{
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded',async()=>{
     document.getElementById('avatar').textContent=first||'SC';
     document.getElementById('dob').value=u.dateOfBirth?String(u.dateOfBirth).slice(0,10):'';
     document.getElementById('blood').value=p.bloodGroup||''; document.getElementById('height').value=p.heightCm??''; document.getElementById('weight').value=p.weightKg??''; document.getElementById('notes').value=p.healthNotes||'';
-    document.getElementById('healthForm').addEventListener('submit',async e=>{e.preventDefault();const btn=e.submitter,err=document.getElementById('error'),ok=document.getElementById('success');err.classList.add('d-none');btn.disabled=true;try{await SheCareAPI.profile.put({dateOfBirth:document.getElementById('dob').value,bloodGroup:document.getElementById('blood').value,heightCm:document.getElementById('height').value?Number(document.getElementById('height').value):null,weightKg:document.getElementById('weight').value?Number(document.getElementById('weight').value):null,healthNotes:document.getElementById('notes').value});ok.classList.remove('d-none');setTimeout(()=>location.href='dashboard.html',700)}catch(x){err.textContent=x.message;err.classList.remove('d-none')}finally{btn.disabled=false}});
-  }catch(e){if(e.status===401)location.href='login.html';}
+    document.getElementById('healthForm').addEventListener('submit',async e=>{e.preventDefault();const btn=e.submitter,err=document.getElementById('error'),ok=document.getElementById('success');err.classList.add('d-none');btn.disabled=true;try{await SheCareAPI.profile.put({dateOfBirth:document.getElementById('dob').value,bloodGroup:document.getElementById('blood').value,heightCm:document.getElementById('height').value?Number(document.getElementById('height').value):null,weightKg:document.getElementById('weight').value?Number(document.getElementById('weight').value):null,healthNotes:document.getElementById('notes').value});ok.classList.remove('d-none');setTimeout(()=>location.href="/dashboard.html",700)}catch(x){err.textContent=x.message;err.classList.remove('d-none')}finally{btn.disabled=false}});
+  }catch(e){if(e.status===401)location.href="/login.html";}
 });
 </script></body></html>
