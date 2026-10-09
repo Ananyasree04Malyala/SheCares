@@ -18,12 +18,12 @@ class HealthDataService {
 
     try {
       // 1. Fetch latest distinct wearable metrics
-      const latestWearableReadings = await prisma.wearableReading.findMany({
+      const latestWearableReadings = await prisma.wearableReading?.findMany?.({
         where: { userId },
         orderBy: { timestamp: 'desc' },
         distinct: ['metricType'],
         take: 15
-      });
+      }).catch(() => []) || [];
 
       // 2. Fetch latest Blood Pressure record
       const latestBp = await prisma.bloodPressureRecord?.findFirst?.({
@@ -45,7 +45,7 @@ class HealthDataService {
       }).catch(() => []);
 
       // 5. Fetch active wearable alerts
-      const activeAlerts = await prisma.wearableAlert.findMany({
+      const activeAlerts = await prisma.wearableAlert?.findMany?.({
         where: { userId, isDismissed: false },
         orderBy: { triggeredAt: 'desc' },
         take: 5
