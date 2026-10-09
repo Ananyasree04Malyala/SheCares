@@ -135,79 +135,118 @@
   <div class="d-flex align-items-center justify-content-between mb-3">
     <div>
       <h4 class="fw-bold mb-0 text-ink"><i class="fa-solid fa-toolbox me-2 text-primary-pink"></i>Health Management & Tools</h4>
-      <small class="text-ink-soft">Track vitals, manage reminders, schedule doctor visits & sync devices</small>
+      <small class="text-ink-soft">Track vitals, manage reminders, schedule doctor visits &amp; sync smart devices</small>
     </div>
   </div>
-  <div class="row g-3">
-    <div class="col-6 col-md-4 col-lg-3">
-      <a class="text-decoration-none text-reset" href="#" id="dashAiAssessCard">
-        <div class="quick-card" style="border: 1.5px solid #ff4fa3;">
-          <div class="quick-icon" style="background:#ffebf5;color:#ff4fa3;"><i class="fa-solid fa-stethoscope"></i></div>
-          <h6 class="fw-bold mt-3">AI Assessment</h6>
-          <p class="small text-ink-soft mb-0">Clinical symptom triage</p>
+  <div class="row g-3 g-md-4">
+    <!-- 1. AI Clinical Triage Assessment -->
+    <div class="col-6 col-md-6 col-lg-3">
+      <a class="text-decoration-none text-reset d-block h-100" href="#" id="dashAiAssessCard">
+        <div class="feature-card h-100" style="border: 1.5px solid #ff4fa3;">
+          <div class="p-3 p-md-4">
+            <div class="feature-icon-badge mb-3" style="background:#ffebf5;color:#ff4fa3;"><i class="fa-solid fa-stethoscope"></i></div>
+            <h5 class="fw-semibold fs-6 fs-md-5 mb-1">AI Clinical Triage <span class="badge bg-secondary-soft text-primary-pink ms-1">AI Assistant</span></h5>
+            <p class="text-ink-soft small mb-3 line-clamp-2">Real-time clinical symptom evaluation, risk classification &amp; guidance.</p>
+            <span class="fw-semibold text-primary-pink small">Launch AI Triage <i class="fa-solid fa-arrow-right ms-1"></i></span>
+          </div>
         </div>
       </a>
     </div>
-    <div class="col-6 col-md-4 col-lg-3">
-      <a class="text-decoration-none text-reset" href="wearables.html" id="dashSmartWatchCard">
-        <div class="quick-card" style="border: 1.5px solid #ff4fa3;">
-          <div class="quick-icon" style="background:#ffebf5;color:#ff4fa3;"><i class="fa-solid fa-stopwatch"></i></div>
-          <h6 class="fw-bold mt-3">Smart Watch &amp; Wearables</h6>
-          <p class="small text-ink-soft mb-0">Live biometrics &amp; AI sync</p>
+
+    <!-- 2. Smart Watch & Wearables HUD -->
+    <div class="col-6 col-md-6 col-lg-3">
+      <a class="text-decoration-none text-reset d-block h-100" href="wearables.html" id="dashSmartWatchCard">
+        <div class="feature-card h-100" style="border: 1.5px solid #ff4fa3;">
+          <div class="p-3 p-md-4">
+            <div class="feature-icon-badge mb-3" style="background:#ffebf5;color:#ff4fa3;"><i class="fa-solid fa-stopwatch"></i></div>
+            <h5 class="fw-semibold fs-6 fs-md-5 mb-1">Smart Watch &amp; Wearables <span class="badge bg-secondary-soft text-primary-pink ms-1">Live Sync</span></h5>
+            <p class="text-ink-soft small mb-3 line-clamp-2">Sync heart rate, SpO2, HRV, sleep &amp; steps from Apple, Google &amp; Fitbit.</p>
+            <span class="fw-semibold text-primary-pink small">Open Wearables HUD <i class="fa-solid fa-arrow-right ms-1"></i></span>
+          </div>
         </div>
       </a>
     </div>
-    <div class="col-6 col-md-4 col-lg-3">
-      <a class="text-decoration-none text-reset" href="#" id="dashDeviceConnectCard">
-        <div class="quick-card" style="border: 1.5px solid #ff4fa3;">
-          <div class="quick-icon" style="background:#ffebf5;color:#ff4fa3;"><i class="fa-brands fa-bluetooth"></i></div>
-          <h6 class="fw-bold mt-3">Smart Devices</h6>
-          <p class="small text-ink-soft mb-0">Bluetooth &amp; Wi-Fi sync</p>
+
+    <!-- 3. Smart Devices Sync -->
+    <div class="col-6 col-md-6 col-lg-3">
+      <a class="text-decoration-none text-reset d-block h-100" href="wearables.html" id="dashDeviceConnectCard">
+        <div class="feature-card h-100" style="border: 1.5px solid #ff4fa3;">
+          <div class="p-3 p-md-4">
+            <div class="feature-icon-badge mb-3" style="background:#ffebf5;color:#ff4fa3;"><i class="fa-brands fa-bluetooth"></i></div>
+            <h5 class="fw-semibold fs-6 fs-md-5 mb-1">Smart Devices Sync <span class="badge bg-secondary-soft text-primary-pink ms-1">Bluetooth</span></h5>
+            <p class="text-ink-soft small mb-3 line-clamp-2">Pair Bluetooth pulse oximeters, smart BP cuffs &amp; glucose monitors.</p>
+            <span class="fw-semibold text-primary-pink small">Connect Devices <i class="fa-solid fa-arrow-right ms-1"></i></span>
+          </div>
         </div>
       </a>
     </div>
-    <div class="col-6 col-md-4 col-lg-3">
-      <a class="text-decoration-none text-reset" href="profile.html">
-        <div class="quick-card">
-          <div class="quick-icon"><i class="fa-solid fa-user"></i></div>
-          <h6 class="fw-bold mt-3">Profile &amp; Contacts</h6>
-          <p class="small text-ink-soft mb-0">Your health information</p>
+
+    <!-- 4. Profile & Contacts -->
+    <div class="col-6 col-md-6 col-lg-3">
+      <a class="text-decoration-none text-reset d-block h-100" href="profile.html">
+        <div class="feature-card h-100">
+          <div class="p-3 p-md-4">
+            <div class="feature-icon-badge mb-3"><i class="fa-solid fa-user-doctor"></i></div>
+            <h5 class="fw-semibold fs-6 fs-md-5 mb-1">Profile &amp; Health Contacts</h5>
+            <p class="text-ink-soft small mb-3 line-clamp-2">Manage personal health profile, blood group, emergency contacts &amp; history.</p>
+            <span class="fw-semibold text-primary-pink small">Manage Profile <i class="fa-solid fa-arrow-right ms-1"></i></span>
+          </div>
         </div>
       </a>
     </div>
-    <div class="col-6 col-md-4 col-lg-3">
-      <a class="text-decoration-none text-reset" href="reminders.html">
-        <div class="quick-card">
-          <div class="quick-icon"><i class="fa-regular fa-bell"></i></div>
-          <h6 class="fw-bold mt-3">Reminders &amp; Meds</h6>
-          <p class="small text-ink-soft mb-0">Stay on schedule</p>
+
+    <!-- 5. Reminders & Meds -->
+    <div class="col-6 col-md-6 col-lg-3">
+      <a class="text-decoration-none text-reset d-block h-100" href="reminders.html">
+        <div class="feature-card h-100">
+          <div class="p-3 p-md-4">
+            <div class="feature-icon-badge mb-3"><i class="fa-regular fa-bell"></i></div>
+            <h5 class="fw-semibold fs-6 fs-md-5 mb-1">Reminders &amp; Meds</h5>
+            <p class="text-ink-soft small mb-3 line-clamp-2">Daily medicine schedules, hydration reminders &amp; wellness tasks.</p>
+            <span class="fw-semibold text-primary-pink small">Manage Reminders <i class="fa-solid fa-arrow-right ms-1"></i></span>
+          </div>
         </div>
       </a>
     </div>
-    <div class="col-6 col-md-4 col-lg-3">
-      <a class="text-decoration-none text-reset" href="appointments.html">
-        <div class="quick-card">
-          <div class="quick-icon"><i class="fa-regular fa-calendar-check"></i></div>
-          <h6 class="fw-bold mt-3">Doctor Appointments</h6>
-          <p class="small text-ink-soft mb-0">Manage your visits</p>
+
+    <!-- 6. Doctor Appointments -->
+    <div class="col-6 col-md-6 col-lg-3">
+      <a class="text-decoration-none text-reset d-block h-100" href="appointments.html">
+        <div class="feature-card h-100">
+          <div class="p-3 p-md-4">
+            <div class="feature-icon-badge mb-3"><i class="fa-regular fa-calendar-check"></i></div>
+            <h5 class="fw-semibold fs-6 fs-md-5 mb-1">Doctor Appointments</h5>
+            <p class="text-ink-soft small mb-3 line-clamp-2">Schedule clinical visits, set checkup alerts &amp; track doctor consultations.</p>
+            <span class="fw-semibold text-primary-pink small">Manage Appointments <i class="fa-solid fa-arrow-right ms-1"></i></span>
+          </div>
         </div>
       </a>
     </div>
-    <div class="col-6 col-md-4 col-lg-3">
-      <a class="text-decoration-none text-reset" href="bp.html">
-        <div class="quick-card">
-          <div class="quick-icon"><i class="fa-solid fa-heart-pulse"></i></div>
-          <h6 class="fw-bold mt-3">Blood Pressure Log</h6>
-          <p class="small text-ink-soft mb-0">Check your BP reading</p>
+
+    <!-- 7. Blood Pressure Log -->
+    <div class="col-6 col-md-6 col-lg-3">
+      <a class="text-decoration-none text-reset d-block h-100" href="bp.html">
+        <div class="feature-card h-100">
+          <div class="p-3 p-md-4">
+            <div class="feature-icon-badge mb-3"><i class="fa-solid fa-heart-pulse"></i></div>
+            <h5 class="fw-semibold fs-6 fs-md-5 mb-1">Blood Pressure Log</h5>
+            <p class="text-ink-soft small mb-3 line-clamp-2">Log systolic &amp; diastolic readings, analyze trends &amp; AHA risk stages.</p>
+            <span class="fw-semibold text-primary-pink small">Check BP Log <i class="fa-solid fa-arrow-right ms-1"></i></span>
+          </div>
         </div>
       </a>
     </div>
-    <div class="col-6 col-md-4 col-lg-3">
-      <a class="text-decoration-none text-reset" href="history.html">
-        <div class="quick-card">
-          <div class="quick-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
-          <h6 class="fw-bold mt-3">Activity History</h6>
-          <p class="small text-ink-soft mb-0">View your activity history</p>
+
+    <!-- 8. Activity History -->
+    <div class="col-6 col-md-6 col-lg-3">
+      <a class="text-decoration-none text-reset d-block h-100" href="history.html">
+        <div class="feature-card h-100">
+          <div class="p-3 p-md-4">
+            <div class="feature-icon-badge mb-3"><i class="fa-solid fa-clock-rotate-left"></i></div>
+            <h5 class="fw-semibold fs-6 fs-md-5 mb-1">Activity &amp; Health History</h5>
+            <p class="text-ink-soft small mb-3 line-clamp-2">Chronological history of vitals, AI chats, yoga sessions &amp; health logs.</p>
+            <span class="fw-semibold text-primary-pink small">View History <i class="fa-solid fa-arrow-right ms-1"></i></span>
+          </div>
         </div>
       </a>
     </div>

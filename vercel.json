@@ -12,6 +12,12 @@
     { "source": "/fitness", "destination": "/pages/fitness.html" },
     { "source": "/yoga", "destination": "/pages/fitness.html" },
     { "source": "/hospitals", "destination": "/pages/hospitals.html" },
+    { "source": "/wearables", "destination": "/wearables.html" },
+    { "source": "/profile", "destination": "/profile.html" },
+    { "source": "/reminders", "destination": "/reminders.html" },
+    { "source": "/appointments", "destination": "/appointments.html" },
+    { "source": "/bp", "destination": "/bp.html" },
+    { "source": "/history", "destination": "/history.html" },
     { "source": "/help", "destination": "/pages/help.html" },
     { "source": "/contact", "destination": "/pages/contact.html" }
   ],
