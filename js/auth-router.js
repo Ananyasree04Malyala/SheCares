@@ -22,17 +22,9 @@
       return;
     }
 
-    // 2. Index / Root Page handling:
-    // If authenticated, proceeds to dashboard.
+    // 2. Index / Root Home Page handling:
+    // Allows visiting Home page freely without forced redirect
     if (isIndexPage) {
-      if (token && window.SheCareAPI) {
-        try {
-          await SheCareAPI.me();
-          if (!isDashboardPage) window.location.href = '/dashboard.html';
-        } catch (err) {
-          localStorage.removeItem('sc_token');
-        }
-      }
       return;
     }
 
