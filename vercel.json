@@ -1,7 +1,7 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api" },
+    { "source": "/api/(.*)", "destination": "/api/index.js" },
     { "source": "/pregnancy.html", "destination": "/pages/pregnancy.html" },
     { "source": "/period.html", "destination": "/pages/period.html" },
     { "source": "/mental.html", "destination": "/pages/mental.html" },

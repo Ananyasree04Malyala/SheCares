@@ -1,12 +1,17 @@
 require('express-async-errors');
 const path=require('path');const express=require('express');const cookieParser=require('cookie-parser');const prisma=require('./src/config/db');const env=require('./src/config/env');const authRoutes=require('./src/routes/auth.routes');const apiRoutes=require('./src/routes');const {helmetMiddleware,corsMiddleware,apiLimiter,authLimiter}=require('./src/middleware/security');
-const app=express();app.disable('x-powered-by');app.use(helmetMiddleware);app.use(corsMiddleware);app.use(express.json({limit:'100kb'}));app.use(cookieParser());app.use('/api',apiLimiter);app.use('/api/auth',authLimiter);app.use('/api/auth',authRoutes);app.use('/api',apiRoutes);app.get('/api/health',async(_req,res)=>{let database='disconnected';try{await prisma.$queryRaw`SELECT 1`;database='connected';}catch{}res.json({ok:true,database,aiConfigured:Boolean(env.OPENAI_API_KEY)});});
+const app=express();app.disable('x-powered-by');app.use(helmetMiddleware);app.use(corsMiddleware);app.use(express.json({limit:'100kb'}));app.use(cookieParser());
+app.use('/api',apiLimiter);
+app.use('/api/auth',authLimiter,authRoutes);app.use('/auth',authLimiter,authRoutes);
+app.use('/api',apiRoutes);app.use('/',apiRoutes);
+app.get(['/api/health','/health'],async(_req,res)=>{let database='disconnected';try{await prisma.$queryRaw`SELECT 1`;database='connected';}catch{}res.json({ok:true,database,aiConfigured:Boolean(env.OPENAI_API_KEY)});});
 app.get('/fitness.html', (req, res) => res.redirect('/pages/fitness.html'));
 app.get('/yoga.html', (req, res) => res.redirect('/pages/fitness.html'));
 const modulePages = ['emergency', 'pregnancy', 'period', 'mental', 'diabetic', 'food', 'caretaker', 'help', 'contact', 'hospitals'];
 modulePages.forEach(p => {
-  app.get(`/${p}.html`, (req, res) => res.redirect(`/pages/${p}.html`));
+  app.get([`/${p}.html`, `/${p}`], (req, res) => res.redirect(`/pages/${p}.html`));
 });
+
 app.use(express.static(path.join(__dirname)));
 app.get('*',(req,res)=>{
   if(req.path.startsWith('/api/'))return res.status(404).json({success:false,error:'API route not found.'});
