@@ -1,6 +1,14 @@
 require('express-async-errors');
 const path=require('path');const express=require('express');const cookieParser=require('cookie-parser');const prisma=require('./src/config/db');const env=require('./src/config/env');const authRoutes=require('./src/routes/auth.routes');const apiRoutes=require('./src/routes');const {helmetMiddleware,corsMiddleware,apiLimiter,authLimiter}=require('./src/middleware/security');
 const app=express();app.disable('x-powered-by');app.use(helmetMiddleware);app.use(corsMiddleware);app.use(express.json({limit:'100kb'}));app.use(cookieParser());
+app.use((req, _res, next) => {
+  if (req.query && req.query.path) {
+    const p = String(req.query.path).replace(/^\//, '');
+    delete req.query.path;
+    req.url = `/api/${p}`;
+  }
+  next();
+});
 app.use('/api',apiLimiter);
 app.use('/api/auth',authLimiter,authRoutes);app.use('/auth',authLimiter,authRoutes);
 app.use('/api',apiRoutes);
