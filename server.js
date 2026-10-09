@@ -3,8 +3,9 @@ const path=require('path');const express=require('express');const cookieParser=r
 const app=express();app.disable('x-powered-by');app.use(helmetMiddleware);app.use(corsMiddleware);app.use(express.json({limit:'100kb'}));app.use(cookieParser());
 app.use('/api',apiLimiter);
 app.use('/api/auth',authLimiter,authRoutes);app.use('/auth',authLimiter,authRoutes);
-app.use('/api',apiRoutes);app.use('/',apiRoutes);
+app.use('/api',apiRoutes);
 app.get(['/api/health','/health'],async(_req,res)=>{let database='disconnected';try{await prisma.$queryRaw`SELECT 1`;database='connected';}catch{}res.json({ok:true,database,aiConfigured:Boolean(env.OPENAI_API_KEY)});});
+
 app.get('/fitness.html', (req, res) => res.redirect('/pages/fitness.html'));
 app.get('/yoga.html', (req, res) => res.redirect('/pages/fitness.html'));
 const modulePages = ['emergency', 'pregnancy', 'period', 'mental', 'diabetic', 'food', 'caretaker', 'help', 'contact', 'hospitals'];
