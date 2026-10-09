@@ -181,6 +181,33 @@
             <small class="d-block text-muted mt-1" id="hudHrTime" style="font-size:0.7rem;">--</small>
           </div>
         </div>
+        <!-- Stress Level -->
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="p-3 rounded-4 bg-white border text-center shadow-xs">
+            <div class="mb-1" style="color: #8b5cf6;"><i class="fa-solid fa-brain fs-4"></i></div>
+            <strong class="d-block fs-4 text-ink" id="hudStress">--</strong>
+            <span class="small text-ink-soft" style="font-size:0.75rem;">Stress Level (%)</span>
+            <small class="d-block text-muted mt-1" id="hudStressTime" style="font-size:0.7rem;">--</small>
+          </div>
+        </div>
+        <!-- SpO2 Oxygen -->
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="p-3 rounded-4 bg-white border text-center shadow-xs">
+            <div class="text-teal mb-1"><i class="fa-solid fa-lungs fs-4 text-success"></i></div>
+            <strong class="d-block fs-4 text-ink" id="hudSpo2">--</strong>
+            <span class="small text-ink-soft" style="font-size:0.75rem;">SpO2 Oxygen (%)</span>
+            <small class="d-block text-muted mt-1" id="hudSpo2Time" style="font-size:0.7rem;">--</small>
+          </div>
+        </div>
+        <!-- Daily Steps -->
+        <div class="col-6 col-md-4 col-lg-2">
+          <div class="p-3 rounded-4 bg-white border text-center shadow-xs">
+            <div class="text-warning mb-1"><i class="fa-solid fa-shoe-prints fs-4"></i></div>
+            <strong class="d-block fs-4 text-ink" id="hudSteps">--</strong>
+            <span class="small text-ink-soft" style="font-size:0.75rem;">Daily Steps</span>
+            <small class="d-block text-muted mt-1" id="hudStepsTime" style="font-size:0.7rem;">--</small>
+          </div>
+        </div>
         <!-- Resting HR -->
         <div class="col-6 col-md-4 col-lg-2">
           <div class="p-3 rounded-4 bg-white border text-center shadow-xs">
@@ -199,25 +226,7 @@
             <small class="d-block text-muted mt-1" id="hudHrvTime" style="font-size:0.7rem;">--</small>
           </div>
         </div>
-        <!-- SpO2 -->
-        <div class="col-6 col-md-4 col-lg-2">
-          <div class="p-3 rounded-4 bg-white border text-center shadow-xs">
-            <div class="text-teal mb-1"><i class="fa-solid fa-lungs fs-4 text-success"></i></div>
-            <strong class="d-block fs-4 text-ink" id="hudSpo2">--</strong>
-            <span class="small text-ink-soft" style="font-size:0.75rem;">SpO2 Oxygen (%)</span>
-            <small class="d-block text-muted mt-1" id="hudSpo2Time" style="font-size:0.7rem;">--</small>
-          </div>
-        </div>
-        <!-- Steps -->
-        <div class="col-6 col-md-4 col-lg-2">
-          <div class="p-3 rounded-4 bg-white border text-center shadow-xs">
-            <div class="text-warning mb-1"><i class="fa-solid fa-shoe-prints fs-4"></i></div>
-            <strong class="d-block fs-4 text-ink" id="hudSteps">--</strong>
-            <span class="small text-ink-soft" style="font-size:0.75rem;">Daily Steps</span>
-            <small class="d-block text-muted mt-1" id="hudStepsTime" style="font-size:0.7rem;">--</small>
-          </div>
-        </div>
-        <!-- Sleep -->
+        <!-- Sleep Rest -->
         <div class="col-6 col-md-4 col-lg-2">
           <div class="p-3 rounded-4 bg-white border text-center shadow-xs">
             <div class="text-indigo mb-1"><i class="fa-solid fa-bed fs-4 text-primary"></i></div>
@@ -238,8 +247,9 @@
           <div class="d-flex align-items-center gap-2 flex-wrap">
             <div class="btn-group btn-group-sm" role="group">
               <button type="button" class="btn btn-outline-pink active" data-metric-btn="HEART_RATE">Heart Rate</button>
-              <button type="button" class="btn btn-outline-pink" data-metric-btn="STEPS">Steps</button>
+              <button type="button" class="btn btn-outline-pink" data-metric-btn="STRESS">Stress</button>
               <button type="button" class="btn btn-outline-pink" data-metric-btn="SPO2">SpO2</button>
+              <button type="button" class="btn btn-outline-pink" data-metric-btn="STEPS">Steps</button>
               <button type="button" class="btn btn-outline-pink" data-metric-btn="HRV">HRV</button>
               <button type="button" class="btn btn-outline-pink" data-metric-btn="SLEEP_DURATION">Sleep</button>
               <button type="button" class="btn btn-outline-pink" data-metric-btn="SKIN_TEMPERATURE">Temp</button>
@@ -490,10 +500,10 @@
             </div>
           </div>
           <div class="col-6">
-            <label class="form-label small fw-semibold text-ink mb-1" for="inputQuickSteps"><i class="fa-solid fa-shoe-prints text-warning me-1"></i>Steps Count</label>
+            <label class="form-label small fw-semibold text-ink mb-1" for="inputQuickStress"><i class="fa-solid fa-brain me-1" style="color:#8b5cf6;"></i>Stress Level</label>
             <div class="input-group input-group-sm">
-              <input type="number" class="form-control fw-bold" id="inputQuickSteps" min="0" max="100000" value="530" placeholder="530">
-              <span class="input-group-text bg-light text-muted">steps</span>
+              <input type="number" class="form-control fw-bold" id="inputQuickStress" min="0" max="100" value="28" placeholder="28">
+              <span class="input-group-text bg-light text-muted">%</span>
             </div>
           </div>
           <div class="col-6">
@@ -504,6 +514,13 @@
             </div>
           </div>
           <div class="col-6">
+            <label class="form-label small fw-semibold text-ink mb-1" for="inputQuickSteps"><i class="fa-solid fa-shoe-prints text-warning me-1"></i>Steps Count</label>
+            <div class="input-group input-group-sm">
+              <input type="number" class="form-control fw-bold" id="inputQuickSteps" min="0" max="100000" value="530" placeholder="530">
+              <span class="input-group-text bg-light text-muted">steps</span>
+            </div>
+          </div>
+          <div class="col-12">
             <label class="form-label small fw-semibold text-ink mb-1" for="inputQuickSleep"><i class="fa-solid fa-bed text-primary me-1"></i>Sleep Rest</label>
             <div class="input-group input-group-sm">
               <input type="number" step="0.1" class="form-control fw-bold" id="inputQuickSleep" min="0" max="24" value="7.0" placeholder="7.0">

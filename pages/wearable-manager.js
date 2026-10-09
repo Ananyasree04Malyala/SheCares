@@ -18,6 +18,7 @@
   const METRIC_LABELS = {
     HEART_RATE: { label: 'Heart Rate', unit: 'BPM', color: '#e83e83', bg: 'rgba(232, 62, 131, 0.1)' },
     RESTING_HEART_RATE: { label: 'Resting Heart Rate', unit: 'BPM', color: '#3b82f6', bg: 'rgba(59, 130, 246, 0.1)' },
+    STRESS: { label: 'Stress Level', unit: '%', color: '#8b5cf6', bg: 'rgba(139, 92, 246, 0.1)' },
     HRV: { label: 'Heart Rate Variability', unit: 'ms', color: '#06b6d4', bg: 'rgba(6, 182, 212, 0.1)' },
     SPO2: { label: 'SpO2 Oxygen', unit: '%', color: '#10b981', bg: 'rgba(16, 185, 129, 0.1)' },
     STEPS: { label: 'Steps', unit: 'steps', color: '#f59e0b', bg: 'rgba(245, 158, 11, 0.1)' },
@@ -263,13 +264,14 @@
           provider: 'ANDROID_HEALTH_CONNECT',
           deviceName: deviceName,
           platformOs: 'Google Fit / Health Connect',
-          permittedMetrics: ['HEART_RATE', 'RESTING_HEART_RATE', 'STEPS', 'SPO2', 'SLEEP_DURATION']
+          permittedMetrics: ['HEART_RATE', 'RESTING_HEART_RATE', 'STRESS', 'STEPS', 'SPO2', 'SLEEP_DURATION']
         });
 
         // Direct ingestion of verified live health metrics from Google Fit
         const gFitSamples = [
           { metricType: 'HEART_RATE', value: 89, unit: 'bpm', timestamp: nowIso, source: 'google_fit', device: deviceName },
           { metricType: 'RESTING_HEART_RATE', value: 81, unit: 'bpm', timestamp: nowIso, source: 'google_fit', device: deviceName },
+          { metricType: 'STRESS', value: 26, unit: '%', timestamp: nowIso, source: 'google_fit', device: deviceName },
           { metricType: 'STEPS', value: 530, unit: 'steps', timestamp: nowIso, source: 'google_fit', device: deviceName },
           { metricType: 'SPO2', value: 98, unit: '%', timestamp: nowIso, source: 'google_fit', device: deviceName },
           { metricType: 'SLEEP_DURATION', value: 7.0, unit: 'hours', timestamp: nowIso, source: 'google_fit', device: deviceName }
@@ -336,11 +338,13 @@
         const inputSteps = document.getElementById('inputQuickSteps');
         const inputSpo2 = document.getElementById('inputQuickSpo2');
         const inputSleep = document.getElementById('inputQuickSleep');
+        const inputStress = document.getElementById('inputQuickStress');
 
         const bpmVal = inputBpm ? parseFloat(inputBpm.value) : null;
         const stepsVal = inputSteps ? parseFloat(inputSteps.value) : null;
         const spo2Val = inputSpo2 ? parseFloat(inputSpo2.value) : null;
         const sleepVal = inputSleep ? parseFloat(inputSleep.value) : null;
+        const stressVal = inputStress ? parseFloat(inputStress.value) : null;
 
         if (!bpmVal || isNaN(bpmVal) || bpmVal < 30 || bpmVal > 240) {
           alert('Please enter a valid heart rate between 30 and 240 BPM.');
@@ -361,6 +365,9 @@
             { metricType: 'RESTING_HEART_RATE', value: Math.max(50, Math.round(bpmVal - 8)), unit: 'bpm', timestamp: nowIso, source: 'noise_fit', device: deviceName }
           ];
 
+          if (stressVal && !isNaN(stressVal)) {
+            samples.push({ metricType: 'STRESS', value: stressVal, unit: '%', timestamp: nowIso, source: 'noise_fit', device: deviceName });
+          }
           if (stepsVal && !isNaN(stepsVal)) {
             samples.push({ metricType: 'STEPS', value: stepsVal, unit: 'steps', timestamp: nowIso, source: 'noise_fit', device: deviceName });
           }
@@ -412,7 +419,7 @@
             provider: 'ANDROID_HEALTH_CONNECT',
             deviceName: deviceName,
             platformOs: 'Google Fit / Health Connect',
-            permittedMetrics: ['HEART_RATE', 'RESTING_HEART_RATE', 'STEPS', 'SPO2', 'SLEEP_DURATION']
+            permittedMetrics: ['HEART_RATE', 'RESTING_HEART_RATE', 'STRESS', 'STEPS', 'SPO2', 'SLEEP_DURATION']
           });
 
           // 2. Read latest values from the modal inputs (or Google Fit live stream)
@@ -420,15 +427,18 @@
           const inputSteps = document.getElementById('inputQuickSteps');
           const inputSpo2 = document.getElementById('inputQuickSpo2');
           const inputSleep = document.getElementById('inputQuickSleep');
+          const inputStress = document.getElementById('inputQuickStress');
 
           const bpmVal = (inputBpm && !isNaN(parseFloat(inputBpm.value))) ? parseFloat(inputBpm.value) : 92;
           const stepsVal = (inputSteps && !isNaN(parseFloat(inputSteps.value))) ? parseFloat(inputSteps.value) : 6500;
           const spo2Val = (inputSpo2 && !isNaN(parseFloat(inputSpo2.value))) ? parseFloat(inputSpo2.value) : 98;
           const sleepVal = (inputSleep && !isNaN(parseFloat(inputSleep.value))) ? parseFloat(inputSleep.value) : 7.5;
+          const stressVal = (inputStress && !isNaN(parseFloat(inputStress.value))) ? parseFloat(inputStress.value) : 26;
 
           const gFitSamples = [
             { metricType: 'HEART_RATE', value: bpmVal, unit: 'bpm', timestamp: nowIso, source: 'google_fit', device: deviceName },
             { metricType: 'RESTING_HEART_RATE', value: Math.max(50, Math.round(bpmVal - 8)), unit: 'bpm', timestamp: nowIso, source: 'google_fit', device: deviceName },
+            { metricType: 'STRESS', value: stressVal, unit: '%', timestamp: nowIso, source: 'google_fit', device: deviceName },
             { metricType: 'STEPS', value: stepsVal, unit: 'steps', timestamp: nowIso, source: 'google_fit', device: deviceName },
             { metricType: 'SPO2', value: spo2Val, unit: '%', timestamp: nowIso, source: 'google_fit', device: deviceName },
             { metricType: 'SLEEP_DURATION', value: sleepVal, unit: 'hours', timestamp: nowIso, source: 'google_fit', device: deviceName }
@@ -728,6 +738,7 @@
     }
 
     updateHudItem('hudHr', 'hudHrTime', 'HEART_RATE', 'BPM', v => Math.round(v));
+    updateHudItem('hudStress', 'hudStressTime', 'STRESS', '%', v => `${Math.round(v)}%`);
     updateHudItem('hudRestingHr', 'hudRestingHrTime', 'RESTING_HEART_RATE', 'BPM', v => Math.round(v));
     updateHudItem('hudHrv', 'hudHrvTime', 'HRV', 'ms', v => Math.round(v));
     updateHudItem('hudSpo2', 'hudSpo2Time', 'SPO2', '%', v => `${Math.round(v)}%`);
@@ -992,6 +1003,7 @@
       const initialSamples = [
         { metricType: 'HEART_RATE', value: 74, unit: 'bpm', timestamp: nowIso, source: selectedProviderForModal.id.toLowerCase(), device: deviceName },
         { metricType: 'RESTING_HEART_RATE', value: 66, unit: 'bpm', timestamp: nowIso, source: selectedProviderForModal.id.toLowerCase(), device: deviceName },
+        { metricType: 'STRESS', value: 24, unit: '%', timestamp: nowIso, source: selectedProviderForModal.id.toLowerCase(), device: deviceName },
         { metricType: 'STEPS', value: 6240, unit: 'steps', timestamp: nowIso, source: selectedProviderForModal.id.toLowerCase(), device: deviceName },
         { metricType: 'SPO2', value: 98, unit: '%', timestamp: nowIso, source: selectedProviderForModal.id.toLowerCase(), device: deviceName },
         { metricType: 'SLEEP_DURATION', value: 7.4, unit: 'hours', timestamp: nowIso, source: selectedProviderForModal.id.toLowerCase(), device: deviceName }

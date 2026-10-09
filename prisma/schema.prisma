@@ -319,6 +319,7 @@ enum HealthMetricType {
   SLEEP_SESSION
   BODY_WEIGHT
   MENSTRUAL_EVENT
+  STRESS
 }
 
 model WearableConnection {

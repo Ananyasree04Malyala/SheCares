@@ -15,7 +15,7 @@ const WEARABLE_PROVIDERS = {
     description: 'Official Android health platform by Google connecting Wear OS, Pixel Watch, and Wearable apps',
     icon: 'fa-brands fa-android',
     supportedMetrics: [
-      'HEART_RATE', 'RESTING_HEART_RATE', 'STEPS', 'DISTANCE',
+      'HEART_RATE', 'RESTING_HEART_RATE', 'STRESS', 'STEPS', 'DISTANCE',
       'CALORIES_ACTIVE', 'CALORIES_TOTAL', 'SLEEP_DURATION', 'SLEEP_SESSION',
       'SPO2', 'RESPIRATORY_RATE', 'SKIN_TEMPERATURE', 'BODY_WEIGHT',
       'EXERCISE_SESSION', 'HRV', 'MENSTRUAL_EVENT'
@@ -28,7 +28,7 @@ const WEARABLE_PROVIDERS = {
     description: 'Official Apple Health platform connecting Apple Watch Series and HealthKit sync',
     icon: 'fa-brands fa-apple',
     supportedMetrics: [
-      'HEART_RATE', 'RESTING_HEART_RATE', 'HRV', 'STEPS', 'DISTANCE',
+      'HEART_RATE', 'RESTING_HEART_RATE', 'STRESS', 'HRV', 'STEPS', 'DISTANCE',
       'CALORIES_ACTIVE', 'SLEEP_DURATION', 'SLEEP_SESSION', 'SPO2',
       'RESPIRATORY_RATE', 'SKIN_TEMPERATURE', 'BODY_WEIGHT', 'EXERCISE_SESSION',
       'MENSTRUAL_EVENT'
@@ -41,7 +41,7 @@ const WEARABLE_PROVIDERS = {
     description: 'Samsung Health data platform for Galaxy Watch 4, 5, 6 and Active series',
     icon: 'fa-solid fa-mobile-screen-button',
     supportedMetrics: [
-      'HEART_RATE', 'RESTING_HEART_RATE', 'HRV', 'STEPS', 'DISTANCE',
+      'HEART_RATE', 'RESTING_HEART_RATE', 'STRESS', 'HRV', 'STEPS', 'DISTANCE',
       'CALORIES_ACTIVE', 'SLEEP_DURATION', 'SPO2', 'SKIN_TEMPERATURE',
       'BODY_WEIGHT', 'EXERCISE_SESSION', 'BLOOD_PRESSURE_SYSTOLIC', 'BLOOD_PRESSURE_DIASTOLIC'
     ]
@@ -53,7 +53,7 @@ const WEARABLE_PROVIDERS = {
     description: 'Official Fitbit Web API & Google Fit companion ecosystem',
     icon: 'fa-solid fa-heart-pulse',
     supportedMetrics: [
-      'HEART_RATE', 'RESTING_HEART_RATE', 'HRV', 'STEPS', 'DISTANCE',
+      'HEART_RATE', 'RESTING_HEART_RATE', 'STRESS', 'HRV', 'STEPS', 'DISTANCE',
       'CALORIES_ACTIVE', 'SLEEP_DURATION', 'SPO2', 'RESPIRATORY_RATE',
       'SKIN_TEMPERATURE', 'BODY_WEIGHT'
     ]
@@ -65,7 +65,7 @@ const WEARABLE_PROVIDERS = {
     description: 'Garmin Health companion ecosystem for Forerunner, Venu, and Fenix series',
     icon: 'fa-solid fa-person-running',
     supportedMetrics: [
-      'HEART_RATE', 'RESTING_HEART_RATE', 'HRV', 'STEPS', 'DISTANCE',
+      'HEART_RATE', 'RESTING_HEART_RATE', 'STRESS', 'HRV', 'STEPS', 'DISTANCE',
       'CALORIES_ACTIVE', 'SLEEP_DURATION', 'SPO2', 'RESPIRATORY_RATE',
       'BODY_WEIGHT'
     ]
@@ -77,7 +77,7 @@ const WEARABLE_PROVIDERS = {
     description: 'Direct health sync for Noise ColorFit, Pulse, Ultra, and Halo smartwatches without requiring any companion APK.',
     icon: 'fa-solid fa-stopwatch-20',
     supportedMetrics: [
-      'HEART_RATE', 'RESTING_HEART_RATE', 'STEPS', 'DISTANCE',
+      'HEART_RATE', 'RESTING_HEART_RATE', 'STRESS', 'STEPS', 'DISTANCE',
       'CALORIES_ACTIVE', 'SLEEP_DURATION', 'SPO2', 'HRV', 'SKIN_TEMPERATURE'
     ]
   },
@@ -88,7 +88,7 @@ const WEARABLE_PROVIDERS = {
     description: 'Direct Wear OS Health Services provider for Fire-Boltt, Noise, boAt, and Amazfit',
     icon: 'fa-solid fa-stopwatch',
     supportedMetrics: [
-      'HEART_RATE', 'RESTING_HEART_RATE', 'STEPS', 'DISTANCE',
+      'HEART_RATE', 'RESTING_HEART_RATE', 'STRESS', 'STEPS', 'DISTANCE',
       'CALORIES_ACTIVE', 'SLEEP_DURATION', 'SPO2', 'BODY_WEIGHT'
     ]
   },
@@ -99,7 +99,7 @@ const WEARABLE_PROVIDERS = {
     description: 'Generates clearly labeled simulated readings for testing when hardware is unavailable',
     icon: 'fa-solid fa-flask-vial',
     supportedMetrics: [
-      'HEART_RATE', 'RESTING_HEART_RATE', 'HRV', 'SPO2', 'STEPS',
+      'HEART_RATE', 'RESTING_HEART_RATE', 'STRESS', 'HRV', 'SPO2', 'STEPS',
       'DISTANCE', 'CALORIES_ACTIVE', 'SLEEP_DURATION', 'SKIN_TEMPERATURE'
     ]
   }
@@ -119,6 +119,14 @@ const METRIC_SPECS = {
     label: 'Resting Heart Rate',
     min: 35,
     max: 130,
+    category: 'vital',
+    displayDecimals: 0
+  },
+  STRESS: {
+    unit: '%',
+    label: 'Stress Level',
+    min: 0,
+    max: 100,
     category: 'vital',
     displayDecimals: 0
   },

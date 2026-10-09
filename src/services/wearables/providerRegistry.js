@@ -159,6 +159,21 @@ class DemoSimulatorProvider extends BaseWearableProvider {
         });
       }
 
+      // Stress Level
+      if (metrics.includes('STRESS')) {
+        const stressTime = new Date(baseDay);
+        stressTime.setHours(15, 30, 0, 0);
+        samples.push({
+          metricType: 'STRESS',
+          value: Math.floor(22 + Math.random() * 35),
+          unit: '%',
+          timestamp: stressTime.toISOString(),
+          source: 'demo_simulator',
+          deviceName: 'Simulated Wearable (DEMO)',
+          metadata: { simulated: true }
+        });
+      }
+
       // Sleep
       if (metrics.includes('SLEEP_DURATION')) {
         const sleepTime = new Date(baseDay);
