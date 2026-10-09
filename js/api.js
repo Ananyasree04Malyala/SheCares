@@ -72,5 +72,6 @@
     },
     resource:(name)=>({list:()=>request('/api/'+name),create:(d)=>request('/api/'+name,{method:'POST',body:JSON.stringify(d)}),update:(id,d)=>request('/api/'+name+'/'+encodeURIComponent(id),{method:'PUT',body:JSON.stringify(d)}),delete:(id)=>request('/api/'+name+'/'+encodeURIComponent(id),{method:'DELETE'})})
   };
-  document.addEventListener('DOMContentLoaded',()=>{ if(privatePages.includes(current)){ SheCareAPI.me().catch(e=>{if(e.status===401) location.href=location.pathname.includes('/pages/')?'../login.html':'login.html';}); } });
+  document.addEventListener('DOMContentLoaded',()=>{ if(privatePages.includes(current)){ SheCareAPI.me().catch(e=>{ console.warn('[SheCareAPI] Unauthenticated session on page:', current); }); } });
 })();
+
