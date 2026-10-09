@@ -28,7 +28,8 @@ router.get('/yoga/poses/:id', authOptional, yoga.getPoseById);
 router.post('/yoga/sessions', authRequired, yoga.logSession);
 router.post('/yoga/assess', authOptional, yoga.assessSession);
 
-router.get('/',(req,res)=>res.json({success:true,message:'SheCare Healthcare API is online',version:'3.2.0',endpoints:['/api/health','/api/realtime/stream','/api/yoga/poses','/api/yoga/sessions','/api/yoga/assess']}));
+router.get('/info',(req,res)=>res.json({success:true,message:'SheCare Healthcare API is online',version:'3.2.0',endpoints:['/api/health','/api/realtime/stream','/api/yoga/poses','/api/yoga/sessions','/api/yoga/assess']}));
+
 
 module.exports=router;
 
