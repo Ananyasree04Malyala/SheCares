@@ -8,7 +8,15 @@ modulePages.forEach(p => {
   app.get(`/${p}.html`, (req, res) => res.redirect(`/pages/${p}.html`));
 });
 app.use(express.static(path.join(__dirname)));
-app.get('*',(req,res)=>{if(req.path.startsWith('/api/'))return res.status(404).json({success:false,error:'API route not found.'});res.sendFile(path.join(__dirname,'index.html'));});
+app.get('*',(req,res)=>{
+  if(req.path.startsWith('/api/'))return res.status(404).json({success:false,error:'API route not found.'});
+  const ext = path.extname(req.path).toLowerCase();
+  if(['.jpg','.jpeg','.png','.gif','.svg','.webp','.ico','.css','.js','.woff','.woff2','.ttf','.eot'].includes(ext)){
+    return res.status(404).send('Asset not found');
+  }
+  res.sendFile(path.join(__dirname,'index.html'));
+});
+
 app.use((err,_req,res,_next)=>{console.error('Unhandled server error:',err.message);if(err.name==='ZodError')return res.status(400).json({success:false,error:'Please check the submitted information.'});if(err.code==='P2002')return res.status(409).json({success:false,error:'A record with one of these unique values already exists.'});res.status(500).json({success:false,error:'An unexpected server error occurred.'});});
 if (require.main === module) {
   const server = app.listen(env.PORT, () => console.log(`SheCare running at http://localhost:${env.PORT} and http://127.0.0.1:${env.PORT}`));
