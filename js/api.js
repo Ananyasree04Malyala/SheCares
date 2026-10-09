@@ -25,8 +25,9 @@
     return resPayload;
   }
 
-  const privatePages=['dashboard.html','profile.html','reminders.html','appointments.html','bp.html','onboarding.html','pages/pregnancy.html','pages/period.html','pages/diabetic.html','pages/mental.html','pages/fitness.html','pages/food.html','pages/emergency.html','pages/caretaker.html','history.html'];
+  const privatePages=['profile.html','onboarding.html'];
   const current=(location.pathname.split('/').slice(-2).join('/'))||'index.html';
+
   window.SheCareAPI={
     base,request,
     me:()=>request('/api/auth/me'),
