@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <link rel="icon" type="image/jpeg" href="assets/images/shecares-logo.jpg">
@@ -7,7 +6,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>SHECARES — Your Complete Wellness Companion</title>
-<meta content="AI-powered healthcare support for women: pregnancy care, period tracking, diabetic management, mental wellness, fitness, emergency safety, caretaker assistance and nutrition analysis." name="description"/>
+<meta content="AI-powered healthcare support for women including pregnancy care, period tracking, diabetic management, mental wellness, AI yoga coaching, emergency safety, caretaker assistance, and nutrition analysis." name="description"/>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
@@ -16,344 +15,345 @@
 </head>
 <body>
 <div class="petal-field"></div>
+
 <!-- ================= NAVBAR ================= -->
 <nav class="navbar navbar-expand-lg navbar-glass fixed-top py-3">
-<div class="container">
-<a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
-<span class="brand-badge">SH</span>
-<span class="brand-name fs-5">SHECARES</span>
-</a>
-<button aria-label="Menu" class="navbar-toggler border-0" data-bs-target="#navMain" data-bs-toggle="collapse" type="button">
-<i class="fa-solid fa-bars fs-4 text-primary-pink"></i>
-</button>
-<div class="collapse navbar-collapse" id="navMain">
-<ul class="navbar-nav mx-auto align-items-lg-center gap-lg-2">
-<li class="nav-item"><a class="nav-link nav-link-custom active" href="index.html">Home</a></li>
-<li class="nav-item dropdown">
-<a class="nav-link nav-link-custom dropdown-toggle" data-bs-toggle="dropdown" href="#">Features</a>
-<ul class="dropdown-menu shadow border-0 rounded-3 p-2">
-<li><a class="dropdown-item rounded-2" href="hospitals.html"><i class="fa-solid fa-hospital text-primary-pink me-2"></i>Nearby Hospitals &amp; Doctors</a></li>
-<li><a class="dropdown-item rounded-2" href="pages/pregnancy.html"><i class="fa-solid fa-baby text-primary-pink me-2"></i>Pregnancy Care</a></li>
-<li><a class="dropdown-item rounded-2" href="pages/period.html"><i class="fa-solid fa-droplet text-primary-pink me-2"></i>Period Tracking</a></li>
-<li><a class="dropdown-item rounded-2" href="pages/mental.html"><i class="fa-solid fa-heart-pulse text-primary-pink me-2"></i>Mental Wellness</a></li>
-<li><a class="dropdown-item rounded-2" href="pages/diabetic.html"><i class="fa-solid fa-syringe text-primary-pink me-2"></i>Diabetic Care</a></li>
-<li><a class="dropdown-item rounded-2" href="pages/fitness.html"><i class="fa-solid fa-person-praying text-primary-pink me-2"></i>AI Yoga Teacher</a></li>
-<li><a class="dropdown-item rounded-2" href="pages/emergency.html"><i class="fa-solid fa-triangle-exclamation text-primary-pink me-2"></i>Emergency Safety</a></li>
-<li><a class="dropdown-item rounded-2" href="pages/caretaker.html"><i class="fa-solid fa-hand-holding-heart text-primary-pink me-2"></i>Caretaker Support</a></li>
-<li><a class="dropdown-item rounded-2" href="pages/food.html"><i class="fa-solid fa-apple-whole text-primary-pink me-2"></i>Food Analyzer</a></li>
-</ul>
-</li>
-<li class="nav-item"><a class="nav-link nav-link-custom" href="dashboard.html">Dashboard</a></li>
-<li class="nav-item"><a class="nav-link nav-link-custom" href="pages/help.html">Help</a></li>
-<li class="nav-item"><a class="nav-link nav-link-custom" href="pages/contact.html">Contact</a></li>
-<li class="nav-item" id="navLoginLi"><a class="nav-link nav-link-custom" href="login.html">Login</a></li>
-<li class="nav-item d-none" id="navLogoutLi"><a class="nav-link nav-link-custom" href="#" id="navLogoutLink">Logout</a></li>
-</ul>
-<a class="btn btn-pink ripple d-none d-lg-inline-block" data-home="dashboard.html" href="dashboard.html" id="navGetStartedBtn">Get Started</a>
-</div>
-</div>
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+      <span class="brand-badge">SH</span>
+      <span class="brand-name fs-5">SHECARES</span>
+    </a>
+    <button aria-label="Toggle navigation menu" class="navbar-toggler border-0" data-bs-target="#navMain" data-bs-toggle="collapse" type="button">
+      <i class="fa-solid fa-bars fs-4 text-primary-pink"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navMain">
+      <ul class="navbar-nav mx-auto align-items-lg-center gap-lg-2">
+        <li class="nav-item"><a class="nav-link nav-link-custom active" href="index.html">Home</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-link-custom dropdown-toggle" data-bs-toggle="dropdown" href="#">Features</a>
+          <ul class="dropdown-menu shadow border-0 rounded-3 p-2">
+            <li><a class="dropdown-item rounded-2" href="pages/pregnancy.html"><i class="fa-solid fa-baby text-primary-pink me-2"></i>Pregnancy Care</a></li>
+            <li><a class="dropdown-item rounded-2" href="pages/period.html"><i class="fa-solid fa-droplet text-primary-pink me-2"></i>Period Tracking</a></li>
+            <li><a class="dropdown-item rounded-2" href="pages/mental.html"><i class="fa-solid fa-brain text-primary-pink me-2"></i>Mental Wellness</a></li>
+            <li><a class="dropdown-item rounded-2" href="pages/emergency.html"><i class="fa-solid fa-triangle-exclamation text-primary-pink me-2"></i>Emergency Safety</a></li>
+            <li><a class="dropdown-item rounded-2" href="pages/caretaker.html"><i class="fa-solid fa-hand-holding-heart text-primary-pink me-2"></i>Caretaker Support</a></li>
+            <li><a class="dropdown-item rounded-2" href="pages/food.html"><i class="fa-solid fa-apple-whole text-primary-pink me-2"></i>Food Analyzer</a></li>
+            <li><a class="dropdown-item rounded-2" href="pages/diabetic.html"><i class="fa-solid fa-syringe text-primary-pink me-2"></i>Diabetic Care</a></li>
+            <li><a class="dropdown-item rounded-2" href="pages/fitness.html"><i class="fa-solid fa-person-praying text-primary-pink me-2"></i>AI Yoga Teacher</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item rounded-2" href="hospitals.html"><i class="fa-solid fa-hospital text-primary-pink me-2"></i>Nearby Hospitals &amp; Doctors</a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a class="nav-link nav-link-custom" href="dashboard.html">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-custom" href="pages/help.html">Help</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-custom" href="pages/contact.html">Contact</a></li>
+        <li class="nav-item" id="navLoginLi"><a class="nav-link nav-link-custom" href="login.html">Login</a></li>
+        <li class="nav-item d-none" id="navLogoutLi"><a class="nav-link nav-link-custom" href="#" id="navLogoutLink">Logout</a></li>
+      </ul>
+      <a class="btn btn-pink ripple d-none d-lg-inline-block" href="dashboard.html" id="navGetStartedBtn">Get Started</a>
+    </div>
+  </div>
 </nav>
+
 <!-- ================= HERO ================= -->
-<header class="hero-section" style="margin-top:82px;">
-<div class="container">
-<div class="row align-items-center g-5">
-<div class="col-lg-6">
-<p class="eyebrow hero-text-anim"><i class="fa-solid fa-sparkles me-1"></i> AI-Powered Women's Healthcare</p>
-<h1 class="display-4 fw-bold mb-3 hero-text-anim d1">Your Health,<br/><span class="gradient-text">Our Priority</span></h1>
-<p class="fs-5 text-ink-soft mb-4 hero-text-anim d2">Complete healthcare support for every stage of a woman’s life — pregnancy, periods, mental wellness, fitness, nutrition, emergency safety and more.</p>
-<div class="d-flex flex-wrap gap-3 hero-text-anim d3">
-<a class="btn btn-pink ripple pulse-ring" href="login.html"><i class="fa-solid fa-arrow-right me-2"></i>Get Started</a>
-<a class="btn btn-outline-pink ripple" href="login.html"><i class="fa-solid fa-right-to-bracket me-2"></i>Login</a>
-<a class="btn btn-outline-pink ripple" href="pages/emergency.html#report"><i class="fa-solid fa-shield-halved me-2"></i>Report Incident</a>
-</div>
-<div class="d-flex gap-4 mt-5 hero-text-anim d3">
-<div><div class="fw-bold fs-4 text-primary-pink">8</div><div class="small text-ink-soft">Care Modules</div></div>
-<div><div class="fw-bold fs-4 text-primary-pink">24/7</div><div class="small text-ink-soft">AI Health Assistant</div></div>
-<div><div class="fw-bold fs-4 text-primary-pink">100%</div><div class="small text-ink-soft">Private &amp; Secure</div></div>
-</div>
-</div>
-<div class="col-lg-6 position-relative">
-<div class="hero-visual zoom-in in-view">
-<img alt="Woman practicing wellness routine" src="https://images.unsplash.com/photo-1518051870910-a46e30d9db16?q=80&amp;w=1000&amp;auto=format&amp;fit=crop"/>
-</div>
-<div class="float-icon" style="top:-10px; left:-16px;"><i class="fa-solid fa-heart-pulse"></i></div>
-<div class="float-icon" style="bottom:20px; right:-18px; animation-delay:1s;"><i class="fa-solid fa-leaf"></i></div>
-<div class="float-icon" style="top:45%; right:-24px; animation-delay:2s;"><i class="fa-solid fa-droplet"></i></div>
-</div>
-</div>
-</div>
+<header class="hero-section text-center text-lg-start" style="margin-top:82px; padding: 3rem 0 2rem;">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6 text-center text-lg-start">
+        <p class="eyebrow hero-text-anim mb-2">AI-POWERED WOMEN'S HEALTHCARE</p>
+        <h1 class="display-4 fw-bold mb-3 hero-text-anim d1">Your Complete <span class="gradient-text">Wellness Companion</span></h1>
+        <p class="fs-6 text-ink-soft mb-4 hero-text-anim d2" style="max-width: 520px;">AI-powered healthcare support for women including pregnancy care, period tracking, diabetic management, mental wellness, AI yoga coaching, emergency safety, caretaker assistance, and nutrition analysis.</p>
+        <div class="d-flex flex-wrap justify-content-center justify-content-lg-start gap-3 hero-text-anim d3 mb-4">
+          <button class="btn btn-danger-soft ripple" data-sos-trigger="" type="button"><i class="fa-solid fa-triangle-exclamation me-2"></i>Send SOS</button>
+          <a class="btn btn-outline-pink ripple" href="pages/emergency.html#report"><i class="fa-solid fa-shield-halved me-2"></i>Report Incident</a>
+        </div>
+        <div class="d-flex justify-content-center justify-content-lg-start gap-4 mt-4 hero-text-anim d3">
+          <div><div class="fw-bold fs-4 text-primary-pink">8</div><div class="small text-ink-soft">Care Modules</div></div>
+          <div><div class="fw-bold fs-4 text-primary-pink">24/7</div><div class="small text-ink-soft">AI Assistants</div></div>
+          <div><div class="fw-bold fs-4 text-primary-pink">100%</div><div class="small text-ink-soft">Private &amp; Secure</div></div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="hero-visual zoom-in in-view shadow-sm" style="border-radius:28px; overflow:hidden; max-height:420px;">
+          <img alt="SheCares Pink Chair Wellness" src="assets/images/login-bg.jpg" style="width:100%; height:100%; object-fit:cover; display:block;"/>
+        </div>
+      </div>
+    </div>
+  </div>
 </header>
-<!-- ================= FEATURES ================= -->
-<section class="section" id="features">
-<div class="container">
-<div class="text-center mb-5 fade-in-up">
-<p class="eyebrow">What we offer</p>
-<h2 class="section-title">Care built around every stage of your life</h2>
-<p class="section-sub mx-auto">Eight dedicated modules supported by one AI Health Assistant.</p>
-</div>
-<div class="row g-4">
-<div class="col-md-6 col-lg-4 fade-in-up">
-<a class="text-decoration-none text-reset" href="pages/pregnancy.html">
-<div class="feature-card">
-<div class="img-wrap"><img alt="Pregnant woman smiling" src="assets/images/pregnancy.jpg"/></div>
-<div class="p-4">
-<div class="feature-icon-badge mb-3"><i class="fa-solid fa-baby"></i></div>
-<h5 class="fw-semibold">Pregnancy Care</h5>
-<p class="text-ink-soft small mb-3">Due date calculator and trimester health guidance.</p>
-<span class="fw-semibold text-primary-pink">Open <i class="fa-solid fa-arrow-right ms-1"></i></span>
-</div>
-</div>
-</a>
-</div>
-<div class="col-md-6 col-lg-4 fade-in-up">
-<a class="text-decoration-none text-reset" href="pages/period.html">
-<div class="feature-card">
-<div class="img-wrap"><img alt="Woman journaling by window" src="assets/images/period.jpg"/></div>
-<div class="p-4">
-<div class="feature-icon-badge mb-3"><i class="fa-solid fa-calendar-days"></i></div>
-<h5 class="fw-semibold">Period Tracking</h5>
-<p class="text-ink-soft small mb-3">Cycle prediction, fertility window, mood and symptom tracking.</p>
-<span class="fw-semibold text-primary-pink">Open <i class="fa-solid fa-arrow-right ms-1"></i></span>
-</div>
-</div>
-</a>
-</div>
-<div class="col-md-6 col-lg-4 fade-in-up">
-<a class="text-decoration-none text-reset" href="pages/mental.html">
-<div class="feature-card">
-<div class="img-wrap"><img alt="Woman relaxing calmly" src="assets/images/mental.jpg"/></div>
-<div class="p-4">
-<div class="feature-icon-badge mb-3"><i class="fa-solid fa-brain"></i></div>
-<h5 class="fw-semibold">Mental Wellness</h5>
-<p class="text-ink-soft small mb-3">Mood journal, meditation, therapist support and coping strategies.</p>
-<span class="fw-semibold text-primary-pink">Open <i class="fa-solid fa-arrow-right ms-1"></i></span>
-</div>
-</div>
-</a>
-</div>
-<div class="col-md-6 col-lg-4 fade-in-up">
-<a class="text-decoration-none text-reset" href="hospitals.html">
-<div class="feature-card">
-<div class="img-wrap"><img alt="Hospital building and doctors" src="assets/images/emergency.jpg"/></div>
-<div class="p-4">
-<div class="feature-icon-badge mb-3"><i class="fa-solid fa-hospital"></i></div>
-<h5 class="fw-semibold">Nearby Hospitals &amp; Doctors</h5>
-<p class="text-ink-soft small mb-3">Live GPS hospital finder, doctor specialties &amp; 24x7 emergency navigation.</p>
-<span class="fw-semibold text-primary-pink">Find Hospitals <i class="fa-solid fa-arrow-right ms-1"></i></span>
-</div>
-</div>
-</a>
-</div>
-<div class="col-md-6 col-lg-4 fade-in-up">
-<a class="text-decoration-none text-reset" href="pages/emergency.html">
-<div class="feature-card">
-<div class="img-wrap"><img alt="Emergency phone alert" src="assets/images/emergency.jpg"/></div>
-<div class="p-4">
-<div class="feature-icon-badge mb-3"><i class="fa-solid fa-triangle-exclamation"></i></div>
-<h5 class="fw-semibold">Emergency Safety</h5>
-<p class="text-ink-soft small mb-3">One-click SOS, live GPS sharing, and emergency contacts.</p>
-<span class="fw-semibold text-primary-pink">Open <i class="fa-solid fa-arrow-right ms-1"></i></span>
-</div>
-</div>
-</a>
-</div>
-<div class="col-md-6 col-lg-4 fade-in-up">
-<a class="text-decoration-none text-reset" href="pages/caretaker.html">
-<div class="feature-card">
-<div class="img-wrap"><img alt="Caretaker helping elderly patient" src="assets/images/caretaker.jpg"/></div>
-<div class="p-4">
-<div class="feature-icon-badge mb-3"><i class="fa-solid fa-hand-holding-heart"></i></div>
-<h5 class="fw-semibold">Caretaker Support</h5>
-<p class="text-ink-soft small mb-3">Medicine reminders, prescription scanner &amp; family care mode.</p>
-<span class="fw-semibold text-primary-pink">Open <i class="fa-solid fa-arrow-right ms-1"></i></span>
-</div>
-</div>
-</a>
-</div>
-<div class="col-md-6 col-lg-4 fade-in-up">
-<a class="text-decoration-none text-reset" href="pages/food.html">
-<div class="feature-card">
-<div class="img-wrap"><img alt="Colorful healthy fruits" src="assets/images/food.jpg"/></div>
-<div class="p-4">
-<div class="feature-icon-badge mb-3"><i class="fa-solid fa-apple-whole"></i></div>
-<h5 class="fw-semibold">Food Analyzer</h5>
-<p class="text-ink-soft small mb-3">Nutrition analysis for smarter eating, calories &amp; health score.</p>
-<span class="fw-semibold text-primary-pink">Open <i class="fa-solid fa-arrow-right ms-1"></i></span>
-</div>
-</div>
-</a>
-</div>
-<div class="col-md-6 col-lg-6 fade-in-up">
-<a class="text-decoration-none text-reset" href="pages/diabetic.html">
-<div class="feature-card">
-<div class="row g-0">
-<div class="col-4 img-wrap" style="height:auto;"><img alt="Blood glucose monitor" class="h-100" style="object-fit:cover;width:100%;" src="assets/images/diabetic.jpg"/></div>
-<div class="col-8 p-4">
-<div class="feature-icon-badge mb-3"><i class="fa-solid fa-syringe"></i></div>
-<h5 class="fw-semibold">Diabetic Care <span class="badge bg-secondary-soft text-primary-pink ms-1">New</span></h5>
-<p class="text-ink-soft small mb-3">Glucose tracker, AI risk prediction, meal planner &amp; medication reminders.</p>
-<span class="fw-semibold text-primary-pink">Open <i class="fa-solid fa-arrow-right ms-1"></i></span>
-</div>
-</div>
-</div>
-</a>
-</div>
-<div class="col-md-6 col-lg-6 fade-in-up">
-<a class="text-decoration-none text-reset" href="pages/fitness.html">
-<div class="feature-card">
-<div class="row g-0">
-<div class="col-4 img-wrap" style="height:auto;"><img alt="Woman doing yoga pose" class="h-100" style="object-fit:cover;width:100%;" src="assets/images/yoga.jpg"/></div>
-<div class="col-8 p-4">
-<div class="feature-icon-badge mb-3"><i class="fa-solid fa-person-praying"></i></div>
-<h5 class="fw-semibold">AI Yoga Teacher <span class="badge bg-secondary-soft text-primary-pink ms-1">New</span></h5>
-<p class="text-ink-soft small mb-3">Personalized yoga sessions, pose guidance &amp; daily streak tracking.</p>
-<span class="fw-semibold text-primary-pink">Open <i class="fa-solid fa-arrow-right ms-1"></i></span>
-</div>
-</div>
-</div>
-</a>
-</div>
-</div>
-</div>
+
+<!-- ================= HEALTHCARE MODULES ================= -->
+<section class="section py-5" id="features">
+  <div class="container">
+    <div class="text-center mb-5 fade-in-up">
+      <p class="eyebrow mb-1">WHAT WE OFFER</p>
+      <h2 class="section-title mb-2">Care built around every stage of your life</h2>
+      <p class="section-sub mx-auto">Eight dedicated modules, each with an AI assistant trained to support you.</p>
+    </div>
+    <div class="row g-3 g-md-4">
+
+      <!-- 1. Pregnancy Care -->
+      <div class="col-6 col-md-6 col-lg-3 fade-in-up">
+        <a class="text-decoration-none text-reset d-block h-100" href="pages/pregnancy.html">
+          <div class="feature-card">
+            <div class="img-wrap"><img alt="Pregnancy Care" src="assets/images/pregnancy.jpg"/></div>
+            <div class="p-3 p-md-4">
+              <div class="feature-icon-badge mb-3"><i class="fa-solid fa-baby"></i></div>
+              <h5 class="fw-semibold fs-6 fs-md-5 mb-1">Pregnancy Care</h5>
+              <p class="text-ink-soft small mb-3 line-clamp-2">Due date calculator, trimester tips, and AI pregnancy assistant.</p>
+              <span class="fw-semibold text-primary-pink small">Open <i class="fa-solid fa-arrow-right ms-1"></i></span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 2. Period Tracking -->
+      <div class="col-6 col-md-6 col-lg-3 fade-in-up">
+        <a class="text-decoration-none text-reset d-block h-100" href="pages/period.html">
+          <div class="feature-card">
+            <div class="img-wrap"><img alt="Period Tracking" src="assets/images/period.jpg"/></div>
+            <div class="p-3 p-md-4">
+              <div class="feature-icon-badge mb-3"><i class="fa-solid fa-calendar-days"></i></div>
+              <h5 class="fw-semibold fs-6 fs-md-5 mb-1">Period Tracking</h5>
+              <p class="text-ink-soft small mb-3 line-clamp-2">Cycle prediction, fertility window, mood and symptom tracking.</p>
+              <span class="fw-semibold text-primary-pink small">Open <i class="fa-solid fa-arrow-right ms-1"></i></span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 3. Mental Wellness -->
+      <div class="col-6 col-md-6 col-lg-3 fade-in-up">
+        <a class="text-decoration-none text-reset d-block h-100" href="pages/mental.html">
+          <div class="feature-card">
+            <div class="img-wrap"><img alt="Mental Wellness" src="assets/images/mental.jpg"/></div>
+            <div class="p-3 p-md-4">
+              <div class="feature-icon-badge mb-3"><i class="fa-solid fa-brain"></i></div>
+              <h5 class="fw-semibold fs-6 fs-md-5 mb-1">Mental Wellness</h5>
+              <p class="text-ink-soft small mb-3 line-clamp-2">Mood journal, meditation, therapist support and coping strategies.</p>
+              <span class="fw-semibold text-primary-pink small">Open <i class="fa-solid fa-arrow-right ms-1"></i></span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 4. Emergency Safety -->
+      <div class="col-6 col-md-6 col-lg-3 fade-in-up">
+        <a class="text-decoration-none text-reset d-block h-100" href="pages/emergency.html">
+          <div class="feature-card">
+            <div class="img-wrap"><img alt="Emergency Safety" src="assets/images/emergency.jpg"/></div>
+            <div class="p-3 p-md-4">
+              <div class="feature-icon-badge mb-3"><i class="fa-solid fa-triangle-exclamation"></i></div>
+              <h5 class="fw-semibold fs-6 fs-md-5 mb-1">Emergency Safety</h5>
+              <p class="text-ink-soft small mb-3 line-clamp-2">One-click SOS, live GPS sharing, and nearby hospital finder.</p>
+              <span class="fw-semibold text-primary-pink small">Open <i class="fa-solid fa-arrow-right ms-1"></i></span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 5. Caretaker Support -->
+      <div class="col-6 col-md-6 col-lg-3 fade-in-up">
+        <a class="text-decoration-none text-reset d-block h-100" href="pages/caretaker.html">
+          <div class="feature-card">
+            <div class="img-wrap"><img alt="Caretaker Support" src="assets/images/caretaker.jpg"/></div>
+            <div class="p-3 p-md-4">
+              <div class="feature-icon-badge mb-3"><i class="fa-solid fa-hand-holding-heart"></i></div>
+              <h5 class="fw-semibold fs-6 fs-md-5 mb-1">Caretaker Support</h5>
+              <p class="text-ink-soft small mb-3 line-clamp-2">Medicine reminders, prescription scanner &amp; family care mode.</p>
+              <span class="fw-semibold text-primary-pink small">Open <i class="fa-solid fa-arrow-right ms-1"></i></span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 6. Food Analyzer -->
+      <div class="col-6 col-md-6 col-lg-3 fade-in-up">
+        <a class="text-decoration-none text-reset d-block h-100" href="pages/food.html">
+          <div class="feature-card">
+            <div class="img-wrap"><img alt="Food Analyzer" src="assets/images/food.jpg"/></div>
+            <div class="p-3 p-md-4">
+              <div class="feature-icon-badge mb-3"><i class="fa-solid fa-apple-whole"></i></div>
+              <h5 class="fw-semibold fs-6 fs-md-5 mb-1">Food Analyzer</h5>
+              <p class="text-ink-soft small mb-3 line-clamp-2">AI food health analyzer for smarter eating, calories &amp; health score.</p>
+              <span class="fw-semibold text-primary-pink small">Open <i class="fa-solid fa-arrow-right ms-1"></i></span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 7. Diabetic Care -->
+      <div class="col-6 col-md-6 col-lg-3 fade-in-up">
+        <a class="text-decoration-none text-reset d-block h-100" href="pages/diabetic.html">
+          <div class="feature-card">
+            <div class="img-wrap"><img alt="Diabetic Care" src="assets/images/diabetic.jpg"/></div>
+            <div class="p-3 p-md-4">
+              <div class="feature-icon-badge mb-3"><i class="fa-solid fa-syringe"></i></div>
+              <h5 class="fw-semibold fs-6 fs-md-5 mb-1">Diabetic Care <span class="badge bg-secondary-soft text-primary-pink ms-1">New</span></h5>
+              <p class="text-ink-soft small mb-3 line-clamp-2">Glucose tracker, AI risk prediction, meal planner &amp; medication reminders.</p>
+              <span class="fw-semibold text-primary-pink small">Open <i class="fa-solid fa-arrow-right ms-1"></i></span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- 8. AI Yoga Teacher -->
+      <div class="col-6 col-md-6 col-lg-3 fade-in-up">
+        <a class="text-decoration-none text-reset d-block h-100" href="pages/fitness.html">
+          <div class="feature-card">
+            <div class="img-wrap"><img alt="AI Yoga Teacher" src="assets/images/yoga.jpg"/></div>
+            <div class="p-3 p-md-4">
+              <div class="feature-icon-badge mb-3"><i class="fa-solid fa-person-praying"></i></div>
+              <h5 class="fw-semibold fs-6 fs-md-5 mb-1">AI Yoga Teacher <span class="badge bg-secondary-soft text-primary-pink ms-1">New</span></h5>
+              <p class="text-ink-soft small mb-3 line-clamp-2">Personalized yoga sessions, pose guidance &amp; daily streak tracking.</p>
+              <span class="fw-semibold text-primary-pink small">Open <i class="fa-solid fa-arrow-right ms-1"></i></span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+    </div>
+  </div>
 </section>
+
 <!-- ================= WHY SHECARES ================= -->
-<section class="section" style="background: rgba(255,255,255,.4);">
-<div class="container">
-<div class="row g-4 align-items-center">
-<div class="col-lg-5 fade-in-up">
-<p class="eyebrow">Why SHECARES</p>
-<h2 class="section-title mb-3">Designed to feel like a companion, not a checklist</h2>
-<p class="text-ink-soft">One AI Health Assistant helps you across the app, using your SheCare context where available while keeping medical guidance educational.</p>
-</div>
-<div class="col-lg-7">
-<div class="row g-3">
-<div class="col-sm-6 fade-in-up">
-<div class="glass-card hover-lift p-4 h-100">
-<i class="fa-solid fa-lock fs-3 text-primary-pink mb-3"></i>
-<h6 class="fw-semibold">Private by default</h6>
-<p class="small text-ink-soft mb-0">Your data stays on your device via secure local storage.</p>
-</div>
-</div>
-<div class="col-sm-6 fade-in-up">
-<div class="glass-card hover-lift p-4 h-100">
-<i class="fa-solid fa-comment-medical fs-3 text-primary-pink mb-3"></i>
-<h6 class="fw-semibold">AI that listens</h6>
-<p class="small text-ink-soft mb-0">Chat naturally with one unified AI assistant across every care module.</p>
-</div>
-</div>
-<div class="col-sm-6 fade-in-up">
-<div class="glass-card hover-lift p-4 h-100">
-<i class="fa-solid fa-bolt fs-3 text-primary-pink mb-3"></i>
-<h6 class="fw-semibold">Emergency-ready</h6>
-<p class="small text-ink-soft mb-0">One tap sends an SOS alert with your live location.</p>
-</div>
-</div>
-<div class="col-sm-6 fade-in-up">
-<div class="glass-card hover-lift p-4 h-100">
-<i class="fa-solid fa-people-roof fs-3 text-primary-pink mb-3"></i>
-<h6 class="fw-semibold">Built for families</h6>
-<p class="small text-ink-soft mb-0">Caretaker mode keeps loved ones in the loop too.</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
+<section class="section py-5" style="background: linear-gradient(180deg, rgba(255,246,250,0.85) 0%, rgba(255,225,238,0.65) 100%);">
+  <div class="container">
+    <div class="mb-4 text-start fade-in-up">
+      <p class="eyebrow mb-1">WHY SHECARES</p>
+      <h2 class="section-title mb-2">Designed to feel like a companion, not a checklist</h2>
+      <p class="text-ink-soft" style="max-width: 680px;">Every module pairs a simple tracker with an AI assistant that understands context — so the advice you get reflects your actual history, not a generic chart.</p>
+    </div>
+    <div class="row g-3">
+      <div class="col-6 col-md-6 fade-in-up">
+        <div class="glass-card p-3 p-md-4 h-100">
+          <div class="feature-icon-badge mb-3"><i class="fa-solid fa-lock"></i></div>
+          <h6 class="fw-bold mb-1">Private by default</h6>
+          <p class="small text-ink-soft mb-0">Your data stays on your device via secure local storage.</p>
+        </div>
+      </div>
+      <div class="col-6 col-md-6 fade-in-up">
+        <div class="glass-card p-3 p-md-4 h-100">
+          <div class="feature-icon-badge mb-3"><i class="fa-solid fa-comment-medical"></i></div>
+          <h6 class="fw-bold mb-1">AI that listens</h6>
+          <p class="small text-ink-soft mb-0">Chat naturally with assistants trained on each care module.</p>
+        </div>
+      </div>
+      <div class="col-6 col-md-6 fade-in-up">
+        <div class="glass-card p-3 p-md-4 h-100">
+          <div class="feature-icon-badge mb-3"><i class="fa-solid fa-bolt"></i></div>
+          <h6 class="fw-bold mb-1">Emergency-ready</h6>
+          <p class="small text-ink-soft mb-0">One tap sends an SOS alert with your live location.</p>
+        </div>
+      </div>
+      <div class="col-6 col-md-6 fade-in-up">
+        <div class="glass-card p-3 p-md-4 h-100">
+          <div class="feature-icon-badge mb-3"><i class="fa-solid fa-people-roof"></i></div>
+          <h6 class="fw-bold mb-1">Built for families</h6>
+          <p class="small text-ink-soft mb-0">Caretaker mode keeps loved ones in the loop too.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
+
 <!-- ================= CTA ================= -->
-<section class="section pb-5">
-<div class="container">
-<div class="glass-card p-5 text-center fade-in-up" style="background: linear-gradient(135deg, rgba(255,79,163,.12), rgba(255,214,232,.5));">
-<h2 class="section-title mb-3">Start caring for yourself today</h2>
-<p class="section-sub mx-auto mb-4">No sign-up required to explore — every tool works right in your browser.</p>
-<a class="btn btn-pink btn-lg ripple" href="pages/help.html">Get Started <i class="fa-solid fa-arrow-right ms-2"></i></a>
-</div>
-</div>
+<section class="section py-5">
+  <div class="container">
+    <div class="glass-card p-4 p-md-5 text-center fade-in-up" style="background: rgba(255,230,242,0.6); border-radius: 24px; border: 1px solid #f9d8e8;">
+      <h2 class="section-title mb-2 fs-3">Start caring for yourself today</h2>
+      <p class="section-sub mx-auto mb-4 small">No sign-up required to explore — every tool works right in your browser.</p>
+      <a class="btn btn-pink btn-lg ripple rounded-pill px-4" href="dashboard.html">Get Started <i class="fa-solid fa-arrow-right ms-2"></i></a>
+    </div>
+  </div>
 </section>
+
 <!-- ================= FOOTER ================= -->
 <footer>
-<div class="container">
-<div class="row g-4">
-<div class="col-lg-4">
-<div class="d-flex align-items-center gap-2 mb-3">
-<span class="brand-badge">SH</span>
-<span class="fw-bold fs-5" style="color:#fff;">SHECARES</span>
-</div>
-<p class="small" style="color:#f3c9dd;">AI-powered healthcare support for every stage of a woman's life — from pregnancy to daily wellness.</p>
-</div>
-<div class="col-6 col-lg-2">
-<h6 class="text-white mb-3">Modules</h6>
-<ul class="list-unstyled small d-flex flex-column gap-2">
-<li><a href="pages/pregnancy.html">Pregnancy Care</a></li>
-<li><a href="pages/period.html">Period Tracking</a></li>
-<li><a href="pages/diabetic.html">Diabetic Care</a></li>
-<li><a href="pages/fitness.html">AI Yoga Teacher</a></li>
-</ul>
-</div>
-<div class="col-6 col-lg-2">
-<h6 class="text-white mb-3">Support</h6>
-<ul class="list-unstyled small d-flex flex-column gap-2">
-<li><a href="pages/mental.html">Mental Wellness</a></li>
-<li><a href="pages/emergency.html">Emergency Safety</a></li>
-<li><a href="pages/caretaker.html">Caretaker</a></li>
-<li><a href="pages/food.html">Food Analyzer</a></li>
-</ul>
-</div>
-<div class="col-lg-4">
-<h6 class="text-white mb-3">Get in touch</h6>
-<ul class="list-unstyled small d-flex flex-column gap-2">
-<li><a href="pages/contact.html"><i class="fa-solid fa-envelope me-2"></i>Contact Info</a></li>
-<li><a href="pages/help.html"><i class="fa-solid fa-circle-question me-2"></i>Help Center</a></li>
-</ul>
-</div>
-</div>
-<hr style="border-color: rgba(255,255,255,.15); margin: 2rem 0 1rem;"/>
-<p class="small text-center mb-0" style="color:#e6a9c4;">© 2026 SHECARES · Final-year engineering project · Not a substitute for professional medical advice.</p>
-</div>
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="d-flex align-items-center gap-2 mb-3">
+          <span class="brand-badge">SH</span>
+          <span class="fw-bold fs-5" style="color:#fff;">SHECARES</span>
+        </div>
+        <p class="small" style="color:#f3c9dd;">AI-powered healthcare support for every stage of a woman's life — from pregnancy to daily wellness.</p>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h6 class="text-white mb-3">Modules</h6>
+        <ul class="list-unstyled small d-flex flex-column gap-2">
+          <li><a href="pages/pregnancy.html">Pregnancy Care</a></li>
+          <li><a href="pages/period.html">Period Tracking</a></li>
+          <li><a href="pages/diabetic.html">Diabetic Care</a></li>
+          <li><a href="pages/fitness.html">AI Yoga Teacher</a></li>
+        </ul>
+      </div>
+      <div class="col-6 col-lg-2">
+        <h6 class="text-white mb-3">Support</h6>
+        <ul class="list-unstyled small d-flex flex-column gap-2">
+          <li><a href="pages/mental.html">Mental Wellness</a></li>
+          <li><a href="pages/emergency.html">Emergency Safety</a></li>
+          <li><a href="pages/caretaker.html">Caretaker</a></li>
+          <li><a href="pages/food.html">Food Analyzer</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-4">
+        <h6 class="text-white mb-3">Get in touch</h6>
+        <ul class="list-unstyled small d-flex flex-column gap-2">
+          <li><a href="pages/contact.html"><i class="fa-solid fa-envelope me-2"></i>Contact Info</a></li>
+          <li><a href="pages/help.html"><i class="fa-solid fa-circle-question me-2"></i>Help Center</a></li>
+          <li><a href="hospitals.html"><i class="fa-solid fa-hospital me-2"></i>Nearby Hospitals</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr style="border-color: rgba(255,255,255,.15); margin: 2rem 0 1rem;"/>
+    <p class="small text-center mb-0" style="color:#e6a9c4;">© 2026 SHECARES · Final-year engineering project · Not a substitute for professional medical advice.</p>
+  </div>
 </footer>
-<!-- ================= FLOATING SOS BUTTON ================= -->
-<!-- ================= SOS MODAL ================= -->
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="js/runtime-config.js"></script><script src="js/api.js"></script><script src="js/script.js"></script>
+
 <!-- SHECARE UNIVERSAL AI HEALTH ASSISTANT -->
 <button aria-label="Open AI Assistant" class="shecare-ai-fab" id="shecareAiFab" title="AI Assistant" type="button">
-<span class="sai-monogram">AI</span><span class="shecare-ai-pulse"></span>
+  <span class="sai-monogram">AI</span><span class="shecare-ai-pulse"></span>
 </button>
 <div aria-hidden="true" class="shecare-ai-panel" id="shecareAiPanel">
-<div class="shecare-ai-panel-header">
-<div class="d-flex align-items-center gap-2"><div class="shecare-ai-avatar"><span class="sai-avatar-mark">AI</span></div><div><div class="fw-bold">AI — SheCare</div><small>AI-powered health assistant</small></div></div>
-<button aria-label="Close" class="shecare-ai-close" id="shecareAiClose" type="button"><i class="fa-solid fa-xmark"></i></button>
+  <div class="shecare-ai-panel-header">
+    <div class="d-flex align-items-center gap-2"><div class="shecare-ai-avatar"><span class="sai-avatar-mark">AI</span></div><div><div class="fw-bold">AI — SheCare</div><small>AI-powered health assistant</small></div></div>
+    <button aria-label="Close" class="shecare-ai-close" id="shecareAiClose" type="button"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div class="shecare-ai-subtle-note text-center py-1 text-muted" style="font-size:10.5px; background:#fff7fa; border-bottom:1px solid #f4d7e4;">Health information only — not a diagnosis.</div>
+  <div aria-live="polite" class="shecare-ai-body" id="shecareAiBody" role="log"></div>
+  <div class="shecare-ai-suggestions" id="shecareAiSuggestions">
+    <button data-ai-suggest="Assess my health symptoms: please guide me." type="button">🩺 Health Assessment</button>
+    <button data-ai-suggest="How can I check my blood pressure?" type="button">Check BP</button>
+    <button data-ai-suggest="What can I do for period pain?" type="button">Period pain</button>
+    <button data-ai-suggest="What should I know about pregnancy?" type="button">Pregnancy</button>
+    <button data-ai-suggest="What are normal glucose ranges?" type="button">Glucose targets</button>
+  </div>
+  <div class="shecare-ai-footer">
+    <button aria-label="Voice input" class="shecare-ai-mic" id="shecareAiMic" title="Voice input" type="button"><i class="fa-solid fa-microphone"></i></button>
+    <input autocomplete="off" class="form-control form-control-pink" id="shecareAiInput" maxlength="600" placeholder="Ask me anything about your health…" type="text"/>
+    <button aria-label="Send" class="btn btn-pink" id="shecareAiSend" type="button"><i class="fa-solid fa-paper-plane"></i></button>
+  </div>
 </div>
-<div class="shecare-ai-subtle-note text-center py-1 text-muted" style="font-size:10.5px; background:#fff7fa; border-bottom:1px solid #f4d7e4;">Health information only — not a diagnosis.</div>
-<div aria-live="polite" class="shecare-ai-body" id="shecareAiBody" role="log"></div>
-<div class="shecare-ai-suggestions" id="shecareAiSuggestions">
-<button data-ai-suggest="Assess my health symptoms: please guide me." type="button">🩺 Health Assessment</button>
-<button data-ai-suggest="How can I check my blood pressure?" type="button">Check BP</button>
-<button data-ai-suggest="What can I do for period pain?" type="button">Period pain</button>
-<button data-ai-suggest="What should I know about pregnancy?" type="button">Pregnancy</button>
-<button data-ai-suggest="What are normal glucose ranges?" type="button">Glucose targets</button>
-</div>
-<div class="shecare-ai-footer">
-<button aria-label="Voice input" class="shecare-ai-mic" id="shecareAiMic" title="Voice input" type="button"><i class="fa-solid fa-microphone"></i></button>
-<input autocomplete="off" class="form-control form-control-pink" id="shecareAiInput" maxlength="600" placeholder="Ask me anything about your health…" type="text"/>
-<button aria-label="Send" class="btn btn-pink" id="shecareAiSend" type="button"><i class="fa-solid fa-paper-plane"></i></button>
-</div>
-</div>
-<!-- FLOATING SOS BUTTON -->
+
+<!-- FLOATING SOS BUTTON & MODAL -->
 <button aria-label="SOS" class="sos-float" data-sos-trigger="" title="SOS" type="button"><span class="sos-label">SOS</span></button>
 <div aria-hidden="true" class="modal fade" id="sosModal" tabindex="-1">
-<div class="modal-dialog modal-dialog-centered"><div class="modal-content glass-modal">
-<div class="modal-body p-4 text-center" id="sosConfirmStep">
-<div class="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle" style="width:70px;height:70px;background:var(--secondary);"><i class="fa-solid fa-triangle-exclamation fs-2 text-danger"></i></div>
-<h5 class="fw-bold">Do you want to send an emergency SOS?</h5>
-<p class="text-ink-soft small">Your emergency contacts will be alerted. For immediate emergency services in India, call 112.</p>
-<div class="d-flex justify-content-center gap-3 mt-4"><button class="btn btn-outline-pink px-4" data-bs-dismiss="modal" id="sosCancelBtn" type="button">Cancel</button><button class="btn btn-danger-soft px-4" id="sosYesBtn" type="button">Yes, Send SOS</button></div>
-</div>
-<div class="modal-body p-4 text-center d-none" id="sosSuccessStep">
-<div class="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle" style="width:70px;height:70px;background:#e7f9ee;"><i class="fa-solid fa-circle-check fs-2 text-success"></i></div>
-<h5 class="fw-bold">Emergency Alert Recorded</h5><p class="text-ink-soft small mb-4">Your SOS event has been recorded. If you are in immediate danger, call 112 now.</p><div class="d-flex justify-content-center gap-2"><a class="btn btn-danger-soft" href="tel:112"><i class="fa-solid fa-phone me-1"></i>Call 112</a><button class="btn btn-pink" data-bs-dismiss="modal" type="button">Close</button></div>
-</div>
-</div></div>
+  <div class="modal-dialog modal-dialog-centered"><div class="modal-content glass-modal">
+    <div class="modal-body p-4 text-center" id="sosConfirmStep">
+      <div class="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle" style="width:70px;height:70px;background:var(--secondary);"><i class="fa-solid fa-triangle-exclamation fs-2 text-danger"></i></div>
+      <h5 class="fw-bold">Do you want to send an emergency SOS?</h5>
+      <p class="text-ink-soft small">Your emergency contacts will be alerted. For immediate emergency services in India, call 112.</p>
+      <div class="d-flex justify-content-center gap-3 mt-4"><button class="btn btn-outline-pink px-4" data-bs-dismiss="modal" id="sosCancelBtn" type="button">Cancel</button><button class="btn btn-danger-soft px-4" id="sosYesBtn" type="button">Yes, Send SOS</button></div>
+    </div>
+    <div class="modal-body p-4 text-center d-none" id="sosSuccessStep">
+      <div class="mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle" style="width:70px;height:70px;background:#e7f9ee;"><i class="fa-solid fa-circle-check fs-2 text-success"></i></div>
+      <h5 class="fw-bold">Emergency Alert Recorded</h5><p class="text-ink-soft small mb-4">Your SOS event has been recorded. If you are in immediate danger, call 112 now.</p><div class="d-flex justify-content-center gap-2"><a class="btn btn-danger-soft" href="tel:112"><i class="fa-solid fa-phone me-1"></i>Call 112</a><button class="btn btn-pink" data-bs-dismiss="modal" type="button">Close</button></div>
+    </div>
+  </div></div>
 </div>
 </body>
 </html>
