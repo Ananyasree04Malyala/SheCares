@@ -16,7 +16,7 @@ app.get(['/api/health','/health'],async(_req,res)=>{let database='disconnected';
 
 app.get('/fitness.html', (req, res) => res.redirect('/pages/fitness.html'));
 app.get('/yoga.html', (req, res) => res.redirect('/pages/fitness.html'));
-const modulePages = ['emergency', 'pregnancy', 'period', 'mental', 'diabetic', 'food', 'caretaker', 'help', 'contact', 'hospitals'];
+const modulePages = ['emergency', 'pregnancy', 'period', 'mental', 'diabetic', 'food', 'caretaker', 'help', 'contact', 'hospitals', 'reminders', 'appointments', 'bp', 'history', 'profile', 'wearables'];
 modulePages.forEach(p => {
   app.get([`/${p}.html`, `/${p}`], (req, res) => res.redirect(`/pages/${p}.html`));
 });
