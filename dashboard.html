@@ -2,7 +2,45 @@
 
 <html lang="en"><head>
 <link rel="icon" type="image/jpeg" href="assets/images/shecares-logo.jpg">
-<script src="js/splash.js"></script><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>Dashboard — SHECARES</title><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/><link href="css/style.css" rel="stylesheet"/><style>.dash-hero{background:linear-gradient(135deg,#fff7fa,#fce7f1);border-radius:28px;padding:28px}.summary-card,.quick-card{background:#fff;border:1px solid #f7d8e6;border-radius:18px;padding:20px;height:100%;box-shadow:0 8px 25px rgba(232,62,131,.08)}.quick-card{transition:.2s}.quick-card:hover{transform:translateY(-4px)}.quick-icon{width:48px;height:48px;border-radius:14px;background:#fce7f1;color:#e83e83;display:flex;align-items:center;justify-content:center;font-size:20px}.bottom-nav{display:none}@media(max-width:767px){.bottom-nav{display:flex;position:fixed;bottom:12px;left:12px;right:12px;z-index:100;background:#fff;border:1px solid #f3d4e1;border-radius:18px;box-shadow:0 12px 35px rgba(0,0,0,.12);justify-content:space-around;padding:9px}.bottom-nav a{font-size:11px;text-align:center;color:#6b7280;text-decoration:none}.bottom-nav i{display:block;font-size:17px;margin-bottom:2px}.bottom-nav .active{color:#e83e83}main{padding-bottom:90px}}</style></head><body><div class="petal-field"></div><nav class="navbar navbar-glass fixed-top py-3"><div class="container"><a class="navbar-brand d-flex align-items-center gap-2" href="index.html"><span class="brand-badge">SH</span><span class="brand-name fs-5">SHECARES</span></a><div class="d-flex gap-2"><a class="btn btn-outline-pink d-none d-sm-inline-block" href="profile.html"><i class="fa-solid fa-user me-1"></i>Profile</a><button class="btn btn-pink" id="logoutBtn" type="button">Logout</button></div></div></nav><main class="section" style="padding-top:105px"><div class="container"><section class="dash-hero mb-4"><div class="row align-items-center g-3"><div class="col-md-8"><p class="eyebrow mb-1">SHECARES Dashboard</p><h1 class="fw-bold mb-2">Hello, <span id="userName">there</span> 👋</h1><p class="text-ink-soft mb-0">Take charge of your health today.</p></div><div class="col-md-4 text-md-end"><a class="btn btn-pink" href="profile.html"><i class="fa-solid fa-pen me-2"></i>Edit Profile</a></div></div></section><div class="row g-3 mb-5"><div class="col-6 col-lg-4"><div class="summary-card"><div class="d-flex justify-content-between"><span class="text-ink-soft">Reminders</span><i class="fa-regular fa-bell text-primary-pink"></i></div><div class="fs-2 fw-bold mt-2" id="reminderCount">0</div><small class="text-ink-soft">active reminders</small></div></div><div class="col-6 col-lg-4"><div class="summary-card"><div class="d-flex justify-content-between"><span class="text-ink-soft">Appointments</span><i class="fa-regular fa-calendar text-primary-pink"></i></div><div class="fs-2 fw-bold mt-2" id="appointmentCount">0</div><small class="text-ink-soft">upcoming visits</small></div></div><div class="col-12 col-lg-4"><div class="summary-card"><div class="d-flex justify-content-between"><span class="text-ink-soft">Cycle Day</span><i class="fa-solid fa-droplet text-primary-pink"></i></div><div class="fs-2 fw-bold mt-2" id="cycleDay">—</div><small class="text-ink-soft">from your cycle data</small></div></div></div><!-- Live Smart Watch Biometrics Banner -->
+<script src="js/splash.js"></script><meta charset="utf-8"/><meta content="width=device-width,initial-scale=1" name="viewport"/><title>Dashboard — SHECARES</title><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet"/><link href="css/style.css" rel="stylesheet"/><style>.dash-hero{background:linear-gradient(135deg,#fff7fa,#fce7f1);border-radius:28px;padding:28px}.summary-card,.quick-card{background:#fff;border:1px solid #f7d8e6;border-radius:18px;padding:20px;height:100%;box-shadow:0 8px 25px rgba(232,62,131,.08)}.quick-card{transition:.2s}.quick-card:hover{transform:translateY(-4px)}.quick-icon{width:48px;height:48px;border-radius:14px;background:#fce7f1;color:#e83e83;display:flex;align-items:center;justify-content:center;font-size:20px}.bottom-nav{display:none}@media(max-width:767px){.bottom-nav{display:flex;position:fixed;bottom:12px;left:12px;right:12px;z-index:100;background:#fff;border:1px solid #f3d4e1;border-radius:18px;box-shadow:0 12px 35px rgba(0,0,0,.12);justify-content:space-around;padding:9px}.bottom-nav a{font-size:11px;text-align:center;color:#6b7280;text-decoration:none}.bottom-nav i{display:block;font-size:17px;margin-bottom:2px}.bottom-nav .active{color:#e83e83}main{padding-bottom:90px}}</style></head><body><div class="petal-field"></div><nav class="navbar navbar-expand-lg navbar-glass fixed-top py-3">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="index.html">
+      <span class="brand-badge">SH</span><span class="brand-name fs-5">SHECARES</span>
+    </a>
+    <button aria-label="Toggle navigation menu" class="navbar-toggler border-0" data-bs-target="#navMain" data-bs-toggle="collapse" type="button">
+      <i class="fa-solid fa-bars fs-4 text-primary-pink"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navMain">
+      <ul class="navbar-nav mx-auto align-items-lg-center gap-lg-2">
+        <li class="nav-item"><a class="nav-link nav-link-custom" href="index.html">Home</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-link-custom dropdown-toggle" data-bs-toggle="dropdown" href="#">Features</a>
+          <ul class="dropdown-menu shadow border-0 rounded-3 p-2">
+            <li><a class="dropdown-item rounded-2" href="pages/pregnancy.html"><i class="fa-solid fa-baby text-primary-pink me-2"></i>Pregnancy Care</a></li>
+            <li><a class="dropdown-item rounded-2" href="pages/period.html"><i class="fa-solid fa-droplet text-primary-pink me-2"></i>Period Tracking</a></li>
+            <li><a class="dropdown-item rounded-2" href="pages/mental.html"><i class="fa-solid fa-brain text-primary-pink me-2"></i>Mental Wellness</a></li>
+            <li><a class="dropdown-item rounded-2" href="pages/emergency.html"><i class="fa-solid fa-triangle-exclamation text-primary-pink me-2"></i>Emergency Safety</a></li>
+            <li><a class="dropdown-item rounded-2" href="pages/caretaker.html"><i class="fa-solid fa-hand-holding-heart text-primary-pink me-2"></i>Caretaker Support</a></li>
+            <li><a class="dropdown-item rounded-2" href="pages/food.html"><i class="fa-solid fa-apple-whole text-primary-pink me-2"></i>Food Analyzer</a></li>
+            <li><a class="dropdown-item rounded-2" href="pages/diabetic.html"><i class="fa-solid fa-syringe text-primary-pink me-2"></i>Diabetic Care</a></li>
+            <li><a class="dropdown-item rounded-2" href="pages/fitness.html"><i class="fa-solid fa-person-praying text-primary-pink me-2"></i>AI Yoga Teacher</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item rounded-2" href="hospitals.html"><i class="fa-solid fa-hospital text-primary-pink me-2"></i>Nearby Hospitals &amp; Doctors</a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a class="nav-link nav-link-custom active" href="dashboard.html">Dashboard</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-custom" href="pages/help.html">Help</a></li>
+        <li class="nav-item"><a class="nav-link nav-link-custom" href="pages/contact.html">Contact</a></li>
+        <li class="nav-item" id="navLoginLi"><a class="nav-link nav-link-custom" href="login.html">Login</a></li>
+        <li class="nav-item d-none" id="navLogoutLi"><a class="nav-link nav-link-custom" href="#" id="navLogoutLink">Logout</a></li>
+      </ul>
+      <div class="d-flex align-items-center gap-2">
+        <a class="btn btn-outline-pink" href="profile.html"><i class="fa-solid fa-user me-1"></i>Profile</a>
+        <button class="btn btn-pink" id="logoutBtn" type="button">Logout</button>
+      </div>
+    </div>
+  </div>
+</nav><main class="section" style="padding-top:105px"><div class="container"><section class="dash-hero mb-4"><div class="row align-items-center g-3"><div class="col-md-8"><p class="eyebrow mb-1">SHECARES Dashboard</p><h1 class="fw-bold mb-2">Hello, <span id="userName">there</span> 👋</h1><p class="text-ink-soft mb-0">Take charge of your health today.</p></div><div class="col-md-4 text-md-end"><a class="btn btn-pink" href="profile.html"><i class="fa-solid fa-pen me-2"></i>Edit Profile</a></div></div></section><div class="row g-3 mb-5"><div class="col-6 col-lg-4"><div class="summary-card"><div class="d-flex justify-content-between"><span class="text-ink-soft">Reminders</span><i class="fa-regular fa-bell text-primary-pink"></i></div><div class="fs-2 fw-bold mt-2" id="reminderCount">0</div><small class="text-ink-soft">active reminders</small></div></div><div class="col-6 col-lg-4"><div class="summary-card"><div class="d-flex justify-content-between"><span class="text-ink-soft">Appointments</span><i class="fa-regular fa-calendar text-primary-pink"></i></div><div class="fs-2 fw-bold mt-2" id="appointmentCount">0</div><small class="text-ink-soft">upcoming visits</small></div></div><div class="col-12 col-lg-4"><div class="summary-card"><div class="d-flex justify-content-between"><span class="text-ink-soft">Cycle Day</span><i class="fa-solid fa-droplet text-primary-pink"></i></div><div class="fs-2 fw-bold mt-2" id="cycleDay">—</div><small class="text-ink-soft">from your cycle data</small></div></div></div><!-- Live Smart Watch Biometrics Banner -->
 <!-- Official Wearable Health Integration Hub Banner -->
 <div class="card border-0 shadow-sm rounded-4 p-3 p-md-4 mb-4" style="background: linear-gradient(135deg, #ffffff, #fff5f8); border: 1px solid #f7d8e6;">
   <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
@@ -176,84 +214,131 @@
   </div>
 </div>
 
-<!-- Care Modules Direct Shortcuts Section -->
-<div class="mb-4">
+<!-- Healthcare Care Modules Section -->
+<div class="mb-5">
   <div class="d-flex align-items-center justify-content-between mb-3">
     <div>
-      <h4 class="fw-bold mb-0 text-ink"><i class="fa-solid fa-heart-pulse me-2 text-primary-pink"></i>Care Modules Shortcuts</h4>
-      <small class="text-ink-soft">Direct access to your specialized AI care modules</small>
+      <h4 class="fw-bold mb-0 text-ink"><i class="fa-solid fa-heart-pulse me-2 text-primary-pink"></i>Healthcare Care Modules</h4>
+      <small class="text-ink-soft">Explore and manage your active AI-assisted healthcare tools</small>
     </div>
   </div>
-  <div class="row g-3">
-    <div class="col-6 col-md-4 col-lg-3">
-      <a class="text-decoration-none text-reset" href="pages/pregnancy.html">
-        <div class="quick-card">
-          <div class="quick-icon"><i class="fa-solid fa-baby"></i></div>
-          <h6 class="fw-bold mt-3">Pregnancy Care</h6>
-          <p class="small text-ink-soft mb-0">Trimester support &amp; AI</p>
+  <div class="row g-3 g-md-4">
+    <!-- 1. Pregnancy Care -->
+    <div class="col-6 col-md-6 col-lg-3">
+      <a class="text-decoration-none text-reset d-block h-100" href="pages/pregnancy.html">
+        <div class="feature-card">
+          <div class="img-wrap"><img alt="Pregnancy Care" src="assets/images/pregnancy.jpg"/></div>
+          <div class="p-3 p-md-4">
+            <div class="feature-icon-badge mb-3"><i class="fa-solid fa-baby"></i></div>
+            <h5 class="fw-semibold fs-6 fs-md-5 mb-1">Pregnancy Care</h5>
+            <p class="text-ink-soft small mb-3 line-clamp-2">Due date calculator, trimester tips, and AI pregnancy assistant.</p>
+            <span class="fw-semibold text-primary-pink small">Open Module <i class="fa-solid fa-arrow-right ms-1"></i></span>
+          </div>
         </div>
       </a>
     </div>
-    <div class="col-6 col-md-4 col-lg-3">
-      <a class="text-decoration-none text-reset" href="pages/period.html">
-        <div class="quick-card">
-          <div class="quick-icon"><i class="fa-solid fa-droplet"></i></div>
-          <h6 class="fw-bold mt-3">Period Tracker</h6>
-          <p class="small text-ink-soft mb-0">Track cycle &amp; symptoms</p>
+
+    <!-- 2. Period Tracking -->
+    <div class="col-6 col-md-6 col-lg-3">
+      <a class="text-decoration-none text-reset d-block h-100" href="pages/period.html">
+        <div class="feature-card">
+          <div class="img-wrap"><img alt="Period Tracking" src="assets/images/period.jpg"/></div>
+          <div class="p-3 p-md-4">
+            <div class="feature-icon-badge mb-3"><i class="fa-solid fa-calendar-days"></i></div>
+            <h5 class="fw-semibold fs-6 fs-md-5 mb-1">Period Tracking</h5>
+            <p class="text-ink-soft small mb-3 line-clamp-2">Cycle prediction, fertility window, mood and symptom tracking.</p>
+            <span class="fw-semibold text-primary-pink small">Open Module <i class="fa-solid fa-arrow-right ms-1"></i></span>
+          </div>
         </div>
       </a>
     </div>
-    <div class="col-6 col-md-4 col-lg-3">
-      <a class="text-decoration-none text-reset" href="pages/diabetic.html">
-        <div class="quick-card">
-          <div class="quick-icon"><i class="fa-solid fa-syringe"></i></div>
-          <h6 class="fw-bold mt-3">Diabetic Care</h6>
-          <p class="small text-ink-soft mb-0">Glucose &amp; risk prediction</p>
+
+    <!-- 3. Mental Wellness -->
+    <div class="col-6 col-md-6 col-lg-3">
+      <a class="text-decoration-none text-reset d-block h-100" href="pages/mental.html">
+        <div class="feature-card">
+          <div class="img-wrap"><img alt="Mental Wellness" src="assets/images/mental.jpg"/></div>
+          <div class="p-3 p-md-4">
+            <div class="feature-icon-badge mb-3"><i class="fa-solid fa-brain"></i></div>
+            <h5 class="fw-semibold fs-6 fs-md-5 mb-1">Mental Wellness</h5>
+            <p class="text-ink-soft small mb-3 line-clamp-2">Mood journal, meditation, therapist support and coping strategies.</p>
+            <span class="fw-semibold text-primary-pink small">Open Module <i class="fa-solid fa-arrow-right ms-1"></i></span>
+          </div>
         </div>
       </a>
     </div>
-    <div class="col-6 col-md-4 col-lg-3">
-      <a class="text-decoration-none text-reset" href="pages/fitness.html">
-        <div class="quick-card">
-          <div class="quick-icon"><i class="fa-solid fa-person-praying"></i></div>
-          <h6 class="fw-bold mt-3">AI Yoga Teacher</h6>
-          <p class="small text-ink-soft mb-0">Camera pose guidance</p>
+
+    <!-- 4. Emergency Safety -->
+    <div class="col-6 col-md-6 col-lg-3">
+      <a class="text-decoration-none text-reset d-block h-100" href="pages/emergency.html">
+        <div class="feature-card">
+          <div class="img-wrap"><img alt="Emergency Safety" src="assets/images/emergency.jpg"/></div>
+          <div class="p-3 p-md-4">
+            <div class="feature-icon-badge mb-3"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <h5 class="fw-semibold fs-6 fs-md-5 mb-1">Emergency Safety</h5>
+            <p class="text-ink-soft small mb-3 line-clamp-2">One-click SOS, live GPS sharing, and nearby hospital finder.</p>
+            <span class="fw-semibold text-primary-pink small">Open Module <i class="fa-solid fa-arrow-right ms-1"></i></span>
+          </div>
         </div>
       </a>
     </div>
-    <div class="col-6 col-md-4 col-lg-3">
-      <a class="text-decoration-none text-reset" href="pages/mental.html">
-        <div class="quick-card">
-          <div class="quick-icon"><i class="fa-solid fa-brain"></i></div>
-          <h6 class="fw-bold mt-3">Mental Wellness</h6>
-          <p class="small text-ink-soft mb-0">Mood &amp; meditation space</p>
+
+    <!-- 5. Caretaker Support -->
+    <div class="col-6 col-md-6 col-lg-3">
+      <a class="text-decoration-none text-reset d-block h-100" href="pages/caretaker.html">
+        <div class="feature-card">
+          <div class="img-wrap"><img alt="Caretaker Support" src="assets/images/caretaker.jpg"/></div>
+          <div class="p-3 p-md-4">
+            <div class="feature-icon-badge mb-3"><i class="fa-solid fa-hand-holding-heart"></i></div>
+            <h5 class="fw-semibold fs-6 fs-md-5 mb-1">Caretaker Support</h5>
+            <p class="text-ink-soft small mb-3 line-clamp-2">Medicine reminders, prescription scanner &amp; family care mode.</p>
+            <span class="fw-semibold text-primary-pink small">Open Module <i class="fa-solid fa-arrow-right ms-1"></i></span>
+          </div>
         </div>
       </a>
     </div>
-    <div class="col-6 col-md-4 col-lg-3">
-      <a class="text-decoration-none text-reset" href="pages/food.html">
-        <div class="quick-card">
-          <div class="quick-icon"><i class="fa-solid fa-apple-whole"></i></div>
-          <h6 class="fw-bold mt-3">Food Analyzer</h6>
-          <p class="small text-ink-soft mb-0">AI food health score</p>
+
+    <!-- 6. Food Analyzer -->
+    <div class="col-6 col-md-6 col-lg-3">
+      <a class="text-decoration-none text-reset d-block h-100" href="pages/food.html">
+        <div class="feature-card">
+          <div class="img-wrap"><img alt="Food Analyzer" src="assets/images/food.jpg"/></div>
+          <div class="p-3 p-md-4">
+            <div class="feature-icon-badge mb-3"><i class="fa-solid fa-apple-whole"></i></div>
+            <h5 class="fw-semibold fs-6 fs-md-5 mb-1">Food Analyzer</h5>
+            <p class="text-ink-soft small mb-3 line-clamp-2">AI food health analyzer for smarter eating, calories &amp; health score.</p>
+            <span class="fw-semibold text-primary-pink small">Open Module <i class="fa-solid fa-arrow-right ms-1"></i></span>
+          </div>
         </div>
       </a>
     </div>
-    <div class="col-6 col-md-4 col-lg-3">
-      <a class="text-decoration-none text-reset" href="pages/emergency.html">
-        <div class="quick-card">
-          <div class="quick-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
-          <h6 class="fw-bold mt-3">Emergency Safety</h6>
-          <p class="small text-ink-soft mb-0">SOS &amp; incident report</p>
+
+    <!-- 7. Diabetic Care -->
+    <div class="col-6 col-md-6 col-lg-3">
+      <a class="text-decoration-none text-reset d-block h-100" href="pages/diabetic.html">
+        <div class="feature-card">
+          <div class="img-wrap"><img alt="Diabetic Care" src="assets/images/diabetic.jpg"/></div>
+          <div class="p-3 p-md-4">
+            <div class="feature-icon-badge mb-3"><i class="fa-solid fa-syringe"></i></div>
+            <h5 class="fw-semibold fs-6 fs-md-5 mb-1">Diabetic Care <span class="badge bg-secondary-soft text-primary-pink ms-1">New</span></h5>
+            <p class="text-ink-soft small mb-3 line-clamp-2">Glucose tracker, AI risk prediction, meal planner &amp; medication reminders.</p>
+            <span class="fw-semibold text-primary-pink small">Open Module <i class="fa-solid fa-arrow-right ms-1"></i></span>
+          </div>
         </div>
       </a>
     </div>
-    <div class="col-6 col-md-4 col-lg-3">
-      <a class="text-decoration-none text-reset" href="hospitals.html">
-        <div class="quick-card">
-          <div class="quick-icon"><i class="fa-solid fa-hospital"></i></div>
-          <h6 class="fw-bold mt-3">Nearby Hospitals</h6>
-          <p class="small text-ink-soft mb-0">Find doctors &amp; clinics</p>
+
+    <!-- 8. AI Yoga Teacher -->
+    <div class="col-6 col-md-6 col-lg-3">
+      <a class="text-decoration-none text-reset d-block h-100" href="pages/fitness.html">
+        <div class="feature-card">
+          <div class="img-wrap"><img alt="AI Yoga Teacher" src="assets/images/yoga.jpg"/></div>
+          <div class="p-3 p-md-4">
+            <div class="feature-icon-badge mb-3"><i class="fa-solid fa-person-praying"></i></div>
+            <h5 class="fw-semibold fs-6 fs-md-5 mb-1">AI Yoga Teacher <span class="badge bg-secondary-soft text-primary-pink ms-1">New</span></h5>
+            <p class="text-ink-soft small mb-3 line-clamp-2">Personalized yoga sessions, pose guidance &amp; daily streak tracking.</p>
+            <span class="fw-semibold text-primary-pink small">Open Module <i class="fa-solid fa-arrow-right ms-1"></i></span>
+          </div>
         </div>
       </a>
     </div>
