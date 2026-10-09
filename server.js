@@ -26,14 +26,26 @@ app.use('/js', express.static(path.join(__dirname, 'js')));
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use('/pages', express.static(path.join(__dirname, 'pages')));
 app.use(express.static(path.join(__dirname)));
-app.get('*',(req,res)=>{
-
-  if(req.path.startsWith('/api/'))return res.status(404).json({success:false,error:'API route not found.'});
+app.get('*', (req, res) => {
+  if (req.path.startsWith('/api/')) return res.status(404).json({ success: false, error: 'API route not found.' });
   const ext = path.extname(req.path).toLowerCase();
-  if(['.jpg','.jpeg','.png','.gif','.svg','.webp','.ico','.css','.js','.woff','.woff2','.ttf','.eot'].includes(ext)){
+  if (['.jpg', '.jpeg', '.png', '.gif', '.svg', '.webp', '.ico', '.css', '.js', '.woff', '.woff2', '.ttf', '.eot'].includes(ext)) {
     return res.status(404).send('Asset not found');
   }
-  res.sendFile(path.join(__dirname,'index.html'));
+
+  const fs = require('fs');
+  const rawPath = req.path.replace(/^\//, '');
+  if (!rawPath) return res.sendFile(path.join(__dirname, 'index.html'));
+
+  const targetFile = rawPath.endsWith('.html') ? rawPath : `${rawPath}.html`;
+  
+  const rootPath = path.join(__dirname, targetFile);
+  if (fs.existsSync(rootPath)) return res.sendFile(rootPath);
+
+  const pagePath = path.join(__dirname, 'pages', targetFile);
+  if (fs.existsSync(pagePath)) return res.sendFile(pagePath);
+
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 app.use((err,_req,res,_next)=>{
