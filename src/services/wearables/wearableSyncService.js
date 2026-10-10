@@ -37,8 +37,8 @@ class WearableSyncService {
       throw new Error('At least one valid health metric permission must be granted.');
     }
 
-    // Map NOISE_FIT to WEAR_OS in database enum
-    const dbProvider = provider === 'NOISE_FIT' ? 'WEAR_OS' : provider;
+    // Map GOOGLE_FIT and NOISE_FIT to database enum
+    const dbProvider = (provider === 'GOOGLE_FIT' || provider === 'google_fit') ? 'ANDROID_HEALTH_CONNECT' : (provider === 'NOISE_FIT' ? 'WEAR_OS' : provider);
 
     const connection = await prisma.wearableConnection.upsert({
       where: {
@@ -83,7 +83,7 @@ class WearableSyncService {
     if (!userId) throw new Error('Unauthorized: User ID missing');
 
     const pInstance = getProvider(provider);
-    const dbProvider = provider === 'NOISE_FIT' ? 'WEAR_OS' : provider;
+    const dbProvider = (provider === 'GOOGLE_FIT' || provider === 'google_fit') ? 'ANDROID_HEALTH_CONNECT' : (provider === 'NOISE_FIT' ? 'WEAR_OS' : provider);
 
     // 1. Check or load connection
     let connection = await prisma.wearableConnection.findUnique({
@@ -435,7 +435,7 @@ class WearableSyncService {
    * Disconnect a wearable provider and mark status
    */
   static async disconnectWearable(userId, provider, isDemo = false) {
-    const dbProvider = provider === 'NOISE_FIT' ? 'WEAR_OS' : provider;
+    const dbProvider = (provider === 'GOOGLE_FIT' || provider === 'google_fit') ? 'ANDROID_HEALTH_CONNECT' : (provider === 'NOISE_FIT' ? 'WEAR_OS' : provider);
     const connection = await prisma.wearableConnection.findUnique({
       where: {
         userId_provider_isDemo: {
@@ -463,7 +463,7 @@ class WearableSyncService {
    * Revoke permission and optionally purge synchronized health readings
    */
   static async revokeAuthorization(userId, provider, purgeData = false, isDemo = false) {
-    const dbProvider = provider === 'NOISE_FIT' ? 'WEAR_OS' : provider;
+    const dbProvider = (provider === 'GOOGLE_FIT' || provider === 'google_fit') ? 'ANDROID_HEALTH_CONNECT' : (provider === 'NOISE_FIT' ? 'WEAR_OS' : provider);
     const connection = await prisma.wearableConnection.findUnique({
       where: {
         userId_provider_isDemo: {

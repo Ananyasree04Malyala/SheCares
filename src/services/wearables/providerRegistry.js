@@ -232,7 +232,8 @@ const PROVIDER_REGISTRY = {
 };
 
 function getProvider(providerId) {
-  const p = PROVIDER_REGISTRY[providerId];
+  const normId = (String(providerId || '').toUpperCase() === 'GOOGLE_FIT') ? 'ANDROID_HEALTH_CONNECT' : providerId;
+  const p = PROVIDER_REGISTRY[normId];
   if (!p) {
     throw new Error(`Unsupported wearable provider: ${providerId}`);
   }

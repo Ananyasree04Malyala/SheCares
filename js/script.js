@@ -742,18 +742,23 @@ function initEmergencyContacts(){const list=document.getElementById('emergencyCo
 /* Splash screen controller */
 function initAppSplashScreen() {
   if (document.getElementById('scSplashScreen')) return;
+  const isFirstLaunch = !sessionStorage.getItem('sc_app_started');
+  sessionStorage.setItem('sc_app_started', 'true');
+  const splashDurationMs = isFirstLaunch ? 5000 : 3000;
+  const progressDurationSec = isFirstLaunch ? '4.8s' : '2.8s';
   const splash = document.createElement('div');
   splash.id = 'scSplashScreen';
   const logoPath = '/assets/images/shecares-logo.jpg';
+  const taglineText = isFirstLaunch ? 'Health &bull; Safety &bull; Well-being' : 'Loading Feature...';
   splash.innerHTML = `
     <div class="sc-splash-logo-wrap">
       <div class="sc-splash-glow"></div>
       <img src="${logoPath}" class="sc-splash-logo" alt="SheCares App Symbol">
     </div>
     <div class="sc-splash-title">SHECARES</div>
-    <div class="sc-splash-tagline">Health &bull; Safety &bull; Well-being</div>
+    <div class="sc-splash-tagline">${taglineText}</div>
     <div class="sc-splash-progress-track">
-      <div class="sc-splash-progress-bar" id="scSplashProgressBar"></div>
+      <div class="sc-splash-progress-bar" id="scSplashProgressBar" style="transition: width ${progressDurationSec} cubic-bezier(0.25, 1, 0.5, 1);"></div>
     </div>
   `;
   (document.body || document.documentElement).prepend(splash);
@@ -761,12 +766,12 @@ function initAppSplashScreen() {
     setTimeout(() => {
       const bar = document.getElementById('scSplashProgressBar');
       if (bar) bar.style.width = '100%';
-    }, 60);
+    }, 50);
   });
   const dismiss = () => {
     splash.classList.add('fade-out');
-    setTimeout(() => { if (splash.parentNode) splash.parentNode.removeChild(splash); }, 600);
+    setTimeout(() => { if (splash.parentNode) splash.parentNode.removeChild(splash); }, 550);
   };
-  setTimeout(dismiss, 5000);
+  setTimeout(dismiss, splashDurationMs);
 }
 
