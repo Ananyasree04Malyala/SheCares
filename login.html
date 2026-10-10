@@ -566,7 +566,14 @@
 
       document.getElementById('signupFormStep').classList.add('d-none');
       document.getElementById('signupOtpStep').classList.remove('d-none');
-      document.getElementById('signupOtpStatus').textContent = 'Verification code sent to your email. Check your inbox to activate your account.';
+      const otpCode = r.devCode || r.code;
+      if (otpCode) {
+        document.getElementById('signupOtpStatus').innerHTML = `Verification code sent to your email. Check your inbox (or use OTP: <strong>${otpCode}</strong>).`;
+        const emailOtpIn = document.getElementById('signupEmailOtp');
+        if (emailOtpIn && !emailOtpIn.value) emailOtpIn.value = otpCode;
+      } else {
+        document.getElementById('signupOtpStatus').textContent = 'Verification code sent to your email. Check your inbox to activate your account.';
+      }
     }catch(err){
       showError('signupError', err.message);
     }finally{

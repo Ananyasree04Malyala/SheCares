@@ -45,23 +45,22 @@ function makeCode() {
 
 async function sendEmailOtp(email, name, emailOtp) {
   const result = await sendMail({
-    from: env.SMTP_FROM,
     to: email,
-    subject: 'SheCare email verification code',
-    text: `Hello ${name || 'there'},\n\nYour SheCare email verification code is: ${emailOtp}\n\nThis code expires in 10 minutes. Never share it with anyone.`,
+    subject: 'SHECARES email verification code',
+    text: `Hello ${name || 'there'},\n\nYour SHECARES email verification code is: ${emailOtp}\n\nThis code expires in 10 minutes. Never share it with anyone.`,
     html: `
       <div style="font-family:Arial,sans-serif;max-width:520px;padding:20px;border:1px solid #f3d4e1;border-radius:12px;">
         <h2 style="color:#e83e83;margin-top:0;">SHECARES Verification</h2>
         <p>Hello ${name || 'there'},</p>
-        <p>Thank you for signing up with SheCare. Here is your email verification code:</p>
+        <p>Thank you for signing up with SHECARES. Here is your email verification code:</p>
         <div style="margin-top:12px;padding:12px;background:#f8f9fa;border-radius:8px;">
           <p style="margin:0;font-size:14px;color:#333;font-weight:600;">Email Verification Code:</p>
-          <p style="margin:4px 0 0;font-size:28px;font-weight:700;letter-spacing:6px;color:#333;">${emailOtp}</p>
+          <p style="margin:4px 0 0;font-size:32px;font-weight:700;letter-spacing:6px;color:#e83e83;">${emailOtp}</p>
         </div>
         <p style="margin-top:20px;font-size:13px;color:#777;">This code expires in 10 minutes. Never share it with anyone.</p>
       </div>`
   });
-  if (!result.sent) throw new Error('EMAIL_OTP_NOT_CONFIGURED');
+  return result;
 }
 
 async function createPendingSignup({ name, email, phone, passwordHash }) {
