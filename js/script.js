@@ -741,8 +741,7 @@ function initEmergencyContacts(){const list=document.getElementById('emergencyCo
 
 /* Splash screen controller */
 function initAppSplashScreen() {
-  if (sessionStorage.getItem('sc_splash_shown') === 'true' || document.getElementById('scSplashScreen')) return;
-  sessionStorage.setItem('sc_splash_shown', 'true');
+  if (document.getElementById('scSplashScreen')) return;
   const splash = document.createElement('div');
   splash.id = 'scSplashScreen';
   const logoPath = '/assets/images/shecares-logo.jpg';
@@ -757,21 +756,17 @@ function initAppSplashScreen() {
       <div class="sc-splash-progress-bar" id="scSplashProgressBar"></div>
     </div>
   `;
-  (document.body || document.documentElement).appendChild(splash);
+  (document.body || document.documentElement).prepend(splash);
   requestAnimationFrame(() => {
     setTimeout(() => {
       const bar = document.getElementById('scSplashProgressBar');
       if (bar) bar.style.width = '100%';
-    }, 40);
+    }, 60);
   });
   const dismiss = () => {
     splash.classList.add('fade-out');
-    setTimeout(() => { if (splash.parentNode) splash.parentNode.removeChild(splash); }, 550);
+    setTimeout(() => { if (splash.parentNode) splash.parentNode.removeChild(splash); }, 600);
   };
-  if (document.readyState === 'complete') setTimeout(dismiss, 750);
-  else {
-    window.addEventListener('load', () => setTimeout(dismiss, 550));
-    setTimeout(dismiss, 1200);
-  }
+  setTimeout(dismiss, 5000);
 }
 

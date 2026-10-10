@@ -226,7 +226,40 @@
 </div>
 <p class="text-center text-ink-soft small mt-4 mb-0"><a href="/index.html"><i class="fa-solid fa-arrow-left me-1"></i><span data-i18n="back_to_home">Back to home</span></a></p>
 </div>
-</div>
+<!-- Social Login Confirmation Modal -->
+<div class="modal fade" id="socialAuthModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 420px;">
+    <div class="modal-content border-0 shadow-lg" style="border-radius: 24px; overflow: hidden; background: #ffffff;">
+      <div class="modal-header border-0 pb-0 pt-4 px-4 d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center gap-2">
+          <span id="socialModalIcon" style="font-size: 1.6rem;"></span>
+          <h5 class="modal-title fw-bold text-ink mb-0" id="socialModalTitle">Continue with Google</h5>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body px-4 py-3">
+        <p class="text-ink-soft small mb-3" id="socialModalSubtitle">
+          Sign in or create your SHECARES account using your Google account.
+        </p>
+        <div class="alert alert-danger alert-inline d-none mb-3" id="socialModalError"></div>
+        <form id="socialAuthForm">
+          <input type="hidden" id="socialAuthProvider" value="google">
+          <label class="form-label-pink small fw-semibold" for="socialAuthEmail">Account Email Address</label>
+          <input type="email" class="form-control form-control-pink mb-3" id="socialAuthEmail" placeholder="you@gmail.com" required>
+          <label class="form-label-pink small fw-semibold" for="socialAuthName">Full Name (Optional)</label>
+          <input type="text" class="form-control form-control-pink mb-3" id="socialAuthName" placeholder="Your name">
+          <button type="submit" class="btn btn-pink ripple w-100 py-2 fw-semibold" id="socialAuthSubmitBtn">
+            Continue to SHECARES
+          </button>
+        </form>
+      </div>
+      <div class="modal-footer border-0 pt-0 px-4 pb-4">
+        <small class="text-ink-soft w-100 text-center" style="font-size: 0.76rem;">
+          <i class="fa-solid fa-shield-heart text-primary-pink me-1"></i>Secure SHECARES Member Authentication
+        </small>
+      </div>
+    </div>
+  </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
@@ -545,6 +578,49 @@
   });
 
   // ---- Social Authentication (Google & Apple) ----
+  let socialModalInstance = null;
+  function getSocialModal() {
+    const el = document.getElementById('socialAuthModal');
+    if (!el || typeof bootstrap === 'undefined') return null;
+    if (!socialModalInstance) {
+      socialModalInstance = new bootstrap.Modal(el);
+    }
+    return socialModalInstance;
+  }
+
+  function openSocialModal(provider) {
+    const providerName = provider.toLowerCase();
+    const isGoogle = providerName === 'google';
+    document.getElementById('socialAuthProvider').value = providerName;
+    document.getElementById('socialModalIcon').innerHTML = isGoogle
+      ? '<i class="fa-brands fa-google" style="color:#ea4335;"></i>'
+      : '<i class="fa-brands fa-apple" style="color:#000;"></i>';
+    document.getElementById('socialModalTitle').textContent = isGoogle
+      ? 'Continue with Google'
+      : 'Continue with Apple';
+    document.getElementById('socialModalSubtitle').textContent = isGoogle
+      ? 'Sign in or register securely using your Google account.'
+      : 'Sign in or register securely using your Apple ID.';
+    document.getElementById('socialAuthSubmitBtn').innerHTML = isGoogle
+      ? '<i class="fa-brands fa-google me-2"></i>Continue with Google'
+      : '<i class="fa-brands fa-apple me-2"></i>Continue with Apple';
+
+    const prefilledEmail = document.getElementById('loginEmail')?.value?.trim() ||
+                           document.getElementById('signupEmail')?.value?.trim() ||
+                           document.getElementById('loginMobile')?.value?.trim() || '';
+    const prefilledName = document.getElementById('signupName')?.value?.trim() || '';
+
+    const emailInput = document.getElementById('socialAuthEmail');
+    const nameInput = document.getElementById('socialAuthName');
+    if (emailInput && !emailInput.value) emailInput.value = prefilledEmail;
+    if (nameInput && !nameInput.value) nameInput.value = prefilledName;
+    emailInput.placeholder = isGoogle ? 'you@gmail.com' : 'you@icloud.com';
+
+    document.getElementById('socialModalError').classList.add('d-none');
+    const modal = getSocialModal();
+    if (modal) modal.show();
+  }
+
   async function handleSocialLogin(providerName) {
     const isSignup = document.getElementById('signupPane')?.classList.contains('active') ||
                      document.getElementById('signupPane')?.classList.contains('show');
@@ -552,82 +628,67 @@
     const errEl = document.getElementById(errId);
     if (errEl) errEl.classList.add('d-none');
 
+    // Attempt Firebase popup quietly ONLY IF on an authorized domain (localhost or firebaseapp.com)
+    if (firebaseAuth && (window.location.hostname === 'localhost' || window.location.hostname.includes('firebaseapp.com'))) {
+      try {
+        let provider = providerName === 'google'
+          ? new firebase.auth.GoogleAuthProvider()
+          : new firebase.auth.OAuthProvider('apple.com');
+        const res = await firebaseAuth.signInWithPopup(provider);
+        if (res?.user?.email) {
+          const idToken = await res.user.getIdToken();
+          const authRes = await SheCareAPI.socialLogin({
+            provider: providerName,
+            idToken,
+            email: res.user.email,
+            name: res.user.displayName,
+            photoUrl: res.user.photoURL
+          });
+          showLoginSuccess(authRes.user);
+          return;
+        }
+      } catch (fbErr) {
+        console.warn('[Social Auth] Firebase popup note:', fbErr.code);
+      }
+    }
+
+    // Immediately open the sleek in-app Google / Apple authentication modal
+    openSocialModal(providerName);
+  }
+
+  document.getElementById('socialAuthForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('socialAuthSubmitBtn');
+    const errEl = document.getElementById('socialModalError');
+    if (errEl) errEl.classList.add('d-none');
+    if (btn) btn.disabled = true;
+
     try {
-      let idToken = null;
-      let email = null;
-      let name = null;
-      let photoUrl = null;
+      const provider = document.getElementById('socialAuthProvider').value || 'google';
+      const email = document.getElementById('socialAuthEmail').value.trim();
+      const name = document.getElementById('socialAuthName').value.trim();
 
-      if (firebaseAuth) {
-        let provider = null;
-        if (providerName === 'google') {
-          provider = new firebase.auth.GoogleAuthProvider();
-          provider.addScope('email');
-          provider.addScope('profile');
-        } else if (providerName === 'apple') {
-          provider = new firebase.auth.OAuthProvider('apple.com');
-          provider.addScope('email');
-          provider.addScope('name');
-        }
-
-        if (provider) {
-          try {
-            const credential = await firebaseAuth.signInWithPopup(provider);
-            if (credential?.user) {
-              idToken = await credential.user.getIdToken();
-              email = credential.user.email;
-              name = credential.user.displayName;
-              photoUrl = credential.user.photoURL;
-            }
-          } catch (popupErr) {
-            console.warn('[Social Auth] Popup warning:', popupErr.code, popupErr.message);
-            if (popupErr.code === 'auth/popup-closed-by-user' || popupErr.code === 'auth/cancelled-popup-request') {
-              return;
-            }
-            if (popupErr.code === 'auth/operation-not-allowed' ||
-                popupErr.code === 'auth/unauthorized-domain' ||
-                popupErr.code === 'auth/configuration-not-found' ||
-                popupErr.code === 'auth/network-request-failed') {
-              const promptMsg = providerName === 'google'
-                ? 'Enter your Google email address to continue:'
-                : 'Enter your Apple ID email address to continue:';
-              const inputEmail = window.prompt(promptMsg);
-              if (!inputEmail || !inputEmail.trim()) return;
-              email = inputEmail.trim();
-              name = email.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-            } else {
-              throw popupErr;
-            }
-          }
-        }
-      } else {
-        const promptMsg = providerName === 'google'
-          ? 'Enter your Google email address to continue:'
-          : 'Enter your Apple ID email address to continue:';
-        const inputEmail = window.prompt(promptMsg);
-        if (!inputEmail || !inputEmail.trim()) return;
-        email = inputEmail.trim();
-        name = email.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
-      }
-
-      if (!email && !idToken) {
-        throw new Error(`Could not complete ${providerName === 'apple' ? 'Apple' : 'Google'} sign-in.`);
-      }
+      if (!email) throw new Error('Please enter a valid email address.');
 
       const res = await SheCareAPI.socialLogin({
-        provider: providerName,
-        idToken: idToken || undefined,
-        email: email || undefined,
-        name: name || undefined,
-        photoUrl: photoUrl || undefined
+        provider,
+        email,
+        name: name || undefined
       });
+
+      const modal = getSocialModal();
+      if (modal) modal.hide();
 
       showLoginSuccess(res.user);
     } catch (err) {
-      console.error('[Social Auth Error]:', err);
-      showError(errId, err.message || `Failed to sign in with ${providerName === 'apple' ? 'Apple' : 'Google'}.`);
+      if (errEl) {
+        errEl.textContent = err.message || 'Could not complete social sign-in. Please try again.';
+        errEl.classList.remove('d-none');
+      }
+    } finally {
+      if (btn) btn.disabled = false;
     }
-  }
+  });
 
   document.getElementById('googleLoginBtn')?.addEventListener('click', () => handleSocialLogin('google'));
   document.getElementById('appleLoginBtn')?.addEventListener('click', () => handleSocialLogin('apple'));

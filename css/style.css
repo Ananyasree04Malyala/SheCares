@@ -224,7 +224,7 @@ a{ color: var(--primary-dark); text-decoration:none; }
   background: linear-gradient(90deg, #ff4fa3, #ffd6e8);
   border-radius: 999px;
   box-shadow: 0 0 12px rgba(255, 79, 163, 0.8);
-  transition: width 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: width 4.8s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 @keyframes scFadeUp {
