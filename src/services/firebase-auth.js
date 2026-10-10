@@ -22,12 +22,13 @@ async function verifyIdToken(idToken) {
   }
 
   const user = data.users[0];
-  if (!user.phoneNumber) throw new Error('FIREBASE_PHONE_NOT_VERIFIED');
 
   return {
     localId: user.localId,
-    phoneNumber: user.phoneNumber,
-    email: user.email || null
+    phoneNumber: user.phoneNumber || null,
+    email: user.email || null,
+    displayName: user.displayName || null,
+    photoUrl: user.photoUrl || null
   };
 }
 

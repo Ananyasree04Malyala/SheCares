@@ -14,6 +14,7 @@ router.post('/login/otp/verify',c.verifyLoginOtp);
 router.post('/login/phone/send',c.sendPhoneLoginOtp);
 router.post('/login/phone/verify',c.verifyPhoneLoginOtp);
 router.post('/logout',c.logout);
+router.post('/social-login',c.socialLogin);
 router.get('/me',authRequired,c.me);
 router.post('/forgot-password',c.forgot);
 router.post('/reset-password',c.reset);

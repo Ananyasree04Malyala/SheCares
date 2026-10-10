@@ -1,13 +1,13 @@
 const { z } = require('zod');
-const email = z.string().trim().email().max(254);
-const password = z.string().min(8).max(128);
+const email = z.string().trim().email('Please enter a valid email address.').max(254);
+const password = z.string().min(6, 'Password must be at least 6 characters.').max(128);
 const id = z.string().min(1).max(100);
 const phone = z.string().trim().min(8).max(30);
 const otp = z.string().trim().regex(/^\d{4,10}$/, 'Enter the verification code.');
-const optionalPhone = z.string().trim().max(30).optional().or(z.literal(''));
+const optionalPhone = z.string().trim().max(30).optional().nullable().or(z.literal(''));
 const validators = {
-  register: z.object({ name: z.string().trim().min(2).max(100), email, phone: optionalPhone, password }),
-  registerStart: z.object({ name: z.string().trim().min(2).max(100), email, phone: optionalPhone, password }),
+  register: z.object({ name: z.string().trim().min(2, 'Name must be at least 2 characters.').max(100), email, phone: optionalPhone, password }),
+  registerStart: z.object({ name: z.string().trim().min(2, 'Name must be at least 2 characters.').max(100), email, phone: optionalPhone, password }),
   otp: z.object({ challengeId: id, code: otp }),
   firebasePhoneVerify: z.object({
     challengeId: id,
@@ -20,6 +20,13 @@ const validators = {
     email: email.optional(),
     phone: z.string().optional()
   }).refine(d => Boolean(d.email || d.phone), { message: 'Provide an email address or mobile number.' }),
+  socialLogin: z.object({
+    provider: z.string().trim().min(1),
+    idToken: z.string().optional().nullable().or(z.literal('')),
+    email: z.string().trim().email('Please provide a valid email.').optional().nullable().or(z.literal('')),
+    name: z.string().optional().nullable().or(z.literal('')),
+    photoUrl: z.string().optional().nullable().or(z.literal(''))
+  }),
   loginOtpVerify: z.object({
     email: email.optional(),
     phone: z.string().optional(),

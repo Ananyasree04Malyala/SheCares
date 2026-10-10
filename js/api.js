@@ -43,6 +43,7 @@
     verifyPhoneLoginOtp:(param)=>request('/api/auth/login/phone/verify',{method:'POST',body:JSON.stringify(typeof param==='string'?{code:param}:param)}),
 
     login:(data)=>request('/api/auth/login',{method:'POST',body:JSON.stringify(data)}),
+    socialLogin:(data)=>request('/api/auth/social-login',{method:'POST',body:JSON.stringify(data)}),
     logout:()=>{ localStorage.removeItem('sc_token'); return request('/api/auth/logout',{method:'POST'}); },
 
     forgot:(email)=>request('/api/auth/forgot-password',{method:'POST',body:JSON.stringify({email})}),

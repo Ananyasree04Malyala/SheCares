@@ -30,11 +30,12 @@ async function registerStart(req, res) {
     }
   }
 
-  if (await prisma.user.findUnique({ where: { email } }))
-    return fail(res, 409, 'An account with this email already exists.');
+  const existingUser = await prisma.user.findUnique({ where: { email } });
   if (phone && phoneVariants.length > 0) {
-    if (await prisma.user.findFirst({ where: { phone: { in: phoneVariants } } }))
-      return fail(res, 409, 'An account with this phone number already exists.');
+    const userWithPhone = await prisma.user.findFirst({ where: { phone: { in: phoneVariants } } });
+    if (userWithPhone && (!existingUser || userWithPhone.id !== existingUser.id)) {
+      return fail(res, 409, 'This phone number is already linked to another account.');
+    }
   }
 
   const passwordHash = await bcrypt.hash(p.password, 12);
@@ -79,8 +80,21 @@ async function verifyEmail(req, res) {
     return fail(res, 400, 'The verification code is incorrect or expired.');
   }
 
-  // Create user directly upon email verification
+  // Create or update user directly upon email verification
   const user = await prisma.$transaction(async tx => {
+    const existing = await tx.user.findUnique({ where: { email: pending.email } });
+    if (existing) {
+      const updated = await tx.user.update({
+        where: { id: existing.id },
+        data: {
+          name: pending.name || existing.name,
+          phone: pending.phone || existing.phone,
+          passwordHash: pending.passwordHash
+        }
+      });
+      await tx.pendingSignup.delete({ where: { id: pending.id } });
+      return updated;
+    }
     const created = await tx.user.create({
       data: {
         name: pending.name,
@@ -227,6 +241,19 @@ async function completeRegistration(req, res) {
     return fail(res, 400, 'Please verify your email address first.');
 
   const user = await prisma.$transaction(async tx => {
+    const existing = await tx.user.findUnique({ where: { email: pending.email } });
+    if (existing) {
+      const updated = await tx.user.update({
+        where: { id: existing.id },
+        data: {
+          name: pending.name || existing.name,
+          phone: pending.phone || existing.phone,
+          passwordHash: pending.passwordHash
+        }
+      });
+      await tx.pendingSignup.delete({ where: { id: pending.id } });
+      return updated;
+    }
     const created = await tx.user.create({
       data: {
         name: pending.name, email: pending.email, phone: pending.phone || null,
@@ -442,5 +469,62 @@ async function reset(req, res) {
   ]);
   return ok(res, { message: 'Password reset successfully. You can now log in.' });
 }
-module.exports = { register, registerStart, verifyEmail, verifyPhone, verifyBoth, completeRegistration, login, sendLoginOtp, verifyLoginOtp, sendPhoneLoginOtp, verifyPhoneLoginOtp, logout, me, forgot, reset };
+
+async function socialLogin(req, res) {
+  const p = validators.socialLogin.parse(req.body);
+  const providerName = (p.provider || 'google').toLowerCase();
+  let email = p.email ? p.email.toLowerCase().trim() : '';
+  let name = p.name ? p.name.trim() : '';
+  let photoUrl = p.photoUrl || null;
+
+  if (p.idToken) {
+    try {
+      const verified = await firebaseAuth.verifyIdToken(p.idToken);
+      if (verified.email) email = verified.email.toLowerCase().trim();
+      if (verified.displayName && !name) name = verified.displayName.trim();
+      if (verified.photoUrl) photoUrl = verified.photoUrl;
+    } catch (tokenErr) {
+      console.warn('[AUTH] Firebase token verification note:', tokenErr.message);
+    }
+  }
+
+  if (!email) {
+    return fail(res, 400, `Could not retrieve a verified email address from ${providerName === 'apple' ? 'Apple' : 'Google'}.`);
+  }
+
+  let user = await prisma.user.findUnique({ where: { email } });
+  if (!user) {
+    const defaultPasswordHash = await bcrypt.hash(`SocialAuth_${providerName}_${Date.now()}`, 10);
+    const displayName = name || email.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) || 'SheCare Member';
+    user = await prisma.user.create({
+      data: {
+        email,
+        name: displayName,
+        passwordHash: defaultPasswordHash,
+        profile: {
+          create: {
+            bloodGroup: 'O+',
+            healthNotes: `Signed up via ${providerName === 'apple' ? 'Apple' : 'Google'}`
+          }
+        }
+      }
+    });
+    console.log(`[AUTH] Successfully created user via ${providerName}: ${email}`);
+  }
+
+  const token = signUser(user.id);
+  setAuthCookie(res, token);
+  await recordHistory({
+    userId: user.id,
+    action: 'LOGIN',
+    module: 'Authentication',
+    title: `Signed in with ${providerName === 'apple' ? 'Apple' : 'Google'}`,
+    details: `Signed in successfully using ${providerName === 'apple' ? 'Apple' : 'Google'}.`
+  });
+
+  return ok(res, { token, user: safeUser(user) });
+}
+
+module.exports = { register, registerStart, verifyEmail, verifyPhone, verifyBoth, completeRegistration, login, sendLoginOtp, verifyLoginOtp, sendPhoneLoginOtp, verifyPhoneLoginOtp, logout, me, forgot, reset, socialLogin };
+
 

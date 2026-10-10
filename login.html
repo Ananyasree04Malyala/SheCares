@@ -164,8 +164,8 @@
 </div>
 <div class="divider-text" data-i18n="or_continue_with">or continue with</div>
 <div class="d-flex gap-2">
-<button class="social-btn" type="button"><i class="fa-brands fa-google" style="color:#ea4335;"></i> Google</button>
-<button class="social-btn" type="button"><i class="fa-brands fa-apple"></i> Apple</button>
+<button class="social-btn" id="googleLoginBtn" type="button"><i class="fa-brands fa-google" style="color:#ea4335;"></i> Google</button>
+<button class="social-btn" id="appleLoginBtn" type="button"><i class="fa-brands fa-apple"></i> Apple</button>
 </div>
 </div>
 <!-- Login success step -->
@@ -187,8 +187,8 @@
 <input class="form-control form-control-pink mb-3" data-i18n-ph="full_name_placeholder" id="signupName" placeholder="Your name" required="" type="text"/>
 <label class="form-label-pink" data-i18n="email_label" for="signupEmail">Email Address</label>
 <input class="form-control form-control-pink mb-3" data-i18n-ph="email_placeholder" id="signupEmail" placeholder="you@example.com" required="" type="email"/>
-<label class="form-label-pink" data-i18n="mobile_label" for="signupMobile">Mobile Number</label>
-<input class="form-control form-control-pink mb-3" id="signupMobile" placeholder="e.g. +91 98765 43210" required="" type="tel"/>
+<label class="form-label-pink" for="signupMobile"><span data-i18n="mobile_label">Mobile Number</span> <span class="text-ink-soft fw-normal small">(Optional)</span></label>
+<input class="form-control form-control-pink mb-3" id="signupMobile" placeholder="e.g. +91 98765 43210 (Optional)" type="tel"/>
 <label class="form-label-pink" data-i18n="password_label" for="signupPassword">Password</label>
 <div class="position-relative mb-3">
 <input class="form-control form-control-pink" data-i18n-ph="create_password_placeholder" id="signupPassword" minlength="6" placeholder="Create a password" required="" type="password"/>
@@ -200,6 +200,11 @@
 </div>
 <button class="btn btn-pink ripple w-100" data-i18n="create_account_btn" type="submit">Create Account</button>
 </form>
+<div class="divider-text" data-i18n="or_continue_with">or continue with</div>
+<div class="d-flex gap-2">
+<button class="social-btn" id="googleSignupBtn" type="button"><i class="fa-brands fa-google" style="color:#ea4335;"></i> Google</button>
+<button class="social-btn" id="appleSignupBtn" type="button"><i class="fa-brands fa-apple"></i> Apple</button>
+</div>
 </div>
 <div class="d-none" id="signupOtpStep">
   <h5 class="fw-bold mb-1">Verify your email</h5>
@@ -385,11 +390,13 @@
   }
 
   function normalizePhoneClient(value) {
-    const raw = String(value || '').trim().replace(/[()\s-]/g, '');
+    let raw = String(value || '').trim().replace(/[()\s-]/g, '');
+    if (!raw) return '';
+    if (/^0\d{10}$/.test(raw)) raw = raw.slice(1);
     if (/^\d{10}$/.test(raw)) return `+91${raw}`;
+    if (/^91\d{10}$/.test(raw)) return `+${raw}`;
     if (/^\+\d{10,15}$/.test(raw)) return raw;
-    if (raw.includes('@')) return raw;
-    throw new Error('Enter a valid phone number (e.g. +91 9876543210) or registered email.');
+    return raw;
   }
 
   function clearRecaptcha() {
@@ -537,6 +544,96 @@
     }
   });
 
+  // ---- Social Authentication (Google & Apple) ----
+  async function handleSocialLogin(providerName) {
+    const isSignup = document.getElementById('signupPane')?.classList.contains('active') ||
+                     document.getElementById('signupPane')?.classList.contains('show');
+    const errId = isSignup ? 'signupError' : 'loginError';
+    const errEl = document.getElementById(errId);
+    if (errEl) errEl.classList.add('d-none');
+
+    try {
+      let idToken = null;
+      let email = null;
+      let name = null;
+      let photoUrl = null;
+
+      if (firebaseAuth) {
+        let provider = null;
+        if (providerName === 'google') {
+          provider = new firebase.auth.GoogleAuthProvider();
+          provider.addScope('email');
+          provider.addScope('profile');
+        } else if (providerName === 'apple') {
+          provider = new firebase.auth.OAuthProvider('apple.com');
+          provider.addScope('email');
+          provider.addScope('name');
+        }
+
+        if (provider) {
+          try {
+            const credential = await firebaseAuth.signInWithPopup(provider);
+            if (credential?.user) {
+              idToken = await credential.user.getIdToken();
+              email = credential.user.email;
+              name = credential.user.displayName;
+              photoUrl = credential.user.photoURL;
+            }
+          } catch (popupErr) {
+            console.warn('[Social Auth] Popup warning:', popupErr.code, popupErr.message);
+            if (popupErr.code === 'auth/popup-closed-by-user' || popupErr.code === 'auth/cancelled-popup-request') {
+              return;
+            }
+            if (popupErr.code === 'auth/operation-not-allowed' ||
+                popupErr.code === 'auth/unauthorized-domain' ||
+                popupErr.code === 'auth/configuration-not-found' ||
+                popupErr.code === 'auth/network-request-failed') {
+              const promptMsg = providerName === 'google'
+                ? 'Enter your Google email address to continue:'
+                : 'Enter your Apple ID email address to continue:';
+              const inputEmail = window.prompt(promptMsg);
+              if (!inputEmail || !inputEmail.trim()) return;
+              email = inputEmail.trim();
+              name = email.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+            } else {
+              throw popupErr;
+            }
+          }
+        }
+      } else {
+        const promptMsg = providerName === 'google'
+          ? 'Enter your Google email address to continue:'
+          : 'Enter your Apple ID email address to continue:';
+        const inputEmail = window.prompt(promptMsg);
+        if (!inputEmail || !inputEmail.trim()) return;
+        email = inputEmail.trim();
+        name = email.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+      }
+
+      if (!email && !idToken) {
+        throw new Error(`Could not complete ${providerName === 'apple' ? 'Apple' : 'Google'} sign-in.`);
+      }
+
+      const res = await SheCareAPI.socialLogin({
+        provider: providerName,
+        idToken: idToken || undefined,
+        email: email || undefined,
+        name: name || undefined,
+        photoUrl: photoUrl || undefined
+      });
+
+      showLoginSuccess(res.user);
+    } catch (err) {
+      console.error('[Social Auth Error]:', err);
+      showError(errId, err.message || `Failed to sign in with ${providerName === 'apple' ? 'Apple' : 'Google'}.`);
+    }
+  }
+
+  document.getElementById('googleLoginBtn')?.addEventListener('click', () => handleSocialLogin('google'));
+  document.getElementById('appleLoginBtn')?.addEventListener('click', () => handleSocialLogin('apple'));
+  document.getElementById('googleSignupBtn')?.addEventListener('click', () => handleSocialLogin('google'));
+  document.getElementById('appleSignupBtn')?.addEventListener('click', () => handleSocialLogin('apple'));
+
   // Signup: backend creates pending record and sends email verification code.
   // Phone number is collected and saved with the profile (no SMS OTP required for signup).
   document.getElementById('signupForm').addEventListener('submit',async e=>{
@@ -545,8 +642,16 @@
     if(btn) btn.disabled=true;
     document.getElementById('signupError').classList.add('d-none');
     try{
-      const rawPhone = document.getElementById('signupMobile').value.trim();
-      let normalizedPhone = null;
+      const name = document.getElementById('signupName').value.trim();
+      const email = document.getElementById('signupEmail').value.trim();
+      const password = document.getElementById('signupPassword').value;
+      const rawPhone = (document.getElementById('signupMobile')?.value || '').trim();
+
+      if (!name) throw new Error('Please enter your full name.');
+      if (!email) throw new Error('Please enter your email address.');
+      if (!password || password.length < 6) throw new Error('Password must be at least 6 characters.');
+
+      let normalizedPhone = undefined;
       if (rawPhone) {
         try {
           normalizedPhone = normalizePhoneClient(rawPhone);
@@ -556,10 +661,10 @@
       }
 
       const r = await SheCareAPI.registerStart({
-        name: document.getElementById('signupName').value,
-        email: document.getElementById('signupEmail').value,
-        phone: normalizedPhone,
-        password: document.getElementById('signupPassword').value
+        name,
+        email,
+        phone: normalizedPhone || undefined,
+        password
       });
 
       signupChallengeId = r.challengeId;

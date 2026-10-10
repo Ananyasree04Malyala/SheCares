@@ -50,7 +50,11 @@ app.get('*', (req, res) => {
 
 app.use((err,_req,res,_next)=>{
   console.error('Unhandled server error:', err.stack || err.message);
-  if(err.name==='ZodError') return res.status(400).json({success:false,error:'Please check the submitted information.', details: err.errors});
+  if(err.name==='ZodError') {
+    const firstIssue = err.errors && err.errors[0];
+    const msg = firstIssue ? (firstIssue.message || 'Please check the submitted information.') : 'Please check the submitted information.';
+    return res.status(400).json({success:false, error: msg, details: err.errors});
+  }
   if(err.code==='P2002') return res.status(409).json({success:false,error:'A record with one of these unique values already exists.'});
   res.status(500).json({success:false,error: err.message || 'An unexpected server error occurred.', stack: err.stack});
 });
