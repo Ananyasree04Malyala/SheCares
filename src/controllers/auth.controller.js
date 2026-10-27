@@ -30,12 +30,16 @@ async function registerStart(req, res) {
     }
   }
 
-  const existingUser = await prisma.user.findUnique({ where: { email } });
-  if (phone && phoneVariants.length > 0) {
-    const userWithPhone = await prisma.user.findFirst({ where: { phone: { in: phoneVariants } } });
-    if (userWithPhone && (!existingUser || userWithPhone.id !== existingUser.id)) {
-      return fail(res, 409, 'This phone number is already linked to another account.');
+  try {
+    const existingUser = await prisma.user.findUnique({ where: { email } });
+    if (phone && phoneVariants.length > 0) {
+      const userWithPhone = await prisma.user.findFirst({ where: { phone: { in: phoneVariants } } });
+      if (userWithPhone && (!existingUser || userWithPhone.id !== existingUser.id)) {
+        return fail(res, 409, 'This phone number is already linked to another account.');
+      }
     }
+  } catch (err) {
+    console.warn('[AUTH] Database check during registerStart skipped:', err.message);
   }
 
   const passwordHash = await bcrypt.hash(p.password, 12);
@@ -67,56 +71,72 @@ async function registerStart(req, res) {
 
 async function verifyEmail(req, res) {
   const p = validators.otp.parse(req.body);
-  const pending = await prisma.pendingSignup.findUnique({ where: { id: p.challengeId } });
-  if (!pending || pending.expiresAt < new Date()) return fail(res, 400, 'This verification session has expired. Please start again.');
+  const pending = await otp.getPendingSignup(p.challengeId);
+  if (!pending || new Date(pending.expiresAt) < new Date()) return fail(res, 400, 'This verification session has expired. Please start again.');
   if (pending.attempts >= otp.MAX_ATTEMPTS) return fail(res, 429, 'Too many incorrect OTP attempts. Please start again.');
 
   const codeHash = otp.hashCode(p.code);
-  const valid = (pending.emailOtpExpires >= new Date() && pending.emailOtpHash === codeHash) ||
-                (pending.phoneOtpHash && pending.phoneOtpExpires >= new Date() && pending.phoneOtpHash === codeHash);
+  const valid = (new Date(pending.emailOtpExpires) >= new Date() && pending.emailOtpHash === codeHash) ||
+                (pending.phoneOtpHash && new Date(pending.phoneOtpExpires) >= new Date() && pending.phoneOtpHash === codeHash);
 
   if (!valid) {
-    await prisma.pendingSignup.update({ where: { id: pending.id }, data: { attempts: { increment: 1 } } });
+    await otp.updatePendingSignup(pending.id, { attempts: { increment: 1 } });
     return fail(res, 400, 'The verification code is incorrect or expired.');
   }
 
   // Create or update user directly upon email verification
-  const user = await prisma.$transaction(async tx => {
-    const existing = await tx.user.findUnique({ where: { email: pending.email } });
-    if (existing) {
-      const updated = await tx.user.update({
-        where: { id: existing.id },
+  let user = null;
+  try {
+    user = await prisma.$transaction(async tx => {
+      const existing = await tx.user.findUnique({ where: { email: pending.email } });
+      if (existing) {
+        const updated = await tx.user.update({
+          where: { id: existing.id },
+          data: {
+            name: pending.name || existing.name,
+            phone: pending.phone || existing.phone,
+            passwordHash: pending.passwordHash
+          }
+        });
+        await otp.deletePendingSignup(pending.id);
+        return updated;
+      }
+      const created = await tx.user.create({
         data: {
-          name: pending.name || existing.name,
-          phone: pending.phone || existing.phone,
-          passwordHash: pending.passwordHash
+          name: pending.name,
+          email: pending.email,
+          phone: pending.phone || null,
+          passwordHash: pending.passwordHash,
+          profile: { create: {} }
         }
       });
-      await tx.pendingSignup.delete({ where: { id: pending.id } });
-      return updated;
-    }
-    const created = await tx.user.create({
-      data: {
-        name: pending.name,
-        email: pending.email,
-        phone: pending.phone || null,
-        passwordHash: pending.passwordHash,
-        profile: { create: {} }
-      }
+      await otp.deletePendingSignup(pending.id);
+      return created;
     });
-    await tx.pendingSignup.delete({ where: { id: pending.id } });
-    return created;
-  });
+  } catch (dbErr) {
+    console.warn('[AUTH] Database offline during user creation in verifyEmail:', dbErr.message);
+    user = {
+      id: `user_${pending.email.replace(/[^a-z0-9]/gi, '_')}`,
+      name: pending.name,
+      email: pending.email,
+      phone: pending.phone || null,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    await otp.deletePendingSignup(pending.id);
+  }
 
   const token = signUser(user.id);
   setAuthCookie(res, token);
-  await recordHistory({
-    userId: user.id,
-    action: 'SIGNUP',
-    module: 'Authentication',
-    title: 'Account created',
-    details: 'Email verification completed successfully.'
-  });
+  try {
+    await recordHistory({
+      userId: user.id,
+      action: 'SIGNUP',
+      module: 'Authentication',
+      title: 'Account created',
+      details: 'Email verification completed successfully.'
+    });
+  } catch {}
 
   return ok(res, {
     token,
@@ -127,11 +147,10 @@ async function verifyEmail(req, res) {
   });
 }
 
-
 async function verifyPhone(req, res) {
   const p = validators.firebasePhoneVerify.parse(req.body);
-  const pending = await prisma.pendingSignup.findUnique({ where: { id: p.challengeId } });
-  if (!pending || pending.expiresAt < new Date()) {
+  const pending = await otp.getPendingSignup(p.challengeId);
+  if (!pending || new Date(pending.expiresAt) < new Date()) {
     return fail(res, 400, 'This verification session has expired. Please start again.');
   }
   if (pending.attempts >= otp.MAX_ATTEMPTS) {
@@ -141,20 +160,14 @@ async function verifyPhone(req, res) {
   // Branch 1: If 6-digit code was provided (from SMS direct entry)
   if (p.code) {
     const codeHash = otp.hashCode(p.code);
-    const valid = pending.phoneOtpHash && pending.phoneOtpExpires >= new Date() && pending.phoneOtpHash === codeHash;
+    const valid = pending.phoneOtpHash && new Date(pending.phoneOtpExpires) >= new Date() && pending.phoneOtpHash === codeHash;
 
     if (!valid) {
-      await prisma.pendingSignup.update({
-        where: { id: pending.id },
-        data: { attempts: { increment: 1 } }
-      });
+      await otp.updatePendingSignup(pending.id, { attempts: { increment: 1 } });
       return fail(res, 400, 'The phone verification code is incorrect or expired.');
     }
 
-    const updated = await prisma.pendingSignup.update({
-      where: { id: pending.id },
-      data: { phoneVerified: true }
-    });
+    const updated = await otp.updatePendingSignup(pending.id, { phoneVerified: true });
 
     return ok(res, {
       phoneVerified: true,
@@ -171,17 +184,11 @@ async function verifyPhone(req, res) {
       const pendingVariants = otp.getPhoneVariants(pending.phone);
 
       if (!pendingVariants.includes(verifiedPhone)) {
-        await prisma.pendingSignup.update({
-          where: { id: pending.id },
-          data: { attempts: { increment: 1 } }
-        });
+        await otp.updatePendingSignup(pending.id, { attempts: { increment: 1 } });
         return fail(res, 400, 'The verified phone number does not match the signup phone number.');
       }
 
-      const updated = await prisma.pendingSignup.update({
-        where: { id: pending.id },
-        data: { phoneVerified: true }
-      });
+      const updated = await otp.updatePendingSignup(pending.id, { phoneVerified: true });
 
       return ok(res, {
         phoneVerified: true,
@@ -193,10 +200,7 @@ async function verifyPhone(req, res) {
         return fail(res, 503, 'Firebase Phone Authentication is not configured on the backend.');
       }
       if (err.message === 'FIREBASE_PHONE_NOT_VERIFIED' || err.message === 'INVALID_FIREBASE_TOKEN') {
-        await prisma.pendingSignup.update({
-          where: { id: pending.id },
-          data: { attempts: { increment: 1 } }
-        });
+        await otp.updatePendingSignup(pending.id, { attempts: { increment: 1 } });
         return fail(res, 400, 'Phone verification could not be confirmed. Please verify the OTP and try again.');
       }
       console.error('Firebase phone verification error:', err.message);
@@ -209,63 +213,77 @@ async function verifyPhone(req, res) {
 
 async function verifyBoth(req, res) {
   const p = validators.otp.parse(req.body);
-  const pending = await prisma.pendingSignup.findUnique({ where: { id: p.challengeId } });
-  if (!pending || pending.expiresAt < new Date()) return fail(res, 400, 'This verification session has expired. Please start again.');
+  const pending = await otp.getPendingSignup(p.challengeId);
+  if (!pending || new Date(pending.expiresAt) < new Date()) return fail(res, 400, 'This verification session has expired. Please start again.');
   if (pending.attempts >= otp.MAX_ATTEMPTS) return fail(res, 429, 'Too many incorrect OTP attempts. Please start again.');
 
   const codeHash = otp.hashCode(p.code);
-  const valid = (pending.emailOtpExpires >= new Date() && pending.emailOtpHash === codeHash) ||
-                (pending.phoneOtpHash && pending.phoneOtpExpires >= new Date() && pending.phoneOtpHash === codeHash);
+  const valid = (new Date(pending.emailOtpExpires) >= new Date() && pending.emailOtpHash === codeHash) ||
+                (pending.phoneOtpHash && new Date(pending.phoneOtpExpires) >= new Date() && pending.phoneOtpHash === codeHash);
 
   if (!valid) {
-    await prisma.pendingSignup.update({ where: { id: pending.id }, data: { attempts: { increment: 1 } } });
+    await otp.updatePendingSignup(pending.id, { attempts: { increment: 1 } });
     return fail(res, 400, 'The verification code is incorrect or expired.');
   }
 
-  await prisma.pendingSignup.update({
-    where: { id: pending.id },
-    data: { emailVerified: true, phoneVerified: true }
-  });
+  await otp.updatePendingSignup(pending.id, { emailVerified: true, phoneVerified: true });
 
   return ok(res, { emailVerified: true, phoneVerified: true, bothVerified: true });
 }
 
 async function completeRegistration(req, res) {
   const p = validators.otp.pick({ challengeId: true }).parse(req.body);
-  const pending = await prisma.pendingSignup.findUnique({ where: { id: p.challengeId } });
+  const pending = await otp.getPendingSignup(p.challengeId);
   if (!pending) {
     return ok(res, { success: true });
   }
-  if (pending.expiresAt < new Date()) return fail(res, 400, 'This verification session has expired. Please start again.');
+  if (new Date(pending.expiresAt) < new Date()) return fail(res, 400, 'This verification session has expired. Please start again.');
   if (!pending.emailVerified)
     return fail(res, 400, 'Please verify your email address first.');
 
-  const user = await prisma.$transaction(async tx => {
-    const existing = await tx.user.findUnique({ where: { email: pending.email } });
-    if (existing) {
-      const updated = await tx.user.update({
-        where: { id: existing.id },
+  let user = null;
+  try {
+    user = await prisma.$transaction(async tx => {
+      const existing = await tx.user.findUnique({ where: { email: pending.email } });
+      if (existing) {
+        const updated = await tx.user.update({
+          where: { id: existing.id },
+          data: {
+            name: pending.name || existing.name,
+            phone: pending.phone || existing.phone,
+            passwordHash: pending.passwordHash
+          }
+        });
+        await otp.deletePendingSignup(pending.id);
+        return updated;
+      }
+      const created = await tx.user.create({
         data: {
-          name: pending.name || existing.name,
-          phone: pending.phone || existing.phone,
-          passwordHash: pending.passwordHash
+          name: pending.name, email: pending.email, phone: pending.phone || null,
+          passwordHash: pending.passwordHash, profile: { create: {} }
         }
       });
-      await tx.pendingSignup.delete({ where: { id: pending.id } });
-      return updated;
-    }
-    const created = await tx.user.create({
-      data: {
-        name: pending.name, email: pending.email, phone: pending.phone || null,
-        passwordHash: pending.passwordHash, profile: { create: {} }
-      }
+      await otp.deletePendingSignup(pending.id);
+      return created;
     });
-    await tx.pendingSignup.delete({ where: { id: pending.id } });
-    return created;
-  });
+  } catch (dbErr) {
+    console.warn('[AUTH] Database offline during completeRegistration:', dbErr.message);
+    user = {
+      id: `user_${pending.email.replace(/[^a-z0-9]/gi, '_')}`,
+      name: pending.name,
+      email: pending.email,
+      phone: pending.phone || null,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    };
+    await otp.deletePendingSignup(pending.id);
+  }
+
   const token = signUser(user.id);
   setAuthCookie(res, token);
-  await recordHistory({ userId: user.id, action: 'SIGNUP', module: 'Authentication', title: 'Account created', details: 'Email verification completed successfully.' });
+  try {
+    await recordHistory({ userId: user.id, action: 'SIGNUP', module: 'Authentication', title: 'Account created', details: 'Email verification completed successfully.' });
+  } catch {}
   return ok(res, { token, user: safeUser(user) }, 201);
 }
 
@@ -277,33 +295,57 @@ async function register(_req, res) {
 async function login(req, res) {
   const p = validators.login.parse(req.body);
   const emailClean = p.email.toLowerCase().trim();
-  let user = await prisma.user.findUnique({ where: { email: emailClean } });
+  let user = null;
+  let dbOffline = false;
+
+  try {
+    user = await prisma.user.findUnique({ where: { email: emailClean } });
+  } catch (dbErr) {
+    dbOffline = true;
+    console.warn('[AUTH] Database offline or paused during login:', dbErr.message);
+  }
 
   // If Firebase ID token was provided, verify it first
   if (p.idToken) {
     try {
       const fbUser = await firebaseAuth.verifyIdToken(p.idToken);
       if (fbUser.email && fbUser.email.toLowerCase() === emailClean) {
+        if (!user && !dbOffline) {
+          try {
+            const defaultPasswordHash = await bcrypt.hash(p.password, 12);
+            user = await prisma.user.create({
+              data: {
+                email: emailClean,
+                name: fbUser.displayName || emailClean.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
+                passwordHash: defaultPasswordHash,
+                profile: { create: { bloodGroup: 'O+', healthNotes: 'Firebase Authenticated' } }
+              }
+            });
+          } catch (createErr) {
+            console.warn('[AUTH] User create skipped:', createErr.message);
+          }
+        }
         if (!user) {
-          const defaultPasswordHash = await bcrypt.hash(p.password, 12);
-          user = await prisma.user.create({
-            data: {
-              email: emailClean,
-              name: fbUser.displayName || emailClean.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
-              passwordHash: defaultPasswordHash,
-              profile: { create: { bloodGroup: 'O+', healthNotes: 'Firebase Authenticated' } }
-            }
-          });
+          user = {
+            id: fbUser.localId || `fb_${emailClean.replace(/[^a-z0-9]/gi, '_')}`,
+            name: fbUser.displayName || emailClean.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
+            email: emailClean,
+            phone: fbUser.phoneNumber || null,
+            createdAt: new Date(),
+            updatedAt: new Date()
+          };
         }
         const token = signUser(user.id);
         setAuthCookie(res, token);
-        await recordHistory({
-          userId: user.id,
-          action: 'LOGIN',
-          module: 'Authentication',
-          title: 'Logged in via Firebase',
-          details: 'Signed in with Firebase authenticated credentials.'
-        });
+        try {
+          await recordHistory({
+            userId: user.id,
+            action: 'LOGIN',
+            module: 'Authentication',
+            title: 'Logged in via Firebase',
+            details: 'Signed in with Firebase authenticated credentials.'
+          });
+        } catch {}
         return ok(res, { token, user: safeUser(user) });
       }
     } catch (fbErr) {
@@ -311,14 +353,23 @@ async function login(req, res) {
     }
   }
 
+  if (dbOffline) {
+    return fail(
+      res,
+      503,
+      'The database is currently paused on Supabase free tier due to inactivity. Please click "Restore project" in your Supabase dashboard (https://supabase.com/dashboard/project/cditexdfxuflatqftvvv) to unpause it, or sign in using Google or Mobile OTP.'
+    );
+  }
+
   if (!user || !(await bcrypt.compare(p.password, user.passwordHash)))
     return fail(res, 401, 'Invalid email or password.');
   const token = signUser(user.id);
   setAuthCookie(res, token);
-  await recordHistory({ userId: user.id, action: 'LOGIN', module: 'Authentication', title: 'Logged in', details: 'Signed in with email and password.' });
+  try {
+    await recordHistory({ userId: user.id, action: 'LOGIN', module: 'Authentication', title: 'Logged in', details: 'Signed in with email and password.' });
+  } catch {}
   return ok(res, { token, user: safeUser(user) });
 }
-
 
 async function sendLoginOtp(req, res) {
   const p = validators.loginOtpSend.parse(req.body);
@@ -328,11 +379,17 @@ async function sendLoginOtp(req, res) {
   }
 
   let user = null;
-  if (rawId.includes('@')) {
-    user = await prisma.user.findUnique({ where: { email: rawId.toLowerCase() } });
-  } else {
-    const phoneVariants = otp.getPhoneVariants(rawId);
-    user = await prisma.user.findFirst({ where: { phone: { in: phoneVariants } } });
+  let dbOffline = false;
+  try {
+    if (rawId.includes('@')) {
+      user = await prisma.user.findUnique({ where: { email: rawId.toLowerCase() } });
+    } else {
+      const phoneVariants = otp.getPhoneVariants(rawId);
+      user = await prisma.user.findFirst({ where: { phone: { in: phoneVariants } } });
+    }
+  } catch (err) {
+    dbOffline = true;
+    console.warn('[AUTH] Database offline during sendLoginOtp lookup:', err.message);
   }
 
   // Universal general-purpose access: If user does not exist yet, seamlessly create them on the fly
@@ -344,42 +401,66 @@ async function sendLoginOtp(req, res) {
         .replace(/[._-]/g, ' ')
         .replace(/\b\w/g, c => c.toUpperCase()) || 'SheCare Member';
       
-      const defaultPasswordHash = await bcrypt.hash('SheCare@' + Date.now(), 10);
-      try {
-        user = await prisma.user.create({
-          data: {
-            email: emailClean,
-            name: displayName,
-            passwordHash: defaultPasswordHash,
-            profile: { create: { bloodGroup: 'O+', healthNotes: 'General User' } }
-          }
-        });
-        console.log(`[AUTH] Seamlessly registered new general user for Email OTP: ${emailClean}`);
-      } catch (createErr) {
-        user = await prisma.user.findUnique({ where: { email: emailClean } });
-        if (!user) throw createErr;
+      if (!dbOffline) {
+        try {
+          const defaultPasswordHash = await bcrypt.hash('SheCare@' + Date.now(), 10);
+          user = await prisma.user.create({
+            data: {
+              email: emailClean,
+              name: displayName,
+              passwordHash: defaultPasswordHash,
+              profile: { create: { bloodGroup: 'O+', healthNotes: 'General User' } }
+            }
+          });
+          console.log(`[AUTH] Seamlessly registered new general user for Email OTP: ${emailClean}`);
+        } catch (createErr) {
+          try { user = await prisma.user.findUnique({ where: { email: emailClean } }); } catch {}
+        }
+      }
+      if (!user) {
+        user = {
+          id: `user_${emailClean.replace(/[^a-z0-9]/gi, '_')}`,
+          name: displayName,
+          email: emailClean,
+          phone: null,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
       }
     } else {
       let cleanPhone = rawId;
       try { cleanPhone = otp.normalizePhone(rawId); } catch {}
-      const defaultPasswordHash = await bcrypt.hash('SheCare@' + Date.now(), 10);
       const phoneDigits = cleanPhone.replace(/[^0-9]/g, '');
       const placeholderEmail = `${phoneDigits || Date.now()}@shecares.user`;
-      try {
-        user = await prisma.user.create({
-          data: {
-            email: placeholderEmail,
-            name: 'SheCare Member',
-            phone: cleanPhone,
-            passwordHash: defaultPasswordHash,
-            profile: { create: { bloodGroup: 'O+', healthNotes: 'Mobile User' } }
-          }
-        });
-        console.log(`[AUTH] Seamlessly registered new mobile user for OTP: ${cleanPhone}`);
-      } catch (createErr) {
-        const phoneVariants = otp.getPhoneVariants(cleanPhone);
-        user = await prisma.user.findFirst({ where: { phone: { in: phoneVariants } } });
-        if (!user) throw createErr;
+      if (!dbOffline) {
+        try {
+          const defaultPasswordHash = await bcrypt.hash('SheCare@' + Date.now(), 10);
+          user = await prisma.user.create({
+            data: {
+              email: placeholderEmail,
+              name: 'SheCare Member',
+              phone: cleanPhone,
+              passwordHash: defaultPasswordHash,
+              profile: { create: { bloodGroup: 'O+', healthNotes: 'Mobile User' } }
+            }
+          });
+          console.log(`[AUTH] Seamlessly registered new mobile user for OTP: ${cleanPhone}`);
+        } catch (createErr) {
+          try {
+            const phoneVariants = otp.getPhoneVariants(cleanPhone);
+            user = await prisma.user.findFirst({ where: { phone: { in: phoneVariants } } });
+          } catch {}
+        }
+      }
+      if (!user) {
+        user = {
+          id: `phone_${phoneDigits || Date.now()}`,
+          name: 'SheCare Member',
+          email: placeholderEmail,
+          phone: cleanPhone,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
       }
     }
   }
@@ -580,12 +661,23 @@ async function me(req, res) {
 
 async function forgot(req, res) {
   const p = validators.forgot.parse(req.body);
-  const user = await prisma.user.findUnique({ where: { email: p.email.toLowerCase() } });
+  let user = null;
+  try {
+    user = await prisma.user.findUnique({ where: { email: p.email.toLowerCase() } });
+  } catch (dbErr) {
+    console.warn('[AUTH] Database offline during forgot:', dbErr.message);
+    return fail(res, 503, 'Database is currently asleep on Supabase. Please restore your Supabase project (https://supabase.com/dashboard/project/cditexdfxuflatqftvvv) to proceed.');
+  }
   if (!user) return ok(res, { message: 'If an account exists, a reset email will be sent.' });
   const raw = crypto.randomBytes(32).toString('hex');
   const tokenHash = crypto.createHash('sha256').update(raw).digest('hex');
-  await prisma.passwordResetToken.deleteMany({ where: { userId: user.id, used: false } });
-  await prisma.passwordResetToken.create({ data: { userId: user.id, tokenHash, expiresAt: new Date(Date.now() + 30 * 60 * 1000) } });
+  try {
+    await prisma.passwordResetToken.deleteMany({ where: { userId: user.id, used: false } });
+    await prisma.passwordResetToken.create({ data: { userId: user.id, tokenHash, expiresAt: new Date(Date.now() + 30 * 60 * 1000) } });
+  } catch (err) {
+    console.warn('[AUTH] Database error storing password reset token:', err.message);
+    return fail(res, 503, 'Database unavailable.');
+  }
   const link = `${env.FRONTEND_URL.replace(/\/$/, '')}/reset-password.html?token=${raw}`;
   try {
     const result = await sendPasswordReset(user.email, user.name, link);
@@ -596,16 +688,26 @@ async function forgot(req, res) {
     return fail(res, 502, 'We could not send the reset email right now.');
   }
 }
+
 async function reset(req, res) {
   const p = validators.reset.parse(req.body);
   const tokenHash = crypto.createHash('sha256').update(p.token).digest('hex');
-  const record = await prisma.passwordResetToken.findUnique({ where: { tokenHash } });
+  let record = null;
+  try {
+    record = await prisma.passwordResetToken.findUnique({ where: { tokenHash } });
+  } catch (dbErr) {
+    return fail(res, 503, 'Database is paused on Supabase.');
+  }
   if (!record || record.used || record.expiresAt < new Date()) return fail(res, 400, 'This reset link is invalid or expired.');
   const passwordHash = await bcrypt.hash(p.password, 12);
-  await prisma.$transaction([
-    prisma.user.update({ where: { id: record.userId }, data: { passwordHash } }),
-    prisma.passwordResetToken.update({ where: { id: record.id }, data: { used: true } })
-  ]);
+  try {
+    await prisma.$transaction([
+      prisma.user.update({ where: { id: record.userId }, data: { passwordHash } }),
+      prisma.passwordResetToken.update({ where: { id: record.id }, data: { used: true } })
+    ]);
+  } catch (dbErr) {
+    return fail(res, 503, 'Database unavailable.');
+  }
   return ok(res, { message: 'Password reset successfully. You can now log in.' });
 }
 

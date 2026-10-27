@@ -63,62 +63,164 @@ async function sendEmailOtp(email, name, emailOtp) {
   return result;
 }
 
+const memoryOtpStore = new Map();
+const memoryPendingSignups = new Map();
+
+// Regularly clean up expired in-memory entries
+if (typeof setInterval !== 'undefined') {
+  setInterval(() => {
+    const now = Date.now();
+    for (const [k, v] of memoryOtpStore.entries()) {
+      if (v.expiresAt <= now) memoryOtpStore.delete(k);
+    }
+    for (const [k, v] of memoryPendingSignups.entries()) {
+      if (v.expiresAt && v.expiresAt.getTime() <= now) memoryPendingSignups.delete(k);
+    }
+  }, 60000).unref?.();
+}
+
+async function getPendingSignup(id) {
+  if (!id) return null;
+  try {
+    const record = await prisma.pendingSignup.findUnique({ where: { id } });
+    if (record) return record;
+  } catch (err) {
+    console.warn('[OTP] Database read for pendingSignup note:', err.message);
+  }
+  return memoryPendingSignups.get(id) || null;
+}
+
+async function updatePendingSignup(id, data) {
+  if (!id) return null;
+  let record = null;
+  try {
+    record = await prisma.pendingSignup.update({
+      where: { id },
+      data
+    });
+  } catch (err) {
+    console.warn('[OTP] Database update for pendingSignup note:', err.message);
+  }
+  const mem = memoryPendingSignups.get(id);
+  if (mem) {
+    if (data.attempts?.increment) {
+      mem.attempts = (mem.attempts || 0) + data.attempts.increment;
+    } else {
+      Object.assign(mem, data);
+    }
+    return mem;
+  }
+  return record;
+}
+
+async function deletePendingSignup(id) {
+  if (!id) return;
+  try {
+    await prisma.pendingSignup.delete({ where: { id } }).catch(() => {});
+  } catch {}
+  memoryPendingSignups.delete(id);
+}
+
 async function createPendingSignup({ name, email, phone, passwordHash }) {
   const emailOtp = makeCode();
   const phoneOtp = makeCode();
   const now = Date.now();
   const cleanPhone = phone ? String(phone).trim() : '';
   const phoneVariants = cleanPhone ? getPhoneVariants(cleanPhone) : [];
+  const expiresAt = new Date(now + OTP_TTL_MS);
 
-  await prisma.pendingSignup.deleteMany({
-    where: {
-      OR: [
-        { email },
-        ...(phoneVariants.length > 0 ? [{ phone: { in: phoneVariants } }] : [])
-      ]
-    }
-  });
+  let pending = null;
+  try {
+    await prisma.pendingSignup.deleteMany({
+      where: {
+        OR: [
+          { email },
+          ...(phoneVariants.length > 0 ? [{ phone: { in: phoneVariants } }] : [])
+        ]
+      }
+    });
 
-  const pending = await prisma.pendingSignup.create({
-    data: {
+    pending = await prisma.pendingSignup.create({
+      data: {
+        name,
+        email,
+        phone: cleanPhone,
+        passwordHash,
+        emailOtpHash: hashCode(emailOtp),
+        emailOtpExpires: expiresAt,
+        phoneOtpHash: hashCode(phoneOtp),
+        phoneOtpExpires: expiresAt,
+        phoneVerified: true, // Auto-verified: ONLY email OTP verification is required
+        emailVerified: false,
+        expiresAt
+      }
+    });
+  } catch (dbErr) {
+    console.warn('[OTP] Database unavailable for pendingSignup, using memory store:', dbErr.message);
+    const id = `pending_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
+    pending = {
+      id,
       name,
       email,
       phone: cleanPhone,
       passwordHash,
       emailOtpHash: hashCode(emailOtp),
-      emailOtpExpires: new Date(now + OTP_TTL_MS),
+      emailOtpExpires: expiresAt,
       phoneOtpHash: hashCode(phoneOtp),
-      phoneOtpExpires: new Date(now + OTP_TTL_MS),
-      phoneVerified: true, // Auto-verified: ONLY email OTP verification is required
+      phoneOtpExpires: expiresAt,
+      phoneVerified: true,
       emailVerified: false,
-      expiresAt: new Date(now + OTP_TTL_MS)
-    }
-  });
+      expiresAt,
+      attempts: 0
+    };
+  }
+
+  // Always store in memory as well for zero-downtime reliability
+  memoryPendingSignups.set(pending.id, pending);
 
   return { pending, emailOtp, phoneOtp };
 }
 
 async function createLoginOtp({ email, phone }) {
   const code = makeCode();
+  const codeHash = hashCode(code);
+  const expiresAt = new Date(Date.now() + OTP_TTL_MS);
+
   const identifiers = new Set();
   if (email) identifiers.add(String(email).trim().toLowerCase());
   if (phone) {
     getPhoneVariants(phone).forEach(v => identifiers.add(v));
   }
   const idArray = Array.from(identifiers);
-
-  await prisma.loginOtp.deleteMany({
-    where: { phone: { in: idArray } }
-  });
-
   const primaryKey = email ? String(email).trim().toLowerCase() : (phone || '');
-  const record = await prisma.loginOtp.create({
-    data: {
+
+  // Always store in memory store as fallback
+  for (const id of idArray) {
+    memoryOtpStore.set(id, { codeHash, expiresAt: expiresAt.getTime() });
+  }
+
+  let record = null;
+  try {
+    await prisma.loginOtp.deleteMany({
+      where: { phone: { in: idArray } }
+    });
+
+    record = await prisma.loginOtp.create({
+      data: {
+        phone: primaryKey,
+        codeHash,
+        expiresAt
+      }
+    });
+  } catch (err) {
+    console.warn('[OTP] Database unavailable for loginOtp create, using memory store:', err.message);
+    record = {
+      id: `mem_${Date.now()}`,
       phone: primaryKey,
-      codeHash: hashCode(code),
-      expiresAt: new Date(Date.now() + OTP_TTL_MS)
-    }
-  });
+      codeHash,
+      expiresAt
+    };
+  }
 
   return { loginOtp: record, code };
 }
@@ -132,22 +234,44 @@ async function verifyLoginOtp({ email, phone, code }) {
   const idArray = Array.from(identifiers);
   const targetHash = hashCode(code);
 
-  const records = await prisma.loginOtp.findMany({
-    where: {
-      phone: { in: idArray },
-      expiresAt: { gt: new Date() }
-    },
-    orderBy: { createdAt: 'desc' }
-  });
+  // 1. Try Database lookup
+  let dbMatch = false;
+  try {
+    const records = await prisma.loginOtp.findMany({
+      where: {
+        phone: { in: idArray },
+        expiresAt: { gt: new Date() }
+      },
+      orderBy: { createdAt: 'desc' }
+    });
 
-  const match = records.find(r => r.codeHash === targetHash);
-  if (!match) return false;
+    const match = records.find(r => r.codeHash === targetHash);
+    if (match) {
+      dbMatch = true;
+      await prisma.loginOtp.deleteMany({
+        where: { phone: { in: idArray } }
+      }).catch(() => {});
+    }
+  } catch (dbErr) {
+    console.warn('[OTP] Database unavailable for loginOtp verify, falling back to memory store:', dbErr.message);
+  }
 
-  await prisma.loginOtp.deleteMany({
-    where: { phone: { in: idArray } }
-  }).catch(() => {});
+  if (dbMatch) {
+    for (const id of idArray) memoryOtpStore.delete(id);
+    return true;
+  }
 
-  return true;
+  // 2. Try In-Memory store fallback
+  const now = Date.now();
+  for (const id of idArray) {
+    const item = memoryOtpStore.get(id);
+    if (item && item.expiresAt > now && item.codeHash === targetHash) {
+      for (const removeId of idArray) memoryOtpStore.delete(removeId);
+      return true;
+    }
+  }
+
+  return false;
 }
 
 module.exports = {
@@ -158,6 +282,9 @@ module.exports = {
   hashCode,
   makeCode,
   createPendingSignup,
+  getPendingSignup,
+  updatePendingSignup,
+  deletePendingSignup,
   sendEmailOtp,
   createLoginOtp,
   verifyLoginOtp

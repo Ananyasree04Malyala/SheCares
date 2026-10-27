@@ -56,6 +56,12 @@ app.use((err,_req,res,_next)=>{
     return res.status(400).json({success:false, error: msg, details: err.errors});
   }
   if(err.code==='P2002') return res.status(409).json({success:false,error:'A record with one of these unique values already exists.'});
+  if (err.message && (err.message.includes('tenant/user') || err.message.includes('cditexdfxuflatqftvvv') || (err.message.includes('ENOTFOUND') && err.message.includes('postgres')))) {
+    return res.status(503).json({
+      success: false,
+      error: 'The database is currently paused on Supabase free tier due to inactivity. Please restore the project at https://supabase.com/dashboard/project/cditexdfxuflatqftvvv or log in using Google, Apple, or Mobile OTP.'
+    });
+  }
   res.status(500).json({success:false,error: err.message || 'An unexpected server error occurred.', stack: err.stack});
 });
 if (require.main === module) {

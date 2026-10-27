@@ -476,9 +476,26 @@
     window.SheCareAPI.me().then(() => { window.location.href = '/dashboard.html'; }).catch(() => {});
   }
 
-  function showError(id, message){
-    const el=document.getElementById(id);
-    if(el){el.textContent=message;el.classList.remove('d-none');}
+  function showError(id, message) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const msg = String(message || '');
+    if (msg.includes('cditexdfxuflatqftvvv') || msg.includes('tenant/user') || msg.includes('paused') || msg.includes('ENOTFOUND') || msg.includes('Supabase')) {
+      el.innerHTML = `
+        <div class="p-2 text-start">
+          <div class="fw-bold mb-1 text-danger"><i class="fa-solid fa-triangle-exclamation me-1"></i> Supabase Database is Paused</div>
+          <div class="small mb-2 text-dark">Your Supabase PostgreSQL project went to sleep due to 7 days of inactivity on the free tier:</div>
+          <a href="https://supabase.com/dashboard/project/cditexdfxuflatqftvvv" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-danger text-white fw-semibold w-100 mb-2 shadow-sm">
+            <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> 1-Click Restore Supabase Project
+          </a>
+          <div class="small text-muted text-center">Or continue using <strong>Google</strong>, <strong>Apple</strong>, or <strong>Mobile OTP</strong> which are active now!</div>
+        </div>`;
+    } else if (/<[a-z][\s\S]*>/i.test(msg)) {
+      el.innerHTML = msg;
+    } else {
+      el.textContent = msg;
+    }
+    el.classList.remove('d-none');
   }
 
   function showLoginSuccess(user){
