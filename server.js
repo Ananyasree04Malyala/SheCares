@@ -16,10 +16,12 @@ let lastDbCheck = 0;
 let cachedDbStatus = 'disconnected';
 app.get(['/api/health','/health'], async (_req, res) => {
   const now = Date.now();
-  if (now - lastDbCheck > 15000) {
+  if (now - lastDbCheck > 30000) {
     lastDbCheck = now;
     try {
-      await prisma.$queryRaw`SELECT 1`;
+      const probe = prisma.$queryRaw`SELECT 1`;
+      const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error('DB_TIMEOUT')), 800));
+      await Promise.race([probe, timeout]);
       cachedDbStatus = 'connected';
     } catch {
       cachedDbStatus = 'disconnected';
