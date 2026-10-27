@@ -28,10 +28,13 @@ const validators = {
     photoUrl: z.string().optional().nullable().or(z.literal(''))
   }),
   loginOtpVerify: z.object({
-    email: email.optional(),
-    phone: z.string().optional(),
-    code: otp
-  }).refine(d => Boolean(d.email || d.phone), { message: 'Provide an email address or mobile number.' }),
+    email: z.string().optional().nullable().or(z.literal('')),
+    phone: z.string().optional().nullable().or(z.literal('')),
+    code: z.string().trim().optional().nullable().or(z.literal('')),
+    idToken: z.string().optional().nullable().or(z.literal(''))
+  }).refine(d => Boolean(d.idToken || ((d.email || d.phone) && d.code)), {
+    message: 'Provide an email address or mobile number with verification code, or Firebase verification.'
+  }),
   phoneLoginStart: z.object({
     phone: z.string().optional(),
     email: email.optional()
@@ -40,18 +43,22 @@ const validators = {
     phone: z.string().optional(),
     email: email.optional(),
     code: otp.optional(),
-    idToken: z.string().min(50).max(10000).optional()
+    idToken: z.string().min(20).max(10000).optional()
   }).refine(d => Boolean(d.idToken || ((d.phone || d.email) && d.code)), {
     message: 'Provide identifier and code or Firebase verification.'
   }),
   firebasePhoneLoginVerify: z.object({
     phone: phone.optional(),
     code: otp.optional(),
-    idToken: z.string().min(50).max(10000).optional()
+    idToken: z.string().min(20).max(10000).optional()
   }).refine(d => Boolean(d.idToken || (d.phone && d.code)), {
     message: 'Provide phone and code or Firebase verification.'
   }),
-  login: z.object({ email, password: z.string().min(1).max(128) }),
+  login: z.object({
+    email,
+    password: z.string().min(1).max(128),
+    idToken: z.string().optional().nullable().or(z.literal(''))
+  }),
 
   forgot: z.object({ email }),
   reset: z.object({ token: z.string().min(20).max(300), password }),
