@@ -27,8 +27,13 @@ async function getProviders(req, res) {
 
 async function resolveUserId(req) {
   if (req.userId) return req.userId;
-  const defaultUser = await prisma.user.findFirst({ select: { id: true } });
-  return defaultUser ? defaultUser.id : null;
+  try {
+    const defaultUser = await prisma.user.findFirst({ select: { id: true } });
+    if (defaultUser) return defaultUser.id;
+  } catch (err) {
+    console.warn('[WEARABLES] resolveUserId database fallback:', err.message);
+  }
+  return 'guest_user';
 }
 
 /**
@@ -39,26 +44,30 @@ async function getStatus(req, res) {
   try {
     const userId = await resolveUserId(req);
     const isDemo = req.query.demo === 'true';
-
     const providers = Object.values(WEARABLE_PROVIDERS);
 
-    if (!userId) {
-      // Unauthenticated visitor and no user exists: return available providers and empty state
-      return ok(res, {
-        providers,
-        connections: [],
-        connectedCount: 0,
-        lastSyncedAt: null,
-        latestMetrics: {},
-        activeAlerts: [],
-        isDemoActive: false
-      });
-    }
+    let connections = [];
+    let activeAlerts = [];
+    let latest = {};
 
-    const connections = await prisma.wearableConnection.findMany({
-      where: { userId, isDemo },
-      orderBy: { updatedAt: 'desc' }
-    });
+    try {
+      if (userId && userId !== 'guest_user') {
+        connections = await prisma.wearableConnection.findMany({
+          where: { userId, isDemo },
+          orderBy: { updatedAt: 'desc' }
+        });
+
+        activeAlerts = await prisma.wearableAlert.findMany({
+          where: { userId, isDismissed: false },
+          orderBy: { triggeredAt: 'desc' },
+          take: 10
+        });
+
+        latest = await WearableSyncService.getLatestMetrics(userId, isDemo);
+      }
+    } catch (dbErr) {
+      console.warn('[WEARABLES] Database notice in getStatus:', dbErr.message);
+    }
 
     const mappedConnections = connections.map(c => {
       if (c.provider === 'WEAR_OS' && c.deviceName && c.deviceName.toLowerCase().includes('noise')) {
@@ -67,13 +76,6 @@ async function getStatus(req, res) {
       return c;
     });
 
-    const activeAlerts = await prisma.wearableAlert.findMany({
-      where: { userId, isDismissed: false },
-      orderBy: { triggeredAt: 'desc' },
-      take: 10
-    });
-
-    const latest = await WearableSyncService.getLatestMetrics(userId, isDemo);
     const connectedCount = mappedConnections.filter(c => c.status === 'CONNECTED').length;
     const lastSyncedAt = mappedConnections.length > 0 ? mappedConnections[0].lastSyncedAt : null;
 
@@ -82,12 +84,20 @@ async function getStatus(req, res) {
       connections: mappedConnections,
       connectedCount,
       lastSyncedAt,
-      latestMetrics: latest,
-      activeAlerts,
+      latestMetrics: latest || {},
+      activeAlerts: activeAlerts || [],
       isDemoActive: isDemo || mappedConnections.some(c => c.provider === 'DEMO_SIMULATOR' && c.status === 'CONNECTED')
     });
   } catch (err) {
-    return fail(res, 500, err.message);
+    return ok(res, {
+      providers: Object.values(WEARABLE_PROVIDERS),
+      connections: [],
+      connectedCount: 0,
+      lastSyncedAt: null,
+      latestMetrics: {},
+      activeAlerts: [],
+      isDemoActive: false
+    });
   }
 }
 

@@ -30,8 +30,147 @@ function actionDetails(type,item){
   if(type==='emergency') return item.phone || null;
   return null;
 }
-function createHandler(type){return async(req,res)=>{const cfg=models[type];const p=cfg.validator.parse(req.body);const data={...p,userId:req.userId};const item=await prisma[cfg.model].create({data});await recordHistory({userId:req.userId,action:'CREATE',module:cfg.label,title:historyTitle(type,item),details:actionDetails(type,item),entityId:item.id});return ok(res,item,201)}}
-function listHandler(type){return async(req,res)=>{const cfg=models[type];let orderBy;if(type==='period')orderBy={periodStart:'desc'};else if(type==='reminder'||type==='appointment'||type==='emergency'||type==='medicine')orderBy={createdAt:'desc'};else orderBy={recordedAt:'desc'};const item=await prisma[cfg.model].findMany({where:{userId:req.userId},orderBy});return ok(res,item)}}
-function updateHandler(type){return async(req,res)=>{const cfg=models[type];const p=cfg.validator.partial().parse(req.body);const exists=await prisma[cfg.model].findFirst({where:{id:idParam(req),userId:req.userId}});if(!exists)return fail(res,404,'Record not found.');const item=await prisma[cfg.model].update({where:{id:idParam(req)},data:p});await recordHistory({userId:req.userId,action:'UPDATE',module:cfg.label,title:`${cfg.label} updated`,details:historyTitle(type,item),entityId:item.id});return ok(res,item)}}
-function deleteHandler(type){return async(req,res)=>{const cfg=models[type];const exists=await prisma[cfg.model].findFirst({where:{id:idParam(req),userId:req.userId}});if(!exists)return fail(res,404,'Record not found.');await prisma[cfg.model].delete({where:{id:idParam(req)}});await recordHistory({userId:req.userId,action:'DELETE',module:cfg.label,title:`${cfg.label} deleted`,details:historyTitle(type,exists),entityId:exists.id});return ok(res,{deleted:true})}}
-module.exports={createHandler,listHandler,updateHandler,deleteHandler};
+const memoryRecords = new Map();
+
+function getMemKey(type, userId) {
+  return `${type}_${userId || 'default'}`;
+}
+
+function getMemList(type, userId) {
+  const key = getMemKey(type, userId);
+  if (!memoryRecords.has(key)) {
+    memoryRecords.set(key, []);
+  }
+  return memoryRecords.get(key);
+}
+
+function createHandler(type) {
+  return async (req, res) => {
+    const cfg = models[type];
+    const p = cfg.validator.parse(req.body);
+    const data = { ...p, userId: req.userId };
+    let item = null;
+
+    try {
+      item = await prisma[cfg.model].create({ data });
+    } catch (err) {
+      console.warn(`[GENERIC ${type}] Database unavailable for create, saving to memory:`, err.message);
+      item = {
+        id: `mem_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+        ...data,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        recordedAt: data.recordedAt || new Date()
+      };
+    }
+
+    const list = getMemList(type, req.userId);
+    list.unshift(item);
+
+    try {
+      await recordHistory({
+        userId: req.userId,
+        action: 'CREATE',
+        module: cfg.label,
+        title: historyTitle(type, item),
+        details: actionDetails(type, item),
+        entityId: item.id
+      });
+    } catch {}
+
+    return ok(res, item, 201);
+  };
+}
+
+function listHandler(type) {
+  return async (req, res) => {
+    const cfg = models[type];
+    let orderBy;
+    if (type === 'period') orderBy = { periodStart: 'desc' };
+    else if (type === 'reminder' || type === 'appointment' || type === 'emergency' || type === 'medicine')
+      orderBy = { createdAt: 'desc' };
+    else orderBy = { recordedAt: 'desc' };
+
+    try {
+      const items = await prisma[cfg.model].findMany({ where: { userId: req.userId }, orderBy });
+      if (Array.isArray(items)) {
+        memoryRecords.set(getMemKey(type, req.userId), items);
+        return ok(res, items);
+      }
+    } catch (err) {
+      console.warn(`[GENERIC ${type}] Database unavailable for list, returning memory cache:`, err.message);
+    }
+
+    const cached = getMemList(type, req.userId);
+    return ok(res, cached);
+  };
+}
+
+function updateHandler(type) {
+  return async (req, res) => {
+    const cfg = models[type];
+    const p = cfg.validator.partial().parse(req.body);
+    const targetId = idParam(req);
+    let item = null;
+
+    try {
+      const exists = await prisma[cfg.model].findFirst({ where: { id: targetId, userId: req.userId } });
+      if (exists) {
+        item = await prisma[cfg.model].update({ where: { id: targetId }, data: p });
+      }
+    } catch (err) {
+      console.warn(`[GENERIC ${type}] Database unavailable for update, updating memory:`, err.message);
+    }
+
+    const list = getMemList(type, req.userId);
+    const idx = list.findIndex(i => i.id === targetId);
+    if (idx !== -1) {
+      list[idx] = { ...list[idx], ...p, updatedAt: new Date() };
+      if (!item) item = list[idx];
+    }
+
+    if (!item) return fail(res, 404, 'Record not found.');
+
+    try {
+      await recordHistory({
+        userId: req.userId,
+        action: 'UPDATE',
+        module: cfg.label,
+        title: `${cfg.label} updated`,
+        details: historyTitle(type, item),
+        entityId: item.id
+      });
+    } catch {}
+
+    return ok(res, item);
+  };
+}
+
+function deleteHandler(type) {
+  return async (req, res) => {
+    const cfg = models[type];
+    const targetId = idParam(req);
+    let deleted = false;
+
+    try {
+      const exists = await prisma[cfg.model].findFirst({ where: { id: targetId, userId: req.userId } });
+      if (exists) {
+        await prisma[cfg.model].delete({ where: { id: targetId } });
+        deleted = true;
+      }
+    } catch (err) {
+      console.warn(`[GENERIC ${type}] Database unavailable for delete, removing from memory:`, err.message);
+    }
+
+    const list = getMemList(type, req.userId);
+    const idx = list.findIndex(i => i.id === targetId);
+    if (idx !== -1) {
+      list.splice(idx, 1);
+      deleted = true;
+    }
+
+    return ok(res, { deleted: true });
+  };
+}
+
+module.exports = { createHandler, listHandler, updateHandler, deleteHandler };

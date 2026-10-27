@@ -12,7 +12,21 @@ app.use((req, _res, next) => {
 app.use('/api',apiLimiter);
 app.use('/api/auth',authLimiter,authRoutes);app.use('/auth',authLimiter,authRoutes);
 app.use('/api',apiRoutes);
-app.get(['/api/health','/health'],async(_req,res)=>{let database='disconnected';try{await prisma.$queryRaw`SELECT 1`;database='connected';}catch{}res.json({ok:true,database,aiConfigured:Boolean(env.OPENAI_API_KEY)});});
+let lastDbCheck = 0;
+let cachedDbStatus = 'disconnected';
+app.get(['/api/health','/health'], async (_req, res) => {
+  const now = Date.now();
+  if (now - lastDbCheck > 15000) {
+    lastDbCheck = now;
+    try {
+      await prisma.$queryRaw`SELECT 1`;
+      cachedDbStatus = 'connected';
+    } catch {
+      cachedDbStatus = 'disconnected';
+    }
+  }
+  res.json({ ok: true, database: cachedDbStatus, aiConfigured: Boolean(env.OPENAI_API_KEY) });
+});
 
 app.get('/fitness.html', (req, res) => res.redirect('/pages/fitness.html'));
 app.get('/yoga.html', (req, res) => res.redirect('/pages/fitness.html'));

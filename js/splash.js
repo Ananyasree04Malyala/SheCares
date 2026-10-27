@@ -11,6 +11,15 @@
   const isFirstLaunch = !sessionStorage.getItem('sc_app_started');
   sessionStorage.setItem('sc_app_started', 'true');
 
+  const lastPage = sessionStorage.getItem('sc_last_page');
+  const currentPage = window.location.pathname;
+  sessionStorage.setItem('sc_last_page', currentPage);
+
+  // Skip redundant splash screen on same-page refreshes or form submissions
+  if (lastPage === currentPage && !isFirstLaunch) {
+    return;
+  }
+
   const splashDurationMs = isFirstLaunch ? 5000 : 3000;
   const progressDurationSec = isFirstLaunch ? '4.8s' : '2.8s';
 
@@ -59,13 +68,20 @@
     document.addEventListener('DOMContentLoaded', mount);
   }
 
+  let dismissed = false;
   // Dismiss splash screen smoothly after duration
   const dismiss = () => {
+    if (dismissed) return;
+    dismissed = true;
     splash.classList.add('fade-out');
     setTimeout(() => {
       if (splash.parentNode) splash.parentNode.removeChild(splash);
-    }, 550);
+    }, 450);
   };
+
+  // Instant tap-to-continue so user is never blocked if in a hurry
+  splash.addEventListener('click', dismiss);
+  splash.addEventListener('touchstart', dismiss, { passive: true });
 
   setTimeout(dismiss, splashDurationMs);
 })();

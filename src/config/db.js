@@ -6,6 +6,9 @@ let url = process.env.DATABASE_URL || '';
 if (url && !url.includes('pgbouncer=true')) {
   url += (url.includes('?') ? '&' : '?') + 'pgbouncer=true';
 }
+if (url && !url.includes('connect_timeout')) {
+  url += (url.includes('?') ? '&' : '?') + 'connect_timeout=2&pool_timeout=2';
+}
 
 const prisma = new PrismaClient({
   datasources: {
